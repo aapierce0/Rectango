@@ -15,13 +15,14 @@
 		2CF994A11B79443000140B3B /* DPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF994A01B79443000140B3B /* DPAppDelegate.m */; };
 		2CF994A41B79443000140B3B /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF994A21B79443000140B3B /* Main_iPhone.storyboard */; };
 		2CF994A71B79443000140B3B /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF994A51B79443000140B3B /* Main_iPad.storyboard */; };
-		2CF994AA1B79443000140B3B /* DPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF994A91B79443000140B3B /* DPViewController.m */; };
 		2CF994AC1B79443000140B3B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CF994AB1B79443000140B3B /* Images.xcassets */; };
 		2CF994B31B79443000140B3B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994B21B79443000140B3B /* XCTest.framework */; };
 		2CF994B41B79443000140B3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994901B79443000140B3B /* Foundation.framework */; };
 		2CF994B51B79443000140B3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994941B79443000140B3B /* UIKit.framework */; };
 		2CF994BD1B79443000140B3B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2CF994BB1B79443000140B3B /* InfoPlist.strings */; };
 		2CF994BF1B79443000140B3B /* Digidex_ProTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF994BE1B79443000140B3B /* Digidex_ProTests.m */; };
+		2CF994CA1B79495600140B3B /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF994C91B79495600140B3B /* CHTCollectionViewWaterfallLayout.m */; };
+		2CF994CD1B7949F400140B3B /* DPRootCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF994CC1B7949F400140B3B /* DPRootCollectionViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,14 +48,16 @@
 		2CF994A01B79443000140B3B /* DPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DPAppDelegate.m; sourceTree = "<group>"; };
 		2CF994A31B79443000140B3B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		2CF994A61B79443000140B3B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
-		2CF994A81B79443000140B3B /* DPViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DPViewController.h; sourceTree = "<group>"; };
-		2CF994A91B79443000140B3B /* DPViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DPViewController.m; sourceTree = "<group>"; };
 		2CF994AB1B79443000140B3B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2CF994B11B79443000140B3B /* Digidex ProTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Digidex ProTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF994B21B79443000140B3B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		2CF994BA1B79443000140B3B /* Digidex ProTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Digidex ProTests-Info.plist"; sourceTree = "<group>"; };
 		2CF994BC1B79443000140B3B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2CF994BE1B79443000140B3B /* Digidex_ProTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Digidex_ProTests.m; sourceTree = "<group>"; };
+		2CF994C81B79495600140B3B /* CHTCollectionViewWaterfallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CHTCollectionViewWaterfallLayout.h; path = ../CHTCollectionViewWaterfallLayout.h; sourceTree = "<group>"; };
+		2CF994C91B79495600140B3B /* CHTCollectionViewWaterfallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CHTCollectionViewWaterfallLayout.m; path = ../CHTCollectionViewWaterfallLayout.m; sourceTree = "<group>"; };
+		2CF994CB1B7949F400140B3B /* DPRootCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPRootCollectionViewController.h; sourceTree = "<group>"; };
+		2CF994CC1B7949F400140B3B /* DPRootCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPRootCollectionViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,8 +121,10 @@
 				2CF994A01B79443000140B3B /* DPAppDelegate.m */,
 				2CF994A21B79443000140B3B /* Main_iPhone.storyboard */,
 				2CF994A51B79443000140B3B /* Main_iPad.storyboard */,
-				2CF994A81B79443000140B3B /* DPViewController.h */,
-				2CF994A91B79443000140B3B /* DPViewController.m */,
+				2CF994C81B79495600140B3B /* CHTCollectionViewWaterfallLayout.h */,
+				2CF994C91B79495600140B3B /* CHTCollectionViewWaterfallLayout.m */,
+				2CF994CB1B7949F400140B3B /* DPRootCollectionViewController.h */,
+				2CF994CC1B7949F400140B3B /* DPRootCollectionViewController.m */,
 				2CF994AB1B79443000140B3B /* Images.xcassets */,
 				2CF994971B79443000140B3B /* Supporting Files */,
 			);
@@ -203,6 +208,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Avery Pierce";
 				TargetAttributes = {
+					2CF9948C1B79443000140B3B = {
+						DevelopmentTeam = BU7LJXTUEW;
+					};
 					2CF994B01B79443000140B3B = {
 						TestTargetID = 2CF9948C1B79443000140B3B;
 					};
@@ -254,9 +262,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CF994CD1B7949F400140B3B /* DPRootCollectionViewController.m in Sources */,
 				2CF994A11B79443000140B3B /* DPAppDelegate.m in Sources */,
-				2CF994AA1B79443000140B3B /* DPViewController.m in Sources */,
 				2CF9949D1B79443000140B3B /* main.m in Sources */,
+				2CF994CA1B79495600140B3B /* CHTCollectionViewWaterfallLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,10 +400,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Digidex Pro/Digidex Pro-Prefix.pch";
 				INFOPLIST_FILE = "Digidex Pro/Digidex Pro-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -404,10 +416,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Digidex Pro/Digidex Pro-Prefix.pch";
 				INFOPLIST_FILE = "Digidex Pro/Digidex Pro-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
