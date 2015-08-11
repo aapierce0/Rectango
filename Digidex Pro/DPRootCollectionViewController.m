@@ -8,6 +8,7 @@
 
 #import "DPRootCollectionViewController.h"
 #import "DigidexKit.h"
+#import "DPCardCellView.h"
 
 #define CELL_COUNT 4
 #define CELL_IDENTIFIER @"Business Card"
@@ -46,8 +47,11 @@
     waterfallLayout.minimumInteritemSpacing = 8;
 	
 	_allCards = [[DKDataStore sharedDataStore] allContacts];
-	NSLog(@"All Cards %@", _allCards);
-	[self.collectionView reloadData];
+	
+	for (DKManagedCard *card in _allCards) {
+		[self addListenersForCard:card];
+	}
+	
 }
 
 - (void)didReceiveMemoryWarning
@@ -78,25 +82,16 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	UICollectionViewCell *cell =
-	(UICollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER
+	DPCardCellView *cell =
+	(DPCardCellView *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER
 																				forIndexPath:indexPath];
 	cell.backgroundColor = [UIColor grayColor];
-	
-	// Empty the Cell
-	for (UIView *subview in cell.subviews) {
-		[subview removeFromSuperview];
-	}
 	
 	// Get the card for this index
 	DKManagedCard *card = _allCards[indexPath.item];
 	
 	// Add the card image to the cell
-	UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.bounds];
-	[imageView setImage:card.cardImage];
-	[cell addSubview:imageView];
-	
-	NSLog(@"Card: %@", card);
+	[cell.imageView setImage:card.cardImage];
 	
 	return cell;
 }
@@ -107,6 +102,14 @@
 }
 
 - (CGSize)cellSizeForCard:(DKManagedCard*)card {
+	
+	NSLog(@"Size of cell: %@", NSStringFromCGSize(card.cardImage.size));
+	
+	// If the size is {0, 0}, then default to something more sensible
+	if (CGSizeEqualToSize(CGSizeMake(0, 0), card.cardImage.size)) {
+		return CGSizeMake(1260, 756);
+	}
+	
 	return card.cardImage.size;
 }
 
@@ -120,9 +123,21 @@
 	NSString *cardURLString = [NSString stringWithFormat:@"http://bloviations.net/contact/cardData%i.json", cardNumber];
 	NSURL *cardURL = [NSURL URLWithString:cardURLString];
 	
-	[[DKDataStore sharedDataStore] addContactWithURL:cardURL];
+	DKManagedCard *newCard = [[DKDataStore sharedDataStore] addContactWithURL:cardURL];
 	_allCards = [[DKDataStore sharedDataStore] allContacts];
+	
 	[self.collectionView reloadData];
+	[self addListenersForCard:newCard];
+}
+
+- (void)addListenersForCard:(DKManagedCard*)card; {
+	
+	[[NSNotificationCenter defaultCenter] addObserverForName:@"ImageLoaded" object:card queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+		NSUInteger cardIndex = [_allCards indexOfObject:card];
+		if (cardIndex != NSNotFound) {
+			[self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:cardIndex inSection:0]]];
+		}
+	}];
 }
 
 

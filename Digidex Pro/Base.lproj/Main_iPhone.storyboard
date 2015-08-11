@@ -11,16 +11,33 @@
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="mlu-cK-a4y">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewLayout key="collectionViewLayout" id="9cA-FL-L1E" customClass="CHTCollectionViewWaterfallLayout"/>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Business Card" id="N55-ov-Zp3">
-                                <rect key="frame" x="0.0" y="64" width="50" height="50"/>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Business Card" id="N55-ov-Zp3" customClass="DPCardCellView">
+                                <rect key="frame" x="0.0" y="64" width="147" height="73"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="147" height="73"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hHr-Re-etW">
+                                            <rect key="frame" x="0.0" y="0.0" width="147" height="73"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </imageView>
+                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="hHr-Re-etW" secondAttribute="trailing" id="4zz-F4-feD"/>
+                                    <constraint firstItem="hHr-Re-etW" firstAttribute="top" secondItem="N55-ov-Zp3" secondAttribute="top" id="GPZ-hW-a0W"/>
+                                    <constraint firstAttribute="bottom" secondItem="hHr-Re-etW" secondAttribute="bottom" id="OTr-lK-icq"/>
+                                    <constraint firstItem="hHr-Re-etW" firstAttribute="leading" secondItem="N55-ov-Zp3" secondAttribute="leading" id="ugY-Vq-Jk2"/>
+                                </constraints>
+                                <size key="customSize" width="147" height="73"/>
+                                <connections>
+                                    <outlet property="imageView" destination="hHr-Re-etW" id="meH-vN-5Wa"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>

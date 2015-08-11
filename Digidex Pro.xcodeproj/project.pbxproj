@@ -12,6 +12,7 @@
 		2C26493D1B7996D3000BEC40 /* DKDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2649361B7996D3000BEC40 /* DKDataStore.m */; };
 		2C26493E1B7996D3000BEC40 /* DKManagedCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2649381B7996D3000BEC40 /* DKManagedCard.m */; };
 		2C26493F1B7996D3000BEC40 /* DKManagedTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C26493A1B7996D3000BEC40 /* DKManagedTag.m */; };
+		2C2649421B7A5C03000BEC40 /* DPCardCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2649411B7A5C03000BEC40 /* DPCardCellView.m */; };
 		2CF994911B79443000140B3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994901B79443000140B3B /* Foundation.framework */; };
 		2CF994931B79443000140B3B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994921B79443000140B3B /* CoreGraphics.framework */; };
 		2CF994951B79443000140B3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994941B79443000140B3B /* UIKit.framework */; };
@@ -51,6 +52,8 @@
 		2C2649381B7996D3000BEC40 /* DKManagedCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKManagedCard.m; sourceTree = "<group>"; };
 		2C2649391B7996D3000BEC40 /* DKManagedTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKManagedTag.h; sourceTree = "<group>"; };
 		2C26493A1B7996D3000BEC40 /* DKManagedTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKManagedTag.m; sourceTree = "<group>"; };
+		2C2649401B7A5C03000BEC40 /* DPCardCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPCardCellView.h; sourceTree = "<group>"; };
+		2C2649411B7A5C03000BEC40 /* DPCardCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCardCellView.m; sourceTree = "<group>"; };
 		2CF9948D1B79443000140B3B /* Digidex Pro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Digidex Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF994901B79443000140B3B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2CF994921B79443000140B3B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -158,6 +161,8 @@
 				2CF994C91B79495600140B3B /* CHTCollectionViewWaterfallLayout.m */,
 				2CF994CB1B7949F400140B3B /* DPRootCollectionViewController.h */,
 				2CF994CC1B7949F400140B3B /* DPRootCollectionViewController.m */,
+				2C2649401B7A5C03000BEC40 /* DPCardCellView.h */,
+				2C2649411B7A5C03000BEC40 /* DPCardCellView.m */,
 				2CF994AB1B79443000140B3B /* Images.xcassets */,
 				2CF994971B79443000140B3B /* Supporting Files */,
 			);
@@ -301,6 +306,7 @@
 				2C26493D1B7996D3000BEC40 /* DKDataStore.m in Sources */,
 				2CF994A11B79443000140B3B /* DPAppDelegate.m in Sources */,
 				2CF9949D1B79443000140B3B /* main.m in Sources */,
+				2C2649421B7A5C03000BEC40 /* DPCardCellView.m in Sources */,
 				2C26493C1B7996D3000BEC40 /* DigidexKit.m in Sources */,
 				2C26493B1B7996D3000BEC40 /* CardDataModel.xcdatamodeld in Sources */,
 				2CF994CA1B79495600140B3B /* CHTCollectionViewWaterfallLayout.m in Sources */,
