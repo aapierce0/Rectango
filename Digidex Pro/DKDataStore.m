@@ -19,20 +19,14 @@
     if (self) {
 		
 		NSURL *managedObjectModelURL = [[NSBundle mainBundle] URLForResource:@"CardDataModel" withExtension:@"momd"];
-		
-		NSString *bundlePath = [[NSBundle bundleForClass:self.class] bundlePath];
-		NSError *bundleError = nil;
-		NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:bundlePath error:&bundleError];
-		NSLog(@"All bundle resources: %@", files);
-		
-		NSLog(@"Manage Object Model: %@", managedObjectModelURL);
 		_mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:managedObjectModelURL];
-		NSLog(@"Model: %@", _mom);
 		
 		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 		NSString *applicationSupportDirectory = [paths firstObject];
 		NSURL *storeURL = [[NSURL fileURLWithPath:applicationSupportDirectory]
 						   URLByAppendingPathComponent:@"CardDataModel.sqlite"];
+		
+//		[[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
 		
 		NSLog(@"Store URL: %@", storeURL);
 		
