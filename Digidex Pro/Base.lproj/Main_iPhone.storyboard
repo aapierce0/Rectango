@@ -30,13 +30,17 @@
                     </collectionView>
                     <navigationItem key="navigationItem" title="Digidex" id="uyQ-F2-REy">
                         <barButtonItem key="backBarButtonItem" title="Home" id="fKE-I8-cCa"/>
-                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="5pb-my-FCj"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="5pb-my-FCj">
+                            <connections>
+                                <action selector="createNewCard:" destination="Xza-fy-7RF" id="71b-Lh-5Fu"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="bbc-86-HiP"/>
                     </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OKI-zv-ImG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="583" y="265"/>
+            <point key="canvasLocation" x="566" y="265"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ZNT-Yo-aaj">

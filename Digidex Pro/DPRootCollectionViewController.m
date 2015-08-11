@@ -7,13 +7,16 @@
 //
 
 #import "DPRootCollectionViewController.h"
+#import "DigidexKit.h"
 
-#define CELL_COUNT 30
+#define CELL_COUNT 4
 #define CELL_IDENTIFIER @"Business Card"
 #define HEADER_IDENTIFIER @"WaterfallHeader"
 #define FOOTER_IDENTIFIER @"WaterfallFooter"
 
-@interface DPRootCollectionViewController ()
+@interface DPRootCollectionViewController () {
+	NSArray *_allCards;
+}
 @property (nonatomic, strong) NSMutableArray *cellSizes;
 @end
 
@@ -28,21 +31,23 @@
     return self;
 }
 
-- (NSMutableArray *)cellSizes {
-	if (!_cellSizes) {
-		_cellSizes = [NSMutableArray array];
-		for (NSInteger i = 0; i < CELL_COUNT; i++) {
-			CGSize size = CGSizeMake(arc4random() % 50 + 50, arc4random() % 50 + 50);
-			_cellSizes[i] = [NSValue valueWithCGSize:size];
-		}
-	}
-	return _cellSizes;
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+	
+	CHTCollectionViewWaterfallLayout *waterfallLayout = (CHTCollectionViewWaterfallLayout *)self.collectionViewLayout;
+	
+	waterfallLayout.sectionInset = UIEdgeInsetsMake(8, 8, 8, 8);
+    waterfallLayout.headerHeight = 0;
+    waterfallLayout.footerHeight = 8;
+    waterfallLayout.minimumColumnSpacing = 8;
+    waterfallLayout.minimumInteritemSpacing = 8;
+	
+	_allCards = [[DKDataStore sharedDataStore] allContacts];
+	NSLog(@"All Cards %@", _allCards);
+	[self.collectionView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,11 +70,11 @@
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return CELL_COUNT;
+	return _allCards.count;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-	return 2;
+	return 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -77,30 +82,49 @@
 	(UICollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER
 																				forIndexPath:indexPath];
 	cell.backgroundColor = [UIColor grayColor];
-	return cell;
-}
-
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-	UICollectionReusableView *reusableView = nil;
 	
-//	if ([kind isEqualToString:CHTCollectionElementKindSectionHeader]) {
-//		reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-//														  withReuseIdentifier:HEADER_IDENTIFIER
-//																 forIndexPath:indexPath];
-//	} else if ([kind isEqualToString:CHTCollectionElementKindSectionFooter]) {
-//		reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-//														  withReuseIdentifier:FOOTER_IDENTIFIER
-//																 forIndexPath:indexPath];
-//	}
-//	
-//	return reusableView;
-
-	return reusableView;
+	// Empty the Cell
+	for (UIView *subview in cell.subviews) {
+		[subview removeFromSuperview];
+	}
+	
+	// Get the card for this index
+	DKManagedCard *card = _allCards[indexPath.item];
+	
+	// Add the card image to the cell
+	UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.bounds];
+	[imageView setImage:card.cardImage];
+	[cell addSubview:imageView];
+	
+	NSLog(@"Card: %@", card);
+	
+	return cell;
 }
 
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return [self.cellSizes[indexPath.item] CGSizeValue];
+	return [self cellSizeForCard:_allCards[indexPath.item]];
 }
+
+- (CGSize)cellSizeForCard:(DKManagedCard*)card {
+	return card.cardImage.size;
+}
+
+
+
+
+#pragma mark - IBActions
+- (IBAction)createNewCard:(id)sender {
+	
+	int cardNumber = arc4random() % 4;
+	NSString *cardURLString = [NSString stringWithFormat:@"http://bloviations.net/contact/cardData%i.json", cardNumber];
+	NSURL *cardURL = [NSURL URLWithString:cardURLString];
+	
+	[[DKDataStore sharedDataStore] addContactWithURL:cardURL];
+	_allCards = [[DKDataStore sharedDataStore] allContacts];
+	[self.collectionView reloadData];
+}
+
+
 
 @end
