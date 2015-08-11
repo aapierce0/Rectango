@@ -9,6 +9,7 @@
 #import "DPRootCollectionViewController.h"
 #import "DigidexKit.h"
 #import "DPCardCellView.h"
+#import "DPDetailCollectionViewController.h"
 
 #define CELL_COUNT 4
 #define CELL_IDENTIFIER @"Business Card"
@@ -17,6 +18,7 @@
 
 @interface DPRootCollectionViewController () {
 	NSArray *_allCards;
+	DKManagedCard *_selectedCard;
 }
 @property (nonatomic, strong) NSMutableArray *cellSizes;
 @end
@@ -45,6 +47,7 @@
     waterfallLayout.footerHeight = 8;
     waterfallLayout.minimumColumnSpacing = 8;
     waterfallLayout.minimumInteritemSpacing = 8;
+	waterfallLayout.columnCount = 2;
 	
 	_allCards = [[DKDataStore sharedDataStore] allContacts];
 	
@@ -52,6 +55,12 @@
 		[self addListenersForCard:card];
 	}
 	
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender; {
+	if ([segue.identifier isEqualToString:@"detailViewController"] && _selectedCard != nil) {
+		[(DPDetailCollectionViewController*)segue.destinationViewController setSelectedCard:_selectedCard];
+	}
 }
 
 - (void)didReceiveMemoryWarning
@@ -94,6 +103,13 @@
 	[cell.imageView setImage:card.cardImage];
 	
 	return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
+{
+	_selectedCard = _allCards[indexPath.item];
+	NSLog(@"Card selected: %@", _selectedCard);
+	[self performSegueWithIdentifier:@"detailViewController" sender:self];
 }
 
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout
