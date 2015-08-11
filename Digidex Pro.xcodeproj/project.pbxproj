@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C26493B1B7996D3000BEC40 /* CardDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C2649311B7996D3000BEC40 /* CardDataModel.xcdatamodeld */; };
+		2C26493C1B7996D3000BEC40 /* DigidexKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2649341B7996D3000BEC40 /* DigidexKit.m */; };
+		2C26493D1B7996D3000BEC40 /* DKDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2649361B7996D3000BEC40 /* DKDataStore.m */; };
+		2C26493E1B7996D3000BEC40 /* DKManagedCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2649381B7996D3000BEC40 /* DKManagedCard.m */; };
+		2C26493F1B7996D3000BEC40 /* DKManagedTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C26493A1B7996D3000BEC40 /* DKManagedTag.m */; };
 		2CF994911B79443000140B3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994901B79443000140B3B /* Foundation.framework */; };
 		2CF994931B79443000140B3B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994921B79443000140B3B /* CoreGraphics.framework */; };
 		2CF994951B79443000140B3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994941B79443000140B3B /* UIKit.framework */; };
@@ -36,6 +41,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C2649081B798C87000BEC40 /* libDigidexKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libDigidexKit.a; path = "../../Library/Developer/Xcode/DerivedData/Digidex-cxcukeqfygeewpaleogxstwtarqg/Build/Products/Debug-iphoneos/libDigidexKit.a"; sourceTree = "<group>"; };
+		2C2649321B7996D3000BEC40 /* CardDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CardDataModel.xcdatamodel; sourceTree = "<group>"; };
+		2C2649331B7996D3000BEC40 /* DigidexKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigidexKit.h; sourceTree = "<group>"; };
+		2C2649341B7996D3000BEC40 /* DigidexKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigidexKit.m; sourceTree = "<group>"; };
+		2C2649351B7996D3000BEC40 /* DKDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDataStore.h; sourceTree = "<group>"; };
+		2C2649361B7996D3000BEC40 /* DKDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDataStore.m; sourceTree = "<group>"; };
+		2C2649371B7996D3000BEC40 /* DKManagedCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKManagedCard.h; sourceTree = "<group>"; };
+		2C2649381B7996D3000BEC40 /* DKManagedCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKManagedCard.m; sourceTree = "<group>"; };
+		2C2649391B7996D3000BEC40 /* DKManagedTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKManagedTag.h; sourceTree = "<group>"; };
+		2C26493A1B7996D3000BEC40 /* DKManagedTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKManagedTag.m; sourceTree = "<group>"; };
 		2CF9948D1B79443000140B3B /* Digidex Pro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Digidex Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF994901B79443000140B3B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2CF994921B79443000140B3B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -84,6 +99,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C26491F1B799566000BEC40 /* Digidex Kit */ = {
+			isa = PBXGroup;
+			children = (
+				2C2649311B7996D3000BEC40 /* CardDataModel.xcdatamodeld */,
+				2C2649331B7996D3000BEC40 /* DigidexKit.h */,
+				2C2649341B7996D3000BEC40 /* DigidexKit.m */,
+				2C2649351B7996D3000BEC40 /* DKDataStore.h */,
+				2C2649361B7996D3000BEC40 /* DKDataStore.m */,
+				2C2649371B7996D3000BEC40 /* DKManagedCard.h */,
+				2C2649381B7996D3000BEC40 /* DKManagedCard.m */,
+				2C2649391B7996D3000BEC40 /* DKManagedTag.h */,
+				2C26493A1B7996D3000BEC40 /* DKManagedTag.m */,
+			);
+			name = "Digidex Kit";
+			sourceTree = "<group>";
+		};
 		2CF994841B79443000140B3B = {
 			isa = PBXGroup;
 			children = (
@@ -106,6 +137,7 @@
 		2CF9948F1B79443000140B3B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C2649081B798C87000BEC40 /* libDigidexKit.a */,
 				2CF994901B79443000140B3B /* Foundation.framework */,
 				2CF994921B79443000140B3B /* CoreGraphics.framework */,
 				2CF994941B79443000140B3B /* UIKit.framework */,
@@ -117,6 +149,7 @@
 		2CF994961B79443000140B3B /* Digidex Pro */ = {
 			isa = PBXGroup;
 			children = (
+				2C26491F1B799566000BEC40 /* Digidex Kit */,
 				2CF9949F1B79443000140B3B /* DPAppDelegate.h */,
 				2CF994A01B79443000140B3B /* DPAppDelegate.m */,
 				2CF994A21B79443000140B3B /* Main_iPhone.storyboard */,
@@ -262,9 +295,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C26493E1B7996D3000BEC40 /* DKManagedCard.m in Sources */,
+				2C26493F1B7996D3000BEC40 /* DKManagedTag.m in Sources */,
 				2CF994CD1B7949F400140B3B /* DPRootCollectionViewController.m in Sources */,
+				2C26493D1B7996D3000BEC40 /* DKDataStore.m in Sources */,
 				2CF994A11B79443000140B3B /* DPAppDelegate.m in Sources */,
 				2CF9949D1B79443000140B3B /* main.m in Sources */,
+				2C26493C1B7996D3000BEC40 /* DigidexKit.m in Sources */,
+				2C26493B1B7996D3000BEC40 /* CardDataModel.xcdatamodeld in Sources */,
 				2CF994CA1B79495600140B3B /* CHTCollectionViewWaterfallLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -405,6 +443,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Digidex Pro/Digidex Pro-Prefix.pch";
 				INFOPLIST_FILE = "Digidex Pro/Digidex Pro-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Digidex-cxcukeqfygeewpaleogxstwtarqg/Build/Products/Debug-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -421,6 +463,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Digidex Pro/Digidex Pro-Prefix.pch";
 				INFOPLIST_FILE = "Digidex Pro/Digidex Pro-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Digidex-cxcukeqfygeewpaleogxstwtarqg/Build/Products/Debug-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -486,6 +532,7 @@
 				2CF994C41B79443000140B3B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2CF994C51B79443000140B3B /* Build configuration list for PBXNativeTarget "Digidex ProTests" */ = {
 			isa = XCConfigurationList;
@@ -494,8 +541,22 @@
 				2CF994C71B79443000140B3B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		2C2649311B7996D3000BEC40 /* CardDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				2C2649321B7996D3000BEC40 /* CardDataModel.xcdatamodel */,
+			);
+			currentVersion = 2C2649321B7996D3000BEC40 /* CardDataModel.xcdatamodel */;
+			path = CardDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 2CF994851B79443000140B3B /* Project object */;
 }
