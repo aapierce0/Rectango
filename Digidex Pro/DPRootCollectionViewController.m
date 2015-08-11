@@ -30,6 +30,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+		self.useLayoutToLayoutNavigationTransitions = NO;
     }
     return self;
 }
@@ -57,11 +58,6 @@
 	
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender; {
-	if ([segue.identifier isEqualToString:@"detailViewController"] && _selectedCard != nil) {
-		[(DPDetailCollectionViewController*)segue.destinationViewController setSelectedCard:_selectedCard];
-	}
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -79,6 +75,16 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
+
+
+
+
+
+
+
+
 
 #pragma mark - UICollectionViewDataSource
 
@@ -107,10 +113,19 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
 {
-	_selectedCard = _allCards[indexPath.item];
-	NSLog(@"Card selected: %@", _selectedCard);
-	[self performSegueWithIdentifier:@"detailViewController" sender:self];
+	UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPhone"
+															 bundle: nil];
+	
+	DPDetailCollectionViewController *controller = (DPDetailCollectionViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"DetailViewController"];
+	
+	DKManagedCard *selectedCard = _allCards[indexPath.item];
+	controller.selectedCard = selectedCard;
+	controller.useLayoutToLayoutNavigationTransitions = NO;
+	
+	[self.navigationController pushViewController:controller animated:YES];
 }
+
+
 
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -128,6 +143,15 @@
 	
 	return card.cardImage.size;
 }
+
+
+
+
+
+
+
+
+
 
 
 

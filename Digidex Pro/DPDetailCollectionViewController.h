@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CHTCollectionViewWaterfallLayout.h"
 
 @class DKManagedCard;
 
-@interface DPDetailCollectionViewController : UICollectionViewController
+@interface DPDetailCollectionViewController : UICollectionViewController <CHTCollectionViewDelegateWaterfallLayout>
 
 @property (strong) DKManagedCard *selectedCard;
 
