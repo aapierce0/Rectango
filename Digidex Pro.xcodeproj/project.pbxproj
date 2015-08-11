@@ -69,8 +69,8 @@
 		2CF994BA1B79443000140B3B /* Digidex ProTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Digidex ProTests-Info.plist"; sourceTree = "<group>"; };
 		2CF994BC1B79443000140B3B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2CF994BE1B79443000140B3B /* Digidex_ProTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Digidex_ProTests.m; sourceTree = "<group>"; };
-		2CF994C81B79495600140B3B /* CHTCollectionViewWaterfallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CHTCollectionViewWaterfallLayout.h; path = ../CHTCollectionViewWaterfallLayout.h; sourceTree = "<group>"; };
-		2CF994C91B79495600140B3B /* CHTCollectionViewWaterfallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CHTCollectionViewWaterfallLayout.m; path = ../CHTCollectionViewWaterfallLayout.m; sourceTree = "<group>"; };
+		2CF994C81B79495600140B3B /* CHTCollectionViewWaterfallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTCollectionViewWaterfallLayout.h; sourceTree = "<group>"; };
+		2CF994C91B79495600140B3B /* CHTCollectionViewWaterfallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTCollectionViewWaterfallLayout.m; sourceTree = "<group>"; };
 		2CF994CB1B7949F400140B3B /* DPRootCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPRootCollectionViewController.h; sourceTree = "<group>"; };
 		2CF994CC1B7949F400140B3B /* DPRootCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPRootCollectionViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
