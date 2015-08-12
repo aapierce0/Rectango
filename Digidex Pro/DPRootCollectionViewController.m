@@ -9,7 +9,7 @@
 #import "DPRootCollectionViewController.h"
 #import "DigidexKit.h"
 #import "DPCardCellView.h"
-#import "DPDetailCollectionViewController.h"
+#import "DPDetailTableViewController.h"
 
 #define CELL_COUNT 4
 #define CELL_IDENTIFIER @"Business Card"
@@ -116,11 +116,10 @@
 	UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPhone"
 															 bundle: nil];
 	
-	DPDetailCollectionViewController *controller = (DPDetailCollectionViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"DetailViewController"];
+	DPDetailTableViewController *controller = (DPDetailTableViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"DetailViewController"];
 	
 	DKManagedCard *selectedCard = _allCards[indexPath.item];
 	controller.selectedCard = selectedCard;
-	controller.useLayoutToLayoutNavigationTransitions = NO;
 	
 	[self.navigationController pushViewController:controller animated:YES];
 }
@@ -133,8 +132,6 @@
 }
 
 - (CGSize)cellSizeForCard:(DKManagedCard*)card {
-	
-	NSLog(@"Size of cell: %@", NSStringFromCGSize(card.cardImage.size));
 	
 	// If the size is {0, 0}, then default to something more sensible
 	if (CGSizeEqualToSize(CGSizeMake(0, 0), card.cardImage.size)) {

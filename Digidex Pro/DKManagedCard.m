@@ -54,7 +54,7 @@
 }
 
 
-- (NSString *)name;
+- (NSString *)guessedName;
 {
 	
 	// If the name is explicitly defined, use it.
@@ -86,7 +86,7 @@
 	return nil;
 }
 
-- (NSString *)organization;
+- (NSString *)guessedOrganization;
 {
 	if (_cardDictionary[@"organization"]) {
 		return _cardDictionary[@"organization"];
@@ -99,7 +99,7 @@
 	return nil;
 }
 
-- (NSString *)occupation;
+- (NSString *)guessedOccupation;
 {
 	if (_cardDictionary[@"occupation"]) {
 		return _cardDictionary[@"occupation"];
@@ -321,7 +321,7 @@
 		NSLog(@"There was an error creating the digidex folder in the sandboxed Application Support folder: %@", createDirectoryError.localizedDescription);
 	}
 	
-	NSString *baseFileName = self.name ? self.name : @"Unknown Card";
+	NSString *baseFileName = self.guessedName ? self.guessedName : @"Unknown Card";
 	
 	
 	if (!self.localPath) {
@@ -338,7 +338,7 @@
 			if (testFileNumber == 1) {
 				testFileName = [baseFileName stringByAppendingPathExtension:@"json"];
 			} else {
-				testFileName = [baseFileName stringByAppendingFormat:@" %li.json", testFileNumber];
+				testFileName = [baseFileName stringByAppendingFormat:@" %li.json", (unsigned long)testFileNumber];
 			}
 			
 			

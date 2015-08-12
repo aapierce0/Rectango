@@ -28,6 +28,11 @@
 
 - (instancetype)initWithContactURL:(NSURL *)URL insertIntoManagedObjectContext:(NSManagedObjectContext *)moc;
 
+- (NSString*)guessedName;
+- (NSString*)guessedOrganization;
+- (NSString*)guessedOccupation;
+
+
 @end
 
 @interface DKManagedCard (CoreDataGeneratedAccessors)
