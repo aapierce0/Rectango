@@ -78,6 +78,20 @@
 
 
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
+{
+	CHTCollectionViewWaterfallLayout *waterfallLayout = (CHTCollectionViewWaterfallLayout *)self.collectionViewLayout;
+	
+	if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
+		waterfallLayout.columnCount = 3;
+	} else {
+		waterfallLayout.columnCount = 2;
+	}
+	
+
+}
+
+
 
 
 
