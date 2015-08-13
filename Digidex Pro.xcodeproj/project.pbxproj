@@ -164,11 +164,11 @@
 		2CF994961B79443000140B3B /* Digidex Pro */ = {
 			isa = PBXGroup;
 			children = (
-				2C26491F1B799566000BEC40 /* Digidex Kit */,
 				2CF9949F1B79443000140B3B /* DPAppDelegate.h */,
 				2CF994A01B79443000140B3B /* DPAppDelegate.m */,
 				2CF994A21B79443000140B3B /* Main_iPhone.storyboard */,
 				2CF994A51B79443000140B3B /* Main_iPad.storyboard */,
+				2C26491F1B799566000BEC40 /* Digidex Kit */,
 				2CF994C81B79495600140B3B /* CHTCollectionViewWaterfallLayout.h */,
 				2CF994C91B79495600140B3B /* CHTCollectionViewWaterfallLayout.m */,
 				2CF994CB1B7949F400140B3B /* DPRootCollectionViewController.h */,

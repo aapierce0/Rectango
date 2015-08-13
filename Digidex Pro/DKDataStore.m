@@ -122,6 +122,31 @@
 	return card;
 }
 
+- (DKManagedCard*)makeTransientContactWithURL:(NSURL*)contactURL;
+{
+	DKManagedCard *card;
+	@synchronized(_moc) {
+		card = [[DKManagedCard alloc] initWithContactURL:contactURL managedObjectContext:_moc insert:NO];
+	}
+	
+	return card;
+}
+
+- (void)insertCard:(DKManagedCard*)card;
+{
+	if (![card isInserted]) {
+		[_moc insertObject:card];
+		
+		NSError *saveError;
+		BOOL savedOK = [_moc save:&saveError];
+		if (!savedOK) {
+			NSLog(@"Error saving context %@", saveError);
+		}
+	} else {
+		NSLog(@"Warning: attempting to insert card that was already inserted! %@", card);
+	}
+}
+
 
 
 

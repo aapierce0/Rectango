@@ -18,10 +18,11 @@
 
 @synthesize cardDictionary = _cardDictionary;
 
-- (instancetype)initWithContactURL:(NSURL *)URL insertIntoManagedObjectContext:(NSManagedObjectContext *)moc;
+- (instancetype)initWithContactURL:(NSURL *)URL managedObjectContext:(NSManagedObjectContext *)moc insert:(BOOL)shouldInsertAutomatically;
 {
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:moc];
-	self = [self initWithEntity:entity insertIntoManagedObjectContext:moc];
+	
+	self = [self initWithEntity:entity insertIntoManagedObjectContext:(shouldInsertAutomatically ? moc : nil)];
 	
     if (self) {
 		
@@ -30,6 +31,11 @@
 		
     }
     return self;
+}
+
+- (instancetype)initWithContactURL:(NSURL *)URL insertIntoManagedObjectContext:(NSManagedObjectContext *)moc;
+{
+	return [self initWithContactURL:URL managedObjectContext:moc insert:YES];
 }
 
 - (void)awakeFromFetch;
@@ -50,7 +56,14 @@
 
 - (NSURL *)cardImageURL;
 {
-	return [NSURL URLWithString:_cardDictionary[@"cardURL"]];
+	NSURL *url;
+	if (_cardDictionary[@"_cardURL"]) {
+		url = [NSURL URLWithString:_cardDictionary[@"_cardURL"]];
+	} else {
+		url = [NSURL URLWithString:_cardDictionary[@"cardURL"]];
+	}
+	
+	return url;
 }
 
 
@@ -205,6 +218,12 @@
 										 userInfo:@{NSLocalizedDescriptionKey:@"cardImageURL is missing."}];
 		completionHandler(error);
 		return;
+	} else if ([[self.originalURL scheme] isEqualToString:@"digidex"]) {
+		
+		// If this is a digidex URL, change it to http
+		NSURLComponents *components = [NSURLComponents componentsWithURL:self.originalURL resolvingAgainstBaseURL:YES];
+		components.scheme = @"http";
+		self.originalURL = [components URL];
 	}
 	
 	

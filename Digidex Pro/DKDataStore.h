@@ -24,6 +24,9 @@
 - (NSArray*)allTags;
 
 - (DKManagedCard*)addContactWithURL:(NSURL*)contactURL;
+- (DKManagedCard*)makeTransientContactWithURL:(NSURL*)contactURL;
+- (void)insertCard:(DKManagedCard*)card;
+
 - (DKManagedTag*)addTagNamed:(NSString*)tagName;
 
 @end

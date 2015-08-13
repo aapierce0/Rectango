@@ -8,6 +8,10 @@
 
 #import "DPAppDelegate.h"
 
+#import "DPDetailTableViewController.h"
+#import "DKManagedCard.h"
+#import "DKDataStore.h"
+
 @implementation DPAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -41,6 +45,30 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+
+
+- (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL *)url;
+{
+	NSLog(@"Opening URL: %@", url);
+	NSLog(@"ROOT View controller! %@", self.window.rootViewController);
+	
+	
+	
+	DKManagedCard *card = [[DKDataStore sharedDataStore] makeTransientContactWithURL:url];
+	
+	DPDetailTableViewController *detailViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"DetailViewController"];
+	detailViewController.selectedCard = card;
+	detailViewController.title = @"New Card";
+	
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
+	
+	[self.window.rootViewController presentViewController:navigationController animated:YES completion:^{
+		NSLog(@"All Done presenting!");
+	}];
+	
+	return YES;
 }
 
 @end

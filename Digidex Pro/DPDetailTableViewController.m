@@ -13,6 +13,7 @@
 #import "DPImageTableViewCell.h"
 #import "DPTitleTableViewCell.h"
 #import "DPDetailTableViewCell.h"
+#import "DKDataStore.h"
 
 #define CARD_CELL_IDENTIFIER @"CardCell"
 #define TITLE_CELL_IDENTIFIER @"TitleCell"
@@ -42,12 +43,46 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	
+	[[NSNotificationCenter defaultCenter] addObserverForName:@"ImageLoaded" object:self.selectedCard queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+		[self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+	}];
+	
+	if (self.selectedCard.managedObjectContext == nil) {
+		
+		NSLog(@"card is not inserted...");
+		self.title = @"New Card";
+		
+		self.navigationItem.rightBarButtonItem =	[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(insertNewCard)];
+		self.navigationItem.leftBarButtonItem =		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelNewCard)];
+		
+	} else {
+		self.title = [self.selectedCard guessedName];
+		
+		self.navigationItem.rightBarButtonItem = nil;
+		self.navigationItem.leftBarButtonItem = nil;
+	}
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)insertNewCard;
+{
+	[[DKDataStore sharedDataStore] insertCard:self.selectedCard];
+	[self dismissViewControllerAnimated:YES completion:^{
+		self.selectedCard = nil;
+	}];
+}
+
+- (void)cancelNewCard;
+{
+	[self dismissViewControllerAnimated:YES completion:^{
+		self.selectedCard = nil;
+	}];
 }
 
 #pragma mark - Table view data source
@@ -153,7 +188,7 @@
 			// Use the row number to determine which item of this array to use
 			id subValue = ((NSArray*)value)[indexPath.row];
 			
-			detailCell.keyLabel.text = [NSString stringWithFormat:@"%i.", indexPath.row];
+			detailCell.keyLabel.text = [NSString stringWithFormat:@"%li.", (long)indexPath.row];
 			if ([subValue isKindOfClass:[NSString class]]) {
 				detailCell.valueLabel.text = subValue;
 			} else {
@@ -174,6 +209,11 @@
 		// Set the height so that the image fits without any distortion
 		CGSize imageSize = self.selectedCard.cardImage.size;
 		CGFloat cellWidth = tableView.bounds.size.width;
+		
+		// If the image size is zero, provide a sensible default...
+		if (CGSizeEqualToSize(imageSize, CGSizeMake(0, 0))) {
+			imageSize = CGSizeMake(1260, 570);
+		}
 		
 		CGFloat scalingFactor = cellWidth / imageSize.width;
 		return scalingFactor * imageSize.height;
