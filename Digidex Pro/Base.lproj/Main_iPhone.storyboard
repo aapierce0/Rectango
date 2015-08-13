@@ -50,7 +50,6 @@
                         <barButtonItem key="leftBarButtonItem" systemItem="add" id="5pb-my-FCj">
                             <connections>
                                 <action selector="createNewCard:" destination="Xza-fy-7RF" id="71b-Lh-5Fu"/>
-                                <segue destination="pZK-nw-nCI" kind="modal" id="br7-5G-IRH"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="bbc-86-HiP"/>
