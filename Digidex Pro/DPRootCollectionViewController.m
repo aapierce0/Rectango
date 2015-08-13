@@ -46,7 +46,7 @@
 	waterfallLayout.sectionInset = UIEdgeInsetsMake(8, 8, 8, 8);
     waterfallLayout.headerHeight = 0;
     waterfallLayout.footerHeight = 8;
-    waterfallLayout.minimumColumnSpacing = 8;
+    waterfallLayout.minimumColumnSpacing = 6;
     waterfallLayout.minimumInteritemSpacing = 8;
 	waterfallLayout.columnCount = 2;
 	
@@ -107,6 +107,11 @@
 	
 	// Add the card image to the cell
 	[cell.imageView setImage:card.cardImage];
+	
+	cell.layer.masksToBounds = NO;
+	cell.layer.shadowOffset = CGSizeMake(0, 1.0);
+	cell.layer.shadowRadius = 1.0;
+	cell.layer.shadowOpacity = 0.6;
 	
 	return cell;
 }
