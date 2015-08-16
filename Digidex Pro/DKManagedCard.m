@@ -136,7 +136,17 @@
 	}
 }
 
-
+- (NSURL*)digidexURL;
+{
+    if (self.originalURL) {
+        NSURLComponents *components = [NSURLComponents componentsWithURL:self.originalURL resolvingAgainstBaseURL:YES];
+        components.scheme = @"digidex";
+        return [components URL];
+    }
+    
+    // If the originalURL is not available, return nil
+    return nil;
+}
 
 
 

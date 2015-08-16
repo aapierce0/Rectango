@@ -19,6 +19,7 @@
 
 @property (nonatomic, retain) NSString * localPath;
 @property (nonatomic, retain) id originalURL;
+@property (readonly) NSURL *digidexURL; // This is a URL with the digidex:// scheme.
 @property (nonatomic, retain) NSSet *tags;
 
 @property (readonly) NSDictionary *cardDictionary;

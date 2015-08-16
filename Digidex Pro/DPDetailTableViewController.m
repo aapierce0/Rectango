@@ -106,7 +106,7 @@
 
 - (void)shareCard;
 {
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.selectedCard.originalURL] applicationActivities:nil];
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.selectedCard.digidexURL, self.selectedCard.cardImage] applicationActivities:nil];
     [self presentViewController:activityViewController animated:YES completion:^{
         
     }];
