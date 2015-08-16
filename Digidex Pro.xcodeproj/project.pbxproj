@@ -33,6 +33,7 @@
 		2CFBC9D01B7B93B700705932 /* DPTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CFBC9CF1B7B93B700705932 /* DPTitleTableViewCell.m */; };
 		2CFBC9D31B7B93C000705932 /* DPDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CFBC9D21B7B93C000705932 /* DPDetailTableViewCell.m */; };
 		2CFBC9D71B7B953900705932 /* DPDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CFBC9D61B7B953900705932 /* DPDetailTableViewController.m */; };
+		C6476DE41B803B840065D89F /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6476DE31B803B840065D89F /* Launch Screen.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		2CFBC9D21B7B93C000705932 /* DPDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPDetailTableViewCell.m; sourceTree = "<group>"; };
 		2CFBC9D51B7B953900705932 /* DPDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPDetailTableViewController.h; sourceTree = "<group>"; };
 		2CFBC9D61B7B953900705932 /* DPDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPDetailTableViewController.m; sourceTree = "<group>"; };
+		C6476DE31B803B840065D89F /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +180,7 @@
 				2CFBC9D41B7B93D200705932 /* Detail Table View */,
 				2CF994AB1B79443000140B3B /* Images.xcassets */,
 				2CF994971B79443000140B3B /* Supporting Files */,
+				C6476DE31B803B840065D89F /* Launch Screen.xib */,
 			);
 			path = "Digidex Pro";
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 				2CF994AC1B79443000140B3B /* Images.xcassets in Resources */,
 				2CF994A41B79443000140B3B /* Main_iPhone.storyboard in Resources */,
 				2CF9949B1B79443000140B3B /* InfoPlist.strings in Resources */,
+				C6476DE41B803B840065D89F /* Launch Screen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

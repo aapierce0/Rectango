@@ -144,9 +144,11 @@
 {
 	if (self.localPath) {
 		
+        NSLog(@"path: %@", self.localPath);
 		// Load the JSON document from the local disk, and read it.
 		NSData *cardData = [[NSFileManager defaultManager] contentsAtPath:self.localPath];
-		
+        NSLog(@"data: %@", [[NSString alloc] initWithData:cardData encoding:NSUTF8StringEncoding]);
+        
 		if (cardData) {
 			NSError *jsonError;
 			id jsonObject = [NSJSONSerialization JSONObjectWithData:cardData options:kNilOptions error:&jsonError];
@@ -216,6 +218,8 @@
 		NSError *error = [NSError errorWithDomain:@"URL"
 											 code:100
 										 userInfo:@{NSLocalizedDescriptionKey:@"cardImageURL is missing."}];
+        
+        NSLog(@"%@", self.cardDictionary);
 		completionHandler(error);
 		return;
 	} else if ([[self.originalURL scheme] isEqualToString:@"digidex"]) {
@@ -235,6 +239,7 @@
 									   queue:[NSOperationQueue mainQueue]
 						   completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
 							   
+                               NSLog(@"data: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
 							   
 							   if (data) {
 								   NSError *jsonError;
