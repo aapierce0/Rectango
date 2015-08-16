@@ -95,13 +95,10 @@
 
 - (void)dismiss;
 {
-    if (self.navigationController) {
-        [self.navigationController popViewControllerAnimated:YES];
-    } else {
-        [self dismissViewControllerAnimated:YES completion:^{
-            self.selectedCard = nil;
-        }];
-    }
+    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:^{
+        self.selectedCard = nil;
+    }];
 }
 
 - (void)shareCard;
