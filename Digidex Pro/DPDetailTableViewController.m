@@ -59,8 +59,13 @@
 	} else {
 		self.title = [self.selectedCard guessedName];
 		
-		self.navigationItem.rightBarButtonItem = nil;
-		self.navigationItem.leftBarButtonItem = nil;
+        self.navigationItem.leftItemsSupplementBackButton = YES;
+        self.navigationItem.leftBarButtonItem =     [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteCard)];
+        
+        self.navigationItem.rightBarButtonItem =    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareCard)];
+        if (!self.selectedCard.originalURL) {
+            self.navigationItem.rightBarButtonItem.enabled = NO;
+        }
 	}
 }
 
@@ -73,16 +78,38 @@
 - (void)insertNewCard;
 {
 	[[DKDataStore sharedDataStore] insertCard:self.selectedCard];
-	[self dismissViewControllerAnimated:YES completion:^{
-		self.selectedCard = nil;
-	}];
+    [self dismiss];
 }
 
 - (void)cancelNewCard;
 {
-	[self dismissViewControllerAnimated:YES completion:^{
-		self.selectedCard = nil;
-	}];
+    [self dismiss];
+}
+
+
+- (void)deleteCard;
+{
+    [[DKDataStore sharedDataStore] deleteCard:self.selectedCard];
+    [self dismiss];
+}
+
+- (void)dismiss;
+{
+    if (self.navigationController) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:^{
+            self.selectedCard = nil;
+        }];
+    }
+}
+
+- (void)shareCard;
+{
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.selectedCard.originalURL] applicationActivities:nil];
+    [self presentViewController:activityViewController animated:YES completion:^{
+        
+    }];
 }
 
 #pragma mark - Table view data source

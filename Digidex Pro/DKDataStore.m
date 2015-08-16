@@ -26,7 +26,7 @@
 		NSURL *storeURL = [[NSURL fileURLWithPath:applicationSupportDirectory]
 						   URLByAppendingPathComponent:@"CardDataModel.sqlite"];
 		
-//		[[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
+		[[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
 		
 		NSLog(@"Store URL: %@", storeURL);
 		
@@ -145,6 +145,17 @@
 	} else {
 		NSLog(@"Warning: attempting to insert card that was already inserted! %@", card);
 	}
+}
+
+- (void)deleteCard:(DKManagedCard *)card;
+{
+    [_moc deleteObject:card];
+    
+    NSError *saveError;
+    BOOL savedOK = [_moc save:&saveError];
+    if (!savedOK) {
+        NSLog(@"Error saving context %@", saveError);
+    }
 }
 
 
