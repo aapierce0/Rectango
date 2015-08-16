@@ -93,13 +93,6 @@
     [self dismiss];
 }
 
-- (void)dismiss;
-{
-    [self.navigationController popViewControllerAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:^{
-        self.selectedCard = nil;
-    }];
-}
 
 - (void)shareCard;
 {
@@ -109,6 +102,13 @@
     }];
 }
 
+- (void)dismiss;
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:^{
+        self.selectedCard = nil;
+    }];
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

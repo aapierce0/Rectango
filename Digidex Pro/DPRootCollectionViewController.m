@@ -58,6 +58,12 @@
 	
 }
 
+- (void)viewWillAppear:(BOOL)animated;
+{
+    _allCards = [[DKDataStore sharedDataStore] allContacts];
+    [self.collectionView reloadData];
+}
+
 
 - (void)didReceiveMemoryWarning
 {

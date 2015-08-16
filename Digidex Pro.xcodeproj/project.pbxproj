@@ -34,6 +34,7 @@
 		2CFBC9D31B7B93C000705932 /* DPDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CFBC9D21B7B93C000705932 /* DPDetailTableViewCell.m */; };
 		2CFBC9D71B7B953900705932 /* DPDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CFBC9D61B7B953900705932 /* DPDetailTableViewController.m */; };
 		C6476DE41B803B840065D89F /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6476DE31B803B840065D89F /* Launch Screen.xib */; };
+		C69CFC1B1B8121EA00D98C7D /* DPBarcodeScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C69CFC1A1B8121EA00D98C7D /* DPBarcodeScannerViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,8 @@
 		2CFBC9D51B7B953900705932 /* DPDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPDetailTableViewController.h; sourceTree = "<group>"; };
 		2CFBC9D61B7B953900705932 /* DPDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPDetailTableViewController.m; sourceTree = "<group>"; };
 		C6476DE31B803B840065D89F /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
+		C69CFC191B8121EA00D98C7D /* DPBarcodeScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPBarcodeScannerViewController.h; sourceTree = "<group>"; };
+		C69CFC1A1B8121EA00D98C7D /* DPBarcodeScannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPBarcodeScannerViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +181,7 @@
 				2C2649401B7A5C03000BEC40 /* DPCardCellView.h */,
 				2C2649411B7A5C03000BEC40 /* DPCardCellView.m */,
 				2CFBC9D41B7B93D200705932 /* Detail Table View */,
+				C69CFC151B811FB200D98C7D /* QR Code Scanner */,
 				2CF994AB1B79443000140B3B /* Images.xcassets */,
 				2CF994971B79443000140B3B /* Supporting Files */,
 				C6476DE31B803B840065D89F /* Launch Screen.xib */,
@@ -227,6 +231,15 @@
 				2CFBC9D21B7B93C000705932 /* DPDetailTableViewCell.m */,
 			);
 			name = "Detail Table View";
+			sourceTree = "<group>";
+		};
+		C69CFC151B811FB200D98C7D /* QR Code Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				C69CFC191B8121EA00D98C7D /* DPBarcodeScannerViewController.h */,
+				C69CFC1A1B8121EA00D98C7D /* DPBarcodeScannerViewController.m */,
+			);
+			name = "QR Code Scanner";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -345,6 +358,7 @@
 				2C26493B1B7996D3000BEC40 /* CardDataModel.xcdatamodeld in Sources */,
 				2CFBC9D01B7B93B700705932 /* DPTitleTableViewCell.m in Sources */,
 				2CFBC9D31B7B93C000705932 /* DPDetailTableViewCell.m in Sources */,
+				C69CFC1B1B8121EA00D98C7D /* DPBarcodeScannerViewController.m in Sources */,
 				2CF994CA1B79495600140B3B /* CHTCollectionViewWaterfallLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
