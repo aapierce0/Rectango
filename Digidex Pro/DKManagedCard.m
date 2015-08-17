@@ -187,6 +187,11 @@
 	}
 }
 
+- (CGSize)cardImageSize;
+{
+	return _cardImageSize;
+}
+
 
 
 
@@ -320,6 +325,7 @@
 								   
 								   // The image load was successful.
 								   _cardImage = [[UIImage alloc] initWithData:data];
+								   _cardImageSize = _cardImage.size;
 								   completionHandler(nil);
 								   [[NSNotificationCenter defaultCenter] postNotificationName:@"ImageLoaded" object:self];
 								   

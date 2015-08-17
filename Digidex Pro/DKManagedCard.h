@@ -15,6 +15,7 @@
 @interface DKManagedCard : NSManagedObject {
 	NSDictionary *_cardDictionary;
 	UIImage *_cardImage;
+	CGSize _cardImageSize;
 }
 
 @property (nonatomic, retain) NSString * localPath;
@@ -26,6 +27,7 @@
 
 @property (readonly) NSURL *cardImageURL;
 @property (readonly) UIImage *cardImage;
+@property (readonly) CGSize cardImageSize;
 
 - (instancetype)initWithContactURL:(NSURL *)URL managedObjectContext:(NSManagedObjectContext *)moc insert:(BOOL)shouldInsertAutomatically;
 - (instancetype)initWithContactURL:(NSURL *)URL insertIntoManagedObjectContext:(NSManagedObjectContext *)moc;

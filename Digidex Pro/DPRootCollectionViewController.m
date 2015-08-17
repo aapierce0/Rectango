@@ -159,11 +159,11 @@
 - (CGSize)cellSizeForCard:(DKManagedCard*)card {
 	
 	// If the size is {0, 0}, then default to something more sensible
-	if (CGSizeEqualToSize(CGSizeMake(0, 0), card.cardImage.size)) {
+	if (CGSizeEqualToSize(CGSizeMake(0, 0), card.cardImageSize)) {
 		return CGSizeMake(1260, 756);
 	}
 	
-	return card.cardImage.size;
+	return card.cardImageSize;
 }
 
 
