@@ -13,6 +13,10 @@
 		2C26493E1B7996D3000BEC40 /* DKManagedCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2649381B7996D3000BEC40 /* DKManagedCard.m */; };
 		2C26493F1B7996D3000BEC40 /* DKManagedTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C26493A1B7996D3000BEC40 /* DKManagedTag.m */; };
 		2C2649421B7A5C03000BEC40 /* DPCardCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2649411B7A5C03000BEC40 /* DPCardCellView.m */; };
+		2C42BE451B83979B00475433 /* HTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C42BE401B83979B00475433 /* HTMLDocument.m */; };
+		2C42BE461B83979B00475433 /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C42BE421B83979B00475433 /* HTMLNode.m */; };
+		2C42BE471B83979B00475433 /* HTMLNode+XPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C42BE441B83979B00475433 /* HTMLNode+XPath.m */; };
+		2C42BE4A1B8397E800475433 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C42BE491B8397E800475433 /* libxml2.dylib */; };
 		2CF994911B79443000140B3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994901B79443000140B3B /* Foundation.framework */; };
 		2CF994931B79443000140B3B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994921B79443000140B3B /* CoreGraphics.framework */; };
 		2CF994951B79443000140B3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994941B79443000140B3B /* UIKit.framework */; };
@@ -60,6 +64,13 @@
 		2C26493A1B7996D3000BEC40 /* DKManagedTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKManagedTag.m; sourceTree = "<group>"; };
 		2C2649401B7A5C03000BEC40 /* DPCardCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPCardCellView.h; sourceTree = "<group>"; };
 		2C2649411B7A5C03000BEC40 /* DPCardCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCardCellView.m; sourceTree = "<group>"; };
+		2C42BE3F1B83979B00475433 /* HTMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLDocument.h; sourceTree = "<group>"; };
+		2C42BE401B83979B00475433 /* HTMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDocument.m; sourceTree = "<group>"; };
+		2C42BE411B83979B00475433 /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNode.h; sourceTree = "<group>"; };
+		2C42BE421B83979B00475433 /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
+		2C42BE431B83979B00475433 /* HTMLNode+XPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HTMLNode+XPath.h"; sourceTree = "<group>"; };
+		2C42BE441B83979B00475433 /* HTMLNode+XPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HTMLNode+XPath.m"; sourceTree = "<group>"; };
+		2C42BE491B8397E800475433 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		2CF9948D1B79443000140B3B /* Digidex Pro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Digidex Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF994901B79443000140B3B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2CF994921B79443000140B3B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -100,6 +111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C42BE4A1B8397E800475433 /* libxml2.dylib in Frameworks */,
 				2CF994931B79443000140B3B /* CoreGraphics.framework in Frameworks */,
 				2CF994951B79443000140B3B /* UIKit.framework in Frameworks */,
 				2CF994911B79443000140B3B /* Foundation.framework in Frameworks */,
@@ -135,6 +147,21 @@
 			name = "Digidex Kit";
 			sourceTree = "<group>";
 		};
+		2C42BE481B8397A200475433 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				2CF994C81B79495600140B3B /* CHTCollectionViewWaterfallLayout.h */,
+				2CF994C91B79495600140B3B /* CHTCollectionViewWaterfallLayout.m */,
+				2C42BE3F1B83979B00475433 /* HTMLDocument.h */,
+				2C42BE401B83979B00475433 /* HTMLDocument.m */,
+				2C42BE411B83979B00475433 /* HTMLNode.h */,
+				2C42BE421B83979B00475433 /* HTMLNode.m */,
+				2C42BE431B83979B00475433 /* HTMLNode+XPath.h */,
+				2C42BE441B83979B00475433 /* HTMLNode+XPath.m */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
 		2CF994841B79443000140B3B = {
 			isa = PBXGroup;
 			children = (
@@ -157,6 +184,7 @@
 		2CF9948F1B79443000140B3B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C42BE491B8397E800475433 /* libxml2.dylib */,
 				2C2649081B798C87000BEC40 /* libDigidexKit.a */,
 				2CF994901B79443000140B3B /* Foundation.framework */,
 				2CF994921B79443000140B3B /* CoreGraphics.framework */,
@@ -174,8 +202,7 @@
 				2CF994A21B79443000140B3B /* Main_iPhone.storyboard */,
 				2CF994A51B79443000140B3B /* Main_iPad.storyboard */,
 				2C26491F1B799566000BEC40 /* Digidex Kit */,
-				2CF994C81B79495600140B3B /* CHTCollectionViewWaterfallLayout.h */,
-				2CF994C91B79495600140B3B /* CHTCollectionViewWaterfallLayout.m */,
+				2C42BE481B8397A200475433 /* Vendor */,
 				2CF994CB1B7949F400140B3B /* DPRootCollectionViewController.h */,
 				2CF994CC1B7949F400140B3B /* DPRootCollectionViewController.m */,
 				2C2649401B7A5C03000BEC40 /* DPCardCellView.h */,
@@ -357,8 +384,11 @@
 				2C26493C1B7996D3000BEC40 /* DigidexKit.m in Sources */,
 				2C26493B1B7996D3000BEC40 /* CardDataModel.xcdatamodeld in Sources */,
 				2CFBC9D01B7B93B700705932 /* DPTitleTableViewCell.m in Sources */,
+				2C42BE471B83979B00475433 /* HTMLNode+XPath.m in Sources */,
 				2CFBC9D31B7B93C000705932 /* DPDetailTableViewCell.m in Sources */,
+				2C42BE451B83979B00475433 /* HTMLDocument.m in Sources */,
 				C69CFC1B1B8121EA00D98C7D /* DPBarcodeScannerViewController.m in Sources */,
+				2C42BE461B83979B00475433 /* HTMLNode.m in Sources */,
 				2CF994CA1B79495600140B3B /* CHTCollectionViewWaterfallLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,8 +479,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					$SDKROOT/usr/include/libxml2,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-lxml2";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -483,6 +519,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				OTHER_LDFLAGS = "-lxml2";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
