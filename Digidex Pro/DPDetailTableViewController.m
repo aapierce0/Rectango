@@ -89,8 +89,36 @@
 
 - (void)deleteCard;
 {
-    [[DKDataStore sharedDataStore] deleteCard:self.selectedCard];
-    [self dismiss];
+	
+	// Display a confirmation dialog
+	UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil
+																   message:nil
+															preferredStyle:UIAlertControllerStyleActionSheet];
+	
+	
+	// This action will display red, because it is destructive
+	UIAlertAction* deleteAction = [UIAlertAction actionWithTitle:@"Delete Card"
+														   style:UIAlertActionStyleDestructive
+														 handler:^(UIAlertAction * action) {
+															 
+															 // Delete the card from the data store, and dismiss.
+															 [[DKDataStore sharedDataStore] deleteCard:self.selectedCard];
+															 [self dismiss];
+														  }];
+	
+	
+	// This cancel action will appear separated from the rest of the items
+	UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+														   style:UIAlertActionStyleCancel
+														 handler:^(UIAlertAction * action) {}];
+	
+	
+	// Add the actions to the alert
+	[alert addAction:deleteAction];
+	[alert addAction:cancelAction];
+	
+
+	[self presentViewController:alert animated:YES completion:nil];
 }
 
 
