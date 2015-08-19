@@ -12,7 +12,9 @@
 
 @interface DPBarcodeScannerViewController () {
     BOOL _tryingURL;
+	
 	UIView *_cancelScanView;
+	UIView *_scannedInfoView;
 	
 	BOOL _scannerIsShown;
 }
@@ -84,7 +86,6 @@
     con.videoOrientation = [self videoOrientationForCurrentDeviceOrientation];
     
     [self.scannerView.layer insertSublayer:self.preview atIndex:0];
-    self.scannerView.layer.masksToBounds = YES;
     
     [self.session startRunning];
 	return YES;
@@ -96,6 +97,15 @@
 {
     NSLog(@"metadataObjectsL %@", metadataObjects);
     for (AVMetadataMachineReadableCodeObject *metadataObject in metadataObjects) {
+		
+		// Display a view that shows a progress spinner and the scanned URL
+		_scannedInfoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+		_scannedInfoView.translatesAutoresizingMaskIntoConstraints = NO;
+		_scannedInfoView.backgroundColor = [UIColor greenColor];
+		[self.view addSubview:_scannedInfoView];
+		[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_scannedInfoView]-|" options:kNilOptions metrics:nil views:NSDictionaryOfVariableBindings(_scannedInfoView)]];
+		[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_scannedInfoView(==100)]-|" options:kNilOptions metrics:nil views:NSDictionaryOfVariableBindings(_scannedInfoView)]];
+		
         NSURL *url = [NSURL URLWithString:metadataObject.stringValue];
         if (url != nil) {
             [self processURL:url];
@@ -207,14 +217,13 @@
 		_cancelScanView.center = CGPointMake(_cancelScanView.bounds.size.width/2, self.scrollView.bounds.size.height + (_cancelScanView.bounds.size.height/2));
 		
 		_cancelScanView.layer.masksToBounds = NO;
-		_cancelScanView.layer.shadowOffset = CGSizeMake(0, -1.0);
-		_cancelScanView.layer.shadowRadius = 5.0;
+		_cancelScanView.layer.shadowOffset = CGSizeMake(0, 1.0);
+		_cancelScanView.layer.shadowRadius = 3.0;
 		_cancelScanView.layer.shadowOpacity = 0.2;
 		
 		UILabel *cancelScanLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 20)];
 		cancelScanLabel.text = @"Cancel";
-        cancelScanLabel.font = [UIFont systemFontOfSize:20 weight:UIFontWeightBold];
-		cancelScanLabel.textColor = self.view.tintColor;
+		cancelScanLabel.textColor = [UIColor blueColor];
 		cancelScanLabel.translatesAutoresizingMaskIntoConstraints = NO;
 		
 		[_cancelScanView addSubview:cancelScanLabel];
@@ -245,25 +254,18 @@
 		[self.scrollView setNeedsUpdateConstraints];
 		
 		self.backButton.enabled = NO;
-        self.preview.opacity = 0.0;
-        
-        self.scrollView.scrollEnabled = NO;
 		
 		// Animate the scanner into the full screen
 		[UIView animateWithDuration:0.4 animations:^{
 			
 			[self.scrollView layoutIfNeeded];
-            self.preview.frame = self.scannerView.bounds;
-            self.preview.opacity = 1.0;
 			
 			// Fade out the auxillery controls
 			self.auxView.alpha = 0.0;
 			self.backButton.alpha = 0.0;
-            self.tapToScanLabel.alpha = 0.0;
 			
 			// Move the cancel view into frame
 			_cancelScanView.center = CGPointMake(_cancelScanView.bounds.size.width/2, self.scrollView.bounds.size.height - (_cancelScanView.bounds.size.height/2));
-			_cancelScanView.layer.shadowOpacity = 0.6;
 			
 		} completion:^(BOOL finished) {
 			
@@ -289,8 +291,6 @@
 		// Fade out the auxillery controls
 		self.auxView.alpha = 1.0;
 		self.backButton.alpha = 1.0;
-        self.tapToScanLabel.alpha = 1.0;
-        self.preview.opacity = 0.0;
 		
 		// Move the cancel view into frame
 		_cancelScanView.center = CGPointMake(_cancelScanView.bounds.size.width/2, self.scrollView.bounds.size.height + (_cancelScanView.bounds.size.height/2));
@@ -303,9 +303,6 @@
 		[_cancelScanView removeFromSuperview];
 		_cancelScanView = nil;
 		_scannerIsShown = NO;
-        
-        [self.preview removeFromSuperlayer];
-        self.scrollView.scrollEnabled = YES;
 		
 	}];
 }
