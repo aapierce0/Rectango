@@ -12,6 +12,7 @@
 @interface DPBarcodeScannerViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate>
 
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 - (IBAction)activateScanner:(id)sender;
 @property (weak, nonatomic) IBOutlet UIView *scannerView;

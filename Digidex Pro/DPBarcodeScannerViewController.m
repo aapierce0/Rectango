@@ -38,12 +38,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (UIStatusBarStyle)preferredStatusBarStyle;
 {
-    
+	return UIStatusBarStyleLightContent;
 }
 
-- (void)setupScanner;
+- (BOOL)setupScanner;
 {
 
 	
@@ -61,7 +61,7 @@
 		
 		[self presentViewController:alert animated:YES completion:^{}];
 		
-		return;
+		return NO;
 	}
 	
     self.session = [[AVCaptureSession alloc] init];
@@ -83,6 +83,7 @@
     [self.scannerView.layer insertSublayer:self.preview atIndex:0];
     
     [self.session startRunning];
+	return YES;
 	
 }
 
@@ -190,6 +191,20 @@
 */
 
 - (IBAction)activateScanner:(id)sender {
-    [self setupScanner];
+	
+	// Animate the scanner into the full screen
+	if ([self setupScanner]) {
+		
+		[UIView animateWithDuration:0.2 animations:^{
+			
+			self.scannerView.frame = self.scrollView.bounds;
+			
+			// Fade out the URL entry box
+			self.URLTextField.alpha = 0.0;
+			
+		} completion:^(BOOL finished) {
+			
+		}];
+	}
 }
 @end
