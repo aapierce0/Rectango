@@ -253,6 +253,11 @@
 			}
 		}
 		
+		
+		// Get the number of lines of the detail
+		NSUInteger lines = [[detailCell.valueLabel.text componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] count];
+		detailCell.valueLabel.numberOfLines = lines;
+		
 		cell = detailCell;
 	}
     
@@ -277,7 +282,46 @@
 	} else if (indexPath.section == 1) {
 		return 60;
 	} else {
-		return 40;
+		
+		NSString *valueString = @"";
+		
+		
+		// Get the data for this cell
+		NSString *key = self.selectedCard.cardDictionary.allKeys[indexPath.section-2];
+		id value = self.selectedCard.cardDictionary[key];
+		
+		if ([value isKindOfClass:[NSString class]]) {
+			
+			// The key label is the section key, and the value label is the value
+			valueString = value;
+			
+		} else if ([value isKindOfClass:[NSDictionary class]]) {
+			
+			// Use the row number to determine which sub-key to use.
+			NSString *subKey = [(NSDictionary*)value allKeys][indexPath.row];
+			id subValue = ((NSDictionary*)value)[subKey];
+			
+			if ([subValue isKindOfClass:[NSString class]]) {
+				valueString = subValue;
+			} else {
+				valueString	= [subValue description];
+			}
+			
+		} else if ([value isKindOfClass:[NSArray class]]) {
+			
+			// Use the row number to determine which item of this array to use
+			id subValue = ((NSArray*)value)[indexPath.row];
+			
+			if ([subValue isKindOfClass:[NSString class]]) {
+				valueString = subValue;
+			} else {
+				valueString = [subValue description];
+			}
+		}
+		
+		NSUInteger lines = [[valueString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] count];
+		
+		return (20 * lines) + 20;
 	}
 }
 
@@ -288,8 +332,24 @@
 	} else if (section == 1) {
 		return nil;
 	} else {
+		
 		NSString *key = self.selectedCard.cardDictionary.allKeys[section-2];
-		return key;
+		id value = self.selectedCard.cardDictionary[key];
+		if ([value isKindOfClass:[NSString class]]) {
+			
+			// Simple string values have their key listed in the table cell, not the header
+			return nil;
+		} else if ([value isKindOfClass:[NSDictionary class]]) {
+			
+			// Complex fields should display the parent key as a header. Each of the sub-keys will be visible in the table cell.
+			return key;
+		} else if ([value isKindOfClass:[NSArray class]]) {
+			
+			// Complex fields should display the parent key as a header. Each of the sub-keys will be visible in the table cell.
+			return key;
+		} else {
+			return nil;
+		}
 	}
 }
 
