@@ -26,7 +26,7 @@
 		NSURL *storeURL = [[NSURL fileURLWithPath:applicationSupportDirectory]
 						   URLByAppendingPathComponent:@"CardDataModel.sqlite"];
 		
-		[[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
+//		[[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
 		
 		NSLog(@"Store URL: %@", storeURL);
 		
