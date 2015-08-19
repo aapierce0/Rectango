@@ -158,6 +158,66 @@
 	return 1 + 1 + self.selectedCard.cardDictionary.allKeys.count;
 }
 
+- (NSDictionary *)keyPairForSection:(NSInteger)section;
+{
+	if (section == 0) {
+		
+		// This is the card image section. No key pair.
+		return nil;
+	} else if (section == 1) {
+		
+		// This is the card title section. No key pair.
+		return nil;
+	} else {
+		
+		NSString *keyString = self.selectedCard.cardDictionary.allKeys[section-2];
+		id value = self.selectedCard.cardDictionary[keyString];
+		
+		return @{@"key":keyString, @"value":value};
+	}
+}
+
+- (NSDictionary *)keyPairForIndexPath:(NSIndexPath*)indexPath;
+{
+	// Get the key pair for this section. It might be nil...
+	NSDictionary *sectionKeyPair = [self keyPairForSection:indexPath.section];
+	if (sectionKeyPair == nil) {
+		return nil;
+	}
+	
+	id value = sectionKeyPair[@"value"];
+	if ([value isKindOfClass:[NSString class]]) {
+		
+		return sectionKeyPair;
+		
+		
+	} else if ([value isKindOfClass:[NSDictionary class]]) {
+		
+		// Use the row number to determine which sub-key to use.
+		NSString *subKey = [(NSDictionary*)value allKeys][indexPath.row];
+		id subValue = ((NSDictionary*)value)[subKey];
+		
+		return @{@"key":subKey, @"value":[subValue description]};
+		
+		
+	} else if ([value isKindOfClass:[NSArray class]]) {
+		
+		// Use the row number to determine which item of this array to use
+		NSString *subKey = [NSString stringWithFormat:@"%li.", (long)indexPath.row];
+		id subValue = ((NSArray*)value)[indexPath.row];
+		
+		return @{@"key":subKey, @"value":[subValue description]};
+		
+		
+	} else {
+		
+		return sectionKeyPair;
+		
+	}
+	
+}
+
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
@@ -173,19 +233,23 @@
 	} else {
 		
 		// The other cells contain as many rows as it has data for that key.
-		NSString *key = self.selectedCard.cardDictionary.allKeys[section-2];
-		id value = self.selectedCard.cardDictionary[key];
+		NSDictionary *keyPair = [self keyPairForSection:section];
+		id value = keyPair[@"value"];
+		
 		if ([value isKindOfClass:[NSString class]]) {
 			
 			// Simple fields that are only a string will just be the one row.
 			return 1;
-		} else if ([value isKindOfClass:[NSDictionary class]]) {
 			
+		} else if ([value isKindOfClass:[NSDictionary class]]) {
 			
 			// Complex fields that contain an object or array (such as assorted phone numbers) will contain a row for each item
 			return [(NSDictionary*)value allKeys].count;
+			
 		} else if ([value isKindOfClass:[NSArray class]]) {
+			
 			return [(NSArray *)value count];
+			
 		} else {
 			return 0;
 		}
@@ -217,45 +281,13 @@
 		// This is a key/value cell.
 		DPDetailTableViewCell *detailCell = (DPDetailTableViewCell *)[tableView dequeueReusableCellWithIdentifier:DETAIL_CELL_IDENTIFIER forIndexPath:indexPath];
 		
-		// Get the data for this cell
-		NSString *key = self.selectedCard.cardDictionary.allKeys[indexPath.section-2];
-		id value = self.selectedCard.cardDictionary[key];
 		
-		if ([value isKindOfClass:[NSString class]]) {
-			
-			// The key label is the section key, and the value label is the value
-			detailCell.keyLabel.text = key;
-			detailCell.valueLabel.text = value;
-			
-		} else if ([value isKindOfClass:[NSDictionary class]]) {
-			
-			// Use the row number to determine which sub-key to use.
-			NSString *subKey = [(NSDictionary*)value allKeys][indexPath.row];
-			id subValue = ((NSDictionary*)value)[subKey];
-			
-			detailCell.keyLabel.text = subKey;
-			if ([subValue isKindOfClass:[NSString class]]) {
-				detailCell.valueLabel.text = subValue;
-			} else {
-				detailCell.valueLabel.text = [subValue description];
-			}
-			
-		} else if ([value isKindOfClass:[NSArray class]]) {
-			
-			// Use the row number to determine which item of this array to use
-			id subValue = ((NSArray*)value)[indexPath.row];
-			
-			detailCell.keyLabel.text = [NSString stringWithFormat:@"%li.", (long)indexPath.row];
-			if ([subValue isKindOfClass:[NSString class]]) {
-				detailCell.valueLabel.text = subValue;
-			} else {
-				detailCell.valueLabel.text = [subValue description];
-			}
-		}
-		
+		NSDictionary *keyPair = [self keyPairForIndexPath:indexPath];
+		detailCell.keyLabel.text = keyPair[@"key"];
+		detailCell.valueLabel.text = keyPair[@"value"];		
 		
 		// Get the number of lines of the detail
-		NSUInteger lines = [[detailCell.valueLabel.text componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] count];
+		NSUInteger lines = [[keyPair[@"value"] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] count];
 		detailCell.valueLabel.numberOfLines = lines;
 		
 		cell = detailCell;
@@ -279,47 +311,16 @@
 		
 		CGFloat scalingFactor = cellWidth / imageSize.width;
 		return scalingFactor * imageSize.height;
+		
+		
 	} else if (indexPath.section == 1) {
 		return 60;
 	} else {
 		
-		NSString *valueString = @"";
-		
 		
 		// Get the data for this cell
-		NSString *key = self.selectedCard.cardDictionary.allKeys[indexPath.section-2];
-		id value = self.selectedCard.cardDictionary[key];
-		
-		if ([value isKindOfClass:[NSString class]]) {
-			
-			// The key label is the section key, and the value label is the value
-			valueString = value;
-			
-		} else if ([value isKindOfClass:[NSDictionary class]]) {
-			
-			// Use the row number to determine which sub-key to use.
-			NSString *subKey = [(NSDictionary*)value allKeys][indexPath.row];
-			id subValue = ((NSDictionary*)value)[subKey];
-			
-			if ([subValue isKindOfClass:[NSString class]]) {
-				valueString = subValue;
-			} else {
-				valueString	= [subValue description];
-			}
-			
-		} else if ([value isKindOfClass:[NSArray class]]) {
-			
-			// Use the row number to determine which item of this array to use
-			id subValue = ((NSArray*)value)[indexPath.row];
-			
-			if ([subValue isKindOfClass:[NSString class]]) {
-				valueString = subValue;
-			} else {
-				valueString = [subValue description];
-			}
-		}
-		
-		NSUInteger lines = [[valueString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] count];
+		NSDictionary *keyPair = [self keyPairForIndexPath:indexPath];
+		NSUInteger lines = [[keyPair[@"value"] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] count];
 		
 		return (20 * lines) + 20;
 	}
