@@ -45,32 +45,21 @@
 
 - (void)setupScanner;
 {
-	
-#if TARGET_IPHONE_SIMULATOR
-	
-	// the iphone simulator obviously doesn't have a camera on it, so we return a bogus card.
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-		NSLog(@"Dimissing");
-		[self dismiss];
-		NSURL *junkURL = [NSURL URLWithString:@"digidex://bloviations.net/contact/cardData0.json"];
-		[[UIApplication sharedApplication] openURL:junkURL];
-	});
-	return;
-	
-	
-#else
+
 	
     self.device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     self.input = [AVCaptureDeviceInput deviceInputWithDevice:self.device error:nil];
 	
 	if (!self.input) {
-#warning Handle lack of input more gracefully
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-			NSLog(@"Dimissing");
-			[self dismiss];
-			NSURL *junkURL = [NSURL URLWithString:@"digidex://bloviations.net/contact/cardData0.json"];
-			[[UIApplication sharedApplication] openURL:junkURL];
-		});
+		
+		// Alert the user that the camera is not available, and then bail.
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Camera Not Found"
+																	   message:@"Your device does not have a camera, so it will not be able to scan QR Codes"
+																preferredStyle:UIAlertControllerStyleAlert];
+		
+		[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}]];
+		
+		[self presentViewController:alert animated:YES completion:^{}];
 		
 		return;
 	}
@@ -95,7 +84,6 @@
     
     [self.session startRunning];
 	
-#endif
 }
 
 
