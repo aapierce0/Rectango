@@ -155,7 +155,7 @@
 	 1 section for each of the other keys in the digidex card
 	 */
 	
-	return 1 + 1 + self.selectedCard.cardDictionary.allKeys.count;
+	return 1 + 1 + self.selectedCard.filteredKeys.count;
 }
 
 - (NSDictionary *)keyPairForSection:(NSInteger)section;
@@ -170,7 +170,7 @@
 		return nil;
 	} else {
 		
-		NSString *keyString = self.selectedCard.cardDictionary.allKeys[section-2];
+		NSString *keyString = self.selectedCard.filteredKeys[section-2];
 		id value = self.selectedCard.cardDictionary[keyString];
 		
 		return @{@"key":keyString, @"value":value};
@@ -284,7 +284,7 @@
 		
 		NSDictionary *keyPair = [self keyPairForIndexPath:indexPath];
 		detailCell.keyLabel.text = keyPair[@"key"];
-		detailCell.valueLabel.text = keyPair[@"value"];		
+		detailCell.valueLabel.text = keyPair[@"value"];
 		
 		// Get the number of lines of the detail
 		NSUInteger lines = [[keyPair[@"value"] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] count];
@@ -334,7 +334,7 @@
 		return nil;
 	} else {
 		
-		NSString *key = self.selectedCard.cardDictionary.allKeys[section-2];
+		NSString *key = self.selectedCard.filteredKeys[section-2];
 		id value = self.selectedCard.cardDictionary[key];
 		if ([value isKindOfClass:[NSString class]]) {
 			

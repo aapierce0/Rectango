@@ -72,33 +72,47 @@
 - (NSString *)guessedName;
 {
 	
-	// If the name is explicitly defined, use it.
+	NSArray *guessedNameKeys = [self guessedNameKeys];
+	NSString *guessedName = @"";
+	
+	for (NSString *key in guessedNameKeys) {
+		guessedName = [guessedName stringByAppendingFormat:@" %@", _cardDictionary[key]];
+	}
+	
+	guessedName = [guessedName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	
+	if (guessedName.length > 0)
+		return guessedName;
+	else
+		return nil;
+}
+
+- (NSArray *)guessedNameKeys;
+{
 	if (_cardDictionary[@"name"]) {
-		return _cardDictionary[@"name"];
+		return @[@"name"];
 	}
 	
 	
 	
 	// Here are some possible alternatives I came up with.
 	if (_cardDictionary[@"fullName"]) {
-		return _cardDictionary[@"fullName"];
+		return @[@"fullName"];
 	}
 	
 	if (_cardDictionary[@"firstName"] && _cardDictionary[@"lastName"]) {
-		return [NSString stringWithFormat:@"%@ %@", _cardDictionary[@"firstName"], _cardDictionary[@"lastName"]];
+		return @[@"firstName", @"lastName"];
 	}
 	
 	if (_cardDictionary[@"firstName"]) {
-		return _cardDictionary[@"firstName"];
+		return @[@"firstName"];
 	}
 	
 	if (_cardDictionary[@"lastName"]) {
-		return _cardDictionary[@"lastName"];
+		return @[@"lastName"];
 	}
 	
-	
-	// If we didn't find anything at all, return nil.
-	return nil;
+	return @[];
 }
 
 - (NSString *)guessedOrganization;
@@ -148,6 +162,21 @@
     
     // If the originalURL is not available, return nil
     return nil;
+}
+
+
+- (NSArray *)filteredKeys;
+{
+	if (!_filteredKeys) {
+		
+		// Get a list of all the keys that should be displayed in the detail table view
+		NSArray *allKeys = [_cardDictionary allKeys];
+		_filteredKeys = [allKeys filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+			return (![evaluatedObject hasPrefix:@"_"] && ![[self guessedNameKeys] containsObject:evaluatedObject]);
+		}]];
+	}
+	
+	return _filteredKeys;
 }
 
 

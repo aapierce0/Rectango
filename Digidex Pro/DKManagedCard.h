@@ -16,6 +16,8 @@
 	NSDictionary *_cardDictionary;
 	UIImage *_cardImage;
 	CGSize _cardImageSize;
+	
+	NSArray *_filteredKeys;
 }
 
 @property (nonatomic, retain) NSString * localPath;
@@ -24,6 +26,7 @@
 @property (nonatomic, retain) NSSet *tags;
 
 @property (readonly) NSDictionary *cardDictionary;
+@property (readonly) NSArray *filteredKeys;
 
 @property (readonly) NSURL *cardImageURL;
 @property (readonly) UIImage *cardImage;
