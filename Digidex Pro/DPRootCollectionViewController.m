@@ -179,18 +179,7 @@
 
 
 #pragma mark - IBActions
-- (IBAction)createNewCard:(id)sender {
-	
-	int cardNumber = arc4random() % 4;
-	NSString *cardURLString = [NSString stringWithFormat:@"http://bloviations.net/contact/cardData%i.json", cardNumber];
-	NSURL *cardURL = [NSURL URLWithString:cardURLString];
-	
-	DKManagedCard *newCard = [[DKDataStore sharedDataStore] addContactWithURL:cardURL];
-	_allCards = [[DKDataStore sharedDataStore] allContacts];
-	
-	[self.collectionView reloadData];
-	[self addListenersForCard:newCard];
-}
+
 
 - (void)addListenersForCard:(DKManagedCard*)card; {
 	
