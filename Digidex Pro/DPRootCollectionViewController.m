@@ -36,21 +36,44 @@
 }
 
 
+
+- (void)refreshAndSortCards;
+{
+    
+    _allCards = [[[DKDataStore sharedDataStore] allContacts] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        DKManagedCard *card1 = obj1;
+        DKManagedCard *card2 = obj2;
+        
+        NSComparisonResult result = [[card1 guessedName] compare:[card2 guessedName]];
+        if (result == NSOrderedSame) {
+            result = [[card1.originalURL description]  compare:[card2.originalURL description]];
+        }
+        
+        return result;
+    }];
+}
+
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 	
+    // Add buttons to the right of the navigation bar
+    UIBarButtonItem *deleteAll = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteAll:)];
+    self.navigationItem.rightBarButtonItem = deleteAll;
+    
 	CHTCollectionViewWaterfallLayout *waterfallLayout = (CHTCollectionViewWaterfallLayout *)self.collectionViewLayout;
 	
 	waterfallLayout.sectionInset = UIEdgeInsetsMake(8, 8, 8, 8);
     waterfallLayout.headerHeight = 0;
     waterfallLayout.footerHeight = 8;
-    waterfallLayout.minimumColumnSpacing = 6;
+    waterfallLayout.minimumColumnSpacing = 8;
     waterfallLayout.minimumInteritemSpacing = 8;
 	waterfallLayout.columnCount = 2;
 	
-	_allCards = [[DKDataStore sharedDataStore] allContacts];
+    [self refreshAndSortCards];
 	
 	for (DKManagedCard *card in _allCards) {
 		[self addListenersForCard:card];
@@ -60,7 +83,7 @@
 
 - (void)viewWillAppear:(BOOL)animated;
 {
-    _allCards = [[DKDataStore sharedDataStore] allContacts];
+    [self refreshAndSortCards];
     [self.collectionView reloadData];
 }
 
@@ -191,6 +214,42 @@
 	}];
 }
 
-
+- (IBAction)deleteAll:(id)sender;
+{
+    
+    // Display a confirmation dialog
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    
+    // This action will display red, because it is destructive
+    UIAlertAction* deleteAction = [UIAlertAction actionWithTitle:@"Delete All Cards"
+                                                           style:UIAlertActionStyleDestructive
+                                                         handler:^(UIAlertAction * action) {
+                                                             
+                                                             // Delete all of the items in the managed object context.
+                                                             for (DKManagedCard *card in _allCards) {
+                                                                 [[DKDataStore sharedDataStore] deleteCard:card];
+                                                             }
+                                                             
+                                                             [self refreshAndSortCards];
+                                                             [self.collectionView reloadData];
+                                                         }];
+    
+    
+    // This cancel action will appear separated from the rest of the items
+    UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction * action) {}];
+    
+    
+    // Add the actions to the alert
+    [alert addAction:deleteAction];
+    [alert addAction:cancelAction];
+    
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
 
 @end
