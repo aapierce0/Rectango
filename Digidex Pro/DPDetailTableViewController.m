@@ -274,9 +274,9 @@
 		CGFloat scalingFactor = cellWidth / imageSize.width;
 		return scalingFactor * imageSize.height;
 	} else if (indexPath.section == 1) {
-		return 100;
-	} else {
 		return 60;
+	} else {
+		return 40;
 	}
 }
 
