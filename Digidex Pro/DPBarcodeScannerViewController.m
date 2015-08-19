@@ -8,6 +8,8 @@
 
 #import "DPBarcodeScannerViewController.h"
 
+#import "DKManagedCard.h"
+
 @interface DPBarcodeScannerViewController ()
 
 @property AVCaptureDevice *device;
@@ -24,7 +26,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self setupScanner];
+//    [self setupScanner];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -76,12 +78,12 @@
     
     self.preview = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
     self.preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    self.preview.frame = self.view.bounds;
+    self.preview.frame = self.scannerView.bounds;
     
     AVCaptureConnection *con = self.preview.connection;
     con.videoOrientation = [self videoOrientationForCurrentDeviceOrientation];
     
-    [self.view.layer insertSublayer:self.preview atIndex:0];
+    [self.scannerView.layer insertSublayer:self.preview atIndex:0];
     
     [self.session startRunning];
 	
@@ -137,6 +139,23 @@
 }
 
 
+
+- (IBAction)submitURL:(id)sender {
+	
+	// Get the URL from the text field, and load it.
+	NSURL *enteredURL = [NSURL URLWithString:self.URLTextField.text];
+	[DKManagedCard determineDigidexURLFromProvidedURL:enteredURL completion:^(NSURL *determinedURL) {
+		
+		NSLog(@"Provided URL: %@", enteredURL);
+		NSLog(@"Determined URL: %@", determinedURL);
+		
+		if (determinedURL != nil) {
+			[self dismiss];
+			[[UIApplication sharedApplication] openURL:determinedURL];
+		}
+		
+	}];
+}
 
 - (IBAction)dismiss;
 {

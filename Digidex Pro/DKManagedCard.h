@@ -36,6 +36,7 @@
 - (NSString*)guessedOrganization;
 - (NSString*)guessedOccupation;
 
++ (void)determineDigidexURLFromProvidedURL:(NSURL*)providedURL completion:(void (^)(NSURL *determinedURL))completion;
 
 @end
 

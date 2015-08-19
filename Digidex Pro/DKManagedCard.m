@@ -9,6 +9,8 @@
 #import "DKManagedCard.h"
 #import "DKManagedTag.h"
 
+#import "HTMLDocument.h"
+
 
 @implementation DKManagedCard
 
@@ -411,6 +413,96 @@
 		if (saveError) {
 			NSLog(@"Error saving managed object context %@", error);
 		}
+	}
+}
+
+
+
+
+
+
+
+#pragma mark - class methods
+
++ (void)determineDigidexURLFromProvidedURL:(NSURL*)providedURL completion:(void (^)(NSURL *determinedURL))completion;
+{
+	// This method tries to parse the provided URL to come up with the exact correct digidex:// URL.
+	
+	if ([providedURL.scheme isEqualToString:@"digidex"]) {
+		
+		// If the URL is already using the digidex scheme, then we can assume it's good.
+		completion(providedURL);
+		return;
+		
+	} else if ([providedURL.pathExtension isEqualToString:@"json"]) {
+		
+		// If the URL is assumed to be JSON. There's no more work to be done.
+		// Change the URL scheme to digidex, and we're done.
+		NSURLComponents *components = [NSURLComponents componentsWithURL:providedURL resolvingAgainstBaseURL:YES];
+		components.scheme = @"digidex";
+		completion([components URL]);
+		return;
+		
+	} else {
+		
+		// Okay, we can't take any shortcuts. The only other valid form is HTML content.
+		// Perform an HTTP request and check the header to make sure the MIMEtype is HTML content.
+		NSURLRequest *providedURLRequest = [NSURLRequest requestWithURL:providedURL];
+		[NSURLConnection sendAsynchronousRequest:providedURLRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+			
+			// Test the response
+			NSLog(@"Error is %@", connectionError);
+			NSLog(@"Response MIME Type is: %@", response.MIMEType);
+			if ([response.MIMEType isEqualToString:@"text/html"]) {
+				
+				// Load the content of the page, and find the meta tag in the <head>
+				HTMLDocument *document;
+				NSError *error;
+				if (response.textEncodingName != nil) {
+					// The string encoding has to go through a couple conversions.
+					NSStringEncoding stringEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding((CFStringRef)response.textEncodingName));
+					document = [HTMLDocument documentWithData:data encoding:stringEncoding error:&error];
+				} else {
+					document = [HTMLDocument documentWithData:data error:&error];
+				}
+				
+				
+				NSArray *metaTags = [document.head childrenOfTag:@"meta"];
+				
+				NSLog(@"%li meta tags in the document.", metaTags.count);
+				
+				// Run through the meta tags until we find one with the right name.
+				HTMLNode *selectedTag = nil;
+				for (HTMLNode *node in metaTags) {
+					
+					// Check to see that this tag as the attribute "name" with the value "digidex"
+					if ([[node attributeForName:@"name"] isEqualToString:@"digidex"]) {
+						
+						// This is the right tag, so we're done here.
+						selectedTag = node;
+						break;
+					}
+				}
+				
+				
+				
+				if (selectedTag != nil) {
+					
+					// get the content of this tag. It should be a URL
+					NSString *content = [selectedTag attributeForName:@"content"];
+					NSURL *contentURL = [NSURL URLWithString:content];
+					
+					NSURLComponents *components = [NSURLComponents componentsWithURL:contentURL resolvingAgainstBaseURL:YES];
+					components.scheme = @"digidex";
+					
+					completion([components URL]);
+					return;
+				}
+			}
+			
+			completion(nil);
+			return;
+		}];
 	}
 }
 

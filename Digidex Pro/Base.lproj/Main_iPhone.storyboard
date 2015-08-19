@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="8IA-wX-AFR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1112" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="8IA-wX-AFR">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Digidex-->
@@ -154,23 +155,83 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FUr-gh-yec">
-                                <rect key="frame" x="16" y="20" width="46" height="30"/>
-                                <state key="normal" title="Back">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="dismiss" destination="TTU-ei-dyC" eventType="touchUpInside" id="vyX-ka-Hqz"/>
-                                </connections>
-                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2pr-AR-7E0">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="25z-23-UZK">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aK2-0C-W8T">
+                                                <rect key="frame" x="16" y="24" width="35" height="30"/>
+                                                <state key="normal" title="Back">
+                                                    <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="dismiss" destination="TTU-ei-dyC" eventType="touchUpInside" id="uNb-yC-vPg"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="200" id="5fz-Nn-pqn"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENTER URL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G9V-dp-6IF">
+                                        <rect key="frame" x="16" y="245" width="68" height="15"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                        <color key="textColor" red="0.24754794997105803" green="0.27973961534399444" blue="0.43987771739130432" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ca4-r9-Vvf">
+                                        <rect key="frame" x="535" y="306" width="49" height="30"/>
+                                        <state key="normal" title="Submit">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="submitURL:" destination="TTU-ei-dyC" eventType="touchUpInside" id="aws-2P-T4e"/>
+                                        </connections>
+                                    </button>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="digidex.org/card.json" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nDG-sp-qhf">
+                                        <rect key="frame" x="16" y="268" width="568" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="URL"/>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="25z-23-UZK" secondAttribute="trailing" id="2cF-gM-Qq9"/>
+                                    <constraint firstItem="nDG-sp-qhf" firstAttribute="top" secondItem="G9V-dp-6IF" secondAttribute="bottom" constant="8" id="DOc-Mh-Woy"/>
+                                    <constraint firstItem="25z-23-UZK" firstAttribute="centerX" secondItem="2pr-AR-7E0" secondAttribute="centerX" id="Fux-1E-24a"/>
+                                    <constraint firstItem="25z-23-UZK" firstAttribute="top" secondItem="2pr-AR-7E0" secondAttribute="top" id="Kde-uy-GYS"/>
+                                    <constraint firstItem="Ca4-r9-Vvf" firstAttribute="top" secondItem="nDG-sp-qhf" secondAttribute="bottom" constant="8" id="Lt1-aM-IW2"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ca4-r9-Vvf" secondAttribute="trailing" constant="16" id="MvE-th-Jo6"/>
+                                    <constraint firstAttribute="trailing" secondItem="nDG-sp-qhf" secondAttribute="trailing" constant="16" id="a09-cQ-Dm6"/>
+                                    <constraint firstAttribute="bottom" secondItem="25z-23-UZK" secondAttribute="bottom" constant="400" id="bOG-78-xUo"/>
+                                    <constraint firstItem="25z-23-UZK" firstAttribute="leading" secondItem="2pr-AR-7E0" secondAttribute="leading" id="hJc-DR-Ahp"/>
+                                    <constraint firstItem="G9V-dp-6IF" firstAttribute="top" secondItem="25z-23-UZK" secondAttribute="bottom" constant="45" id="inx-9A-EWx"/>
+                                    <constraint firstItem="25z-23-UZK" firstAttribute="centerX" secondItem="nDG-sp-qhf" secondAttribute="centerX" id="lhc-S2-jnV"/>
+                                    <constraint firstItem="nDG-sp-qhf" firstAttribute="leading" secondItem="2pr-AR-7E0" secondAttribute="leading" constant="16" id="oDR-NF-ysi"/>
+                                    <constraint firstItem="G9V-dp-6IF" firstAttribute="leading" secondItem="2pr-AR-7E0" secondAttribute="leading" constant="16" id="zFi-dF-ZdD"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="1lh-iP-Lsp" firstAttribute="top" secondItem="2pr-AR-7E0" secondAttribute="bottom" id="ebZ-jd-upn"/>
+                            <constraint firstAttribute="trailing" secondItem="2pr-AR-7E0" secondAttribute="trailing" id="goz-U2-b5f"/>
+                            <constraint firstItem="2pr-AR-7E0" firstAttribute="top" secondItem="rL0-pU-6Mh" secondAttribute="topMargin" id="oOE-wI-qxE"/>
+                            <constraint firstItem="2pr-AR-7E0" firstAttribute="leading" secondItem="rL0-pU-6Mh" secondAttribute="leading" id="qNZ-5W-ExB"/>
+                        </constraints>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                    <connections>
+                        <outlet property="URLTextField" destination="nDG-sp-qhf" id="dHU-xU-NYR"/>
+                        <outlet property="scannerView" destination="25z-23-UZK" id="QcS-0R-ctu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gdK-xH-VJc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1366" y="-508"/>
+            <point key="canvasLocation" x="1304" y="-508"/>
         </scene>
         <!--Detail Table View Controller-->
         <scene sceneID="3E5-cY-bwJ">
