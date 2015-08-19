@@ -10,7 +10,9 @@
 
 #import "DKManagedCard.h"
 
-@interface DPBarcodeScannerViewController ()
+@interface DPBarcodeScannerViewController () {
+    BOOL _tryingURL;
+}
 
 @property AVCaptureDevice *device;
 @property AVCaptureDeviceInput *input;
@@ -26,6 +28,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    _tryingURL = NO;
+    
 //    [self setupScanner];
 }
 
@@ -34,6 +38,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    
+}
 
 - (void)setupScanner;
 {
@@ -97,13 +105,7 @@
     for (AVMetadataMachineReadableCodeObject *metadataObject in metadataObjects) {
         NSURL *url = [NSURL URLWithString:metadataObject.stringValue];
         if (url != nil) {
-            [self.session stopRunning];
-            
-            [self dismiss];
-            [[UIApplication sharedApplication] openURL:url];
-            if ([url.scheme isEqualToString:@"digidex"]) {
-            } else {
-            }
+            [self processURL:url];
         }
     }
 }
@@ -144,17 +146,27 @@
 	
 	// Get the URL from the text field, and load it.
 	NSURL *enteredURL = [NSURL URLWithString:self.URLTextField.text];
-	[DKManagedCard determineDigidexURLFromProvidedURL:enteredURL completion:^(NSURL *determinedURL) {
-		
-		NSLog(@"Provided URL: %@", enteredURL);
-		NSLog(@"Determined URL: %@", determinedURL);
-		
-		if (determinedURL != nil) {
-			[self dismiss];
-			[[UIApplication sharedApplication] openURL:determinedURL];
-		}
-		
-	}];
+    [self processURL:enteredURL];
+}
+
+- (void)processURL:(NSURL*)url;
+{
+    if (!_tryingURL) {
+        
+        _tryingURL = YES;
+        [DKManagedCard determineDigidexURLFromProvidedURL:url completion:^(NSURL *determinedURL) {
+            
+            NSLog(@"Provided URL: %@", url);
+            NSLog(@"Determined URL: %@", determinedURL);
+            
+            if (determinedURL != nil) {
+                [self dismiss];
+                [[UIApplication sharedApplication] openURL:determinedURL];
+            }
+            
+            _tryingURL = NO;
+        }];
+    }
 }
 
 - (IBAction)dismiss;
@@ -177,4 +189,7 @@
 }
 */
 
+- (IBAction)activateScanner:(id)sender {
+    [self setupScanner];
+}
 @end

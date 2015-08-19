@@ -12,6 +12,8 @@
 @interface DPBarcodeScannerViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate>
 
 
+
+- (IBAction)activateScanner:(id)sender;
 @property (weak, nonatomic) IBOutlet UIView *scannerView;
 
 @property (weak, nonatomic) IBOutlet UITextField *URLTextField;
