@@ -18,6 +18,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *URLTextField;
 
+- (IBAction)createBogusCard:(id)sender;
 - (IBAction)submitURL:(id)sender;
 - (IBAction)dismiss;
 

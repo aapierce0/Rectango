@@ -142,6 +142,18 @@
 
 
 
+- (IBAction)createBogusCard:(id)sender {
+    NSArray *bogusURLs = @[@"http://bloviations.net/contact/cardData0.json",
+                           @"http://bloviations.net/contact/cardData1.json",
+                           @"http://bloviations.net/contact/cardData2.json",
+                           @"http://bloviations.net/contact/cardData3.json",
+                           @"http://bloviations.net/contact/soulful_sparrow.json",
+                           @"http://bloviations.net/contact/elgin_history_museum.json"];
+    
+    NSURL *bogusURL = [NSURL URLWithString:[bogusURLs objectAtIndex:(arc4random() % bogusURLs.count)]];
+    [self processURL:bogusURL];
+}
+
 - (IBAction)submitURL:(id)sender {
 	
 	// Get the URL from the text field, and load it.

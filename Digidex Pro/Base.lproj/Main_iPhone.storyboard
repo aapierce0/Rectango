@@ -201,6 +201,13 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="URL"/>
                                     </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BhE-3f-ozi">
+                                        <rect key="frame" x="255" y="341" width="91" height="30"/>
+                                        <state key="normal" title="Bogus Card"/>
+                                        <connections>
+                                            <action selector="createBogusCard:" destination="TTU-ei-dyC" eventType="touchUpInside" id="LuW-vO-uf3"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="25z-23-UZK" secondAttribute="trailing" id="2cF-gM-Qq9"/>
@@ -209,6 +216,8 @@
                                     <constraint firstItem="25z-23-UZK" firstAttribute="top" secondItem="2pr-AR-7E0" secondAttribute="top" id="Kde-uy-GYS"/>
                                     <constraint firstItem="Ca4-r9-Vvf" firstAttribute="top" secondItem="nDG-sp-qhf" secondAttribute="bottom" constant="8" id="Lt1-aM-IW2"/>
                                     <constraint firstAttribute="trailing" secondItem="Ca4-r9-Vvf" secondAttribute="trailing" constant="16" id="MvE-th-Jo6"/>
+                                    <constraint firstItem="BhE-3f-ozi" firstAttribute="centerX" secondItem="nDG-sp-qhf" secondAttribute="centerX" id="NfJ-ZB-3rD"/>
+                                    <constraint firstItem="BhE-3f-ozi" firstAttribute="top" secondItem="nDG-sp-qhf" secondAttribute="bottom" constant="43" id="O9I-NH-nmm"/>
                                     <constraint firstAttribute="trailing" secondItem="nDG-sp-qhf" secondAttribute="trailing" constant="16" id="a09-cQ-Dm6"/>
                                     <constraint firstAttribute="bottom" secondItem="25z-23-UZK" secondAttribute="bottom" constant="400" id="bOG-78-xUo"/>
                                     <constraint firstItem="25z-23-UZK" firstAttribute="leading" secondItem="2pr-AR-7E0" secondAttribute="leading" id="hJc-DR-Ahp"/>
