@@ -12,6 +12,9 @@
 
 @interface DPBarcodeScannerViewController () {
     BOOL _tryingURL;
+	UIView *_cancelScanView;
+	
+	BOOL _scannerIsShown;
 }
 
 @property AVCaptureDevice *device;
@@ -59,9 +62,9 @@
 		
 		[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}]];
 		
-		[self presentViewController:alert animated:YES completion:^{}];
-		
-		return NO;
+//		[self presentViewController:alert animated:YES completion:^{}];
+//		return NO;
+		return YES;
 	}
 	
     self.session = [[AVCaptureSession alloc] init];
@@ -192,19 +195,105 @@
 
 - (IBAction)activateScanner:(id)sender {
 	
-	// Animate the scanner into the full screen
-	if ([self setupScanner]) {
+	if ([self setupScanner] && !_scannerIsShown) {
 		
-		[UIView animateWithDuration:0.2 animations:^{
+		_scannerIsShown = YES;
+		
+		// Create a "Cancel" button and place it off the bottom of the screen.
+		// It will be animated into view when the Camera takes full screen.
+		_cancelScanView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.scrollView.bounds.size.width, 50)];
+		_cancelScanView.backgroundColor = [UIColor whiteColor];
+		_cancelScanView.center = CGPointMake(_cancelScanView.bounds.size.width/2, self.scrollView.bounds.size.height + (_cancelScanView.bounds.size.height/2));
+		
+		_cancelScanView.layer.masksToBounds = NO;
+		_cancelScanView.layer.shadowOffset = CGSizeMake(0, -1.0);
+		_cancelScanView.layer.shadowRadius = 1.0;
+		_cancelScanView.layer.shadowOpacity = 0.2;
+		
+		UILabel *cancelScanLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 20)];
+		cancelScanLabel.text = @"Cancel";
+		cancelScanLabel.textColor = [UIColor blueColor];
+		cancelScanLabel.translatesAutoresizingMaskIntoConstraints = NO;
+		
+		[_cancelScanView addSubview:cancelScanLabel];
+		[_cancelScanView addConstraint:[NSLayoutConstraint constraintWithItem:cancelScanLabel
+																	attribute:NSLayoutAttributeCenterX
+																	relatedBy:NSLayoutRelationEqual
+																	   toItem:cancelScanLabel.superview
+																	attribute:NSLayoutAttributeCenterX
+																   multiplier:1.f constant:0.f]];
+		
+		[_cancelScanView addConstraint:[NSLayoutConstraint constraintWithItem:cancelScanLabel
+																	attribute:NSLayoutAttributeCenterY
+																	relatedBy:NSLayoutRelationEqual
+																	   toItem:cancelScanLabel.superview
+																	attribute:NSLayoutAttributeCenterY
+																   multiplier:1.f constant:0.f]];
+		
+		[self.view addSubview:_cancelScanView];
+		
+		
+		
+		
+		UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deactivateScanner:)];
+		[_cancelScanView addGestureRecognizer:tapGesture];
+		
+		
+		self.scannerViewHeightConstraint.constant = self.scrollView.bounds.size.height;
+		[self.scrollView setNeedsUpdateConstraints];
+		
+		self.backButton.enabled = NO;
+		
+		// Animate the scanner into the full screen
+		[UIView animateWithDuration:0.4 animations:^{
 			
-			self.scannerView.frame = self.scrollView.bounds;
+			[self.scrollView layoutIfNeeded];
 			
-			// Fade out the URL entry box
-			self.URLTextField.alpha = 0.0;
+			// Fade out the auxillery controls
+			self.auxView.alpha = 0.0;
+			self.backButton.alpha = 0.0;
+			
+			// Move the cancel view into frame
+			_cancelScanView.center = CGPointMake(_cancelScanView.bounds.size.width/2, self.scrollView.bounds.size.height - (_cancelScanView.bounds.size.height/2));
+			_cancelScanView.layer.shadowOpacity = 0.6;
 			
 		} completion:^(BOOL finished) {
 			
 		}];
 	}
+}
+
+
+
+
+- (IBAction)deactivateScanner:(id)sender;
+{
+	[self.session stopRunning];
+	
+	self.scannerViewHeightConstraint.constant = 200;
+	[self.scrollView setNeedsUpdateConstraints];
+	
+	// Animate the scanner out of full screen
+	[UIView animateWithDuration:0.4 animations:^{
+		
+		[self.scrollView layoutIfNeeded];
+		
+		// Fade out the auxillery controls
+		self.auxView.alpha = 1.0;
+		self.backButton.alpha = 1.0;
+		
+		// Move the cancel view into frame
+		_cancelScanView.center = CGPointMake(_cancelScanView.bounds.size.width/2, self.scrollView.bounds.size.height + (_cancelScanView.bounds.size.height/2));
+		_cancelScanView.layer.shadowOpacity = 0.2;
+		
+	} completion:^(BOOL finished) {
+		
+		self.backButton.enabled = YES;
+
+		[_cancelScanView removeFromSuperview];
+		_cancelScanView = nil;
+		_scannerIsShown = NO;
+		
+	}];
 }
 @end
