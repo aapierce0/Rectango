@@ -24,6 +24,7 @@
 - (IBAction)createBogusCard:(id)sender;
 - (IBAction)submitURL:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UILabel *tapToScanLabel;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 - (IBAction)dismiss;
 
