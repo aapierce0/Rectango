@@ -53,7 +53,6 @@
                                 <segue destination="TTU-ei-dyC" kind="presentation" id="rhu-f2-zhY"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="bbc-86-HiP"/>
                     </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OKI-zv-ImG" userLabel="First Responder" sceneMemberID="firstResponder"/>
