@@ -61,9 +61,11 @@
     // Do any additional setup after loading the view.
 	
     // Add buttons to the right of the navigation bar
-    UIBarButtonItem *deleteAll = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteAll:)];
-    self.navigationItem.rightBarButtonItem = deleteAll;
-    
+    UIBarButtonItem *deleteAll =	[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash		target:self action:@selector(deleteAll:)];
+	UIBarButtonItem *compose =		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose	target:self action:@selector(composeDigidexCard:)];
+	self.navigationItem.rightBarButtonItems = @[deleteAll, compose];
+	
+	
 	CHTCollectionViewWaterfallLayout *waterfallLayout = (CHTCollectionViewWaterfallLayout *)self.collectionViewLayout;
 	
 	waterfallLayout.sectionInset = UIEdgeInsetsMake(8, 8, 8, 8);
@@ -251,5 +253,56 @@
     
     [self presentViewController:alert animated:YES completion:nil];
 }
+
+- (IBAction)composeDigidexCard:(id)sender {
+	
+	// First, upload the image...
+	UIImage *cardImage = [UIImage imageNamed:@"businessCard"];
+	NSData *pngImageData = UIImagePNGRepresentation(cardImage);
+	
+	NSURL *digidexImageUploadURL = [NSURL URLWithString:@"http://localhost:8888d/uploadImage.php"];
+	NSMutableURLRequest *imageUploadRequest = [NSMutableURLRequest requestWithURL:digidexImageUploadURL];
+	[imageUploadRequest setHTTPMethod:@"POST"];
+	[imageUploadRequest setHTTPBody:pngImageData];
+	
+	// Send the request to upload the image.
+	[NSURLConnection sendAsynchronousRequest:imageUploadRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+		
+		// use the returned URL
+		NSString *imageURL = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+		NSLog(@"Image Upload complete... image URL: %@", imageURL);
+		
+		NSString *bodyString = [NSString stringWithFormat:@"{\"name\":\"Avery Pierce\", \"occupation\":\"Digidex Maniac\", \"_cardURL\": \"%@\"}", imageURL];
+		NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+		
+		
+		NSURL *digidexServerURL = [NSURL URLWithString:@"http://bloviations.net/digidex/digidex.php"];
+		NSMutableURLRequest *createCardRequest = [NSMutableURLRequest requestWithURL:digidexServerURL];
+		[createCardRequest setHTTPMethod:@"POST"];
+		
+		[createCardRequest setHTTPBody:bodyData];
+		
+		[NSURLConnection sendAsynchronousRequest:createCardRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+			if (connectionError) {
+				NSLog(@"A connection error occurred... %@", connectionError);
+			} else {
+				NSString *newDigidexURLString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+				NSURL *newDigidexURL = [NSURL URLWithString:newDigidexURLString];
+				
+				[[UIApplication sharedApplication] openURL:newDigidexURL];
+			}
+		}];
+	}];
+	
+	
+	
+}
+
+
+
+
+
+
+
 
 @end
