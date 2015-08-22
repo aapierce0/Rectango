@@ -65,9 +65,9 @@
 		self.title = [self.selectedCard guessedName];
 		
         self.navigationItem.leftItemsSupplementBackButton = YES;
-        self.navigationItem.leftBarButtonItem =     [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteCard)];
+        self.navigationItem.leftBarButtonItem =     [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteCard:)];
         
-        self.navigationItem.rightBarButtonItem =    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareCard)];
+        self.navigationItem.rightBarButtonItem =    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareCard:)];
         if (!self.selectedCard.originalURL) {
             self.navigationItem.rightBarButtonItem.enabled = NO;
         }
@@ -92,7 +92,7 @@
 }
 
 
-- (void)deleteCard;
+- (void)deleteCard:(id)sender;
 {
 	
 	// Display a confirmation dialog
@@ -121,15 +121,18 @@
 	// Add the actions to the alert
 	[alert addAction:deleteAction];
 	[alert addAction:cancelAction];
+    
+    alert.popoverPresentationController.barButtonItem = sender;
 	
 
 	[self presentViewController:alert animated:YES completion:nil];
 }
 
 
-- (void)shareCard;
+- (void)shareCard:(id)sender;
 {
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.selectedCard.digidexURL, self.selectedCard.cardImage] applicationActivities:nil];
+    activityViewController.popoverPresentationController.barButtonItem = sender;
     [self presentViewController:activityViewController animated:YES completion:^{
         
     }];

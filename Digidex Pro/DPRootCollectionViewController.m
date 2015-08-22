@@ -252,6 +252,8 @@
     [alert addAction:deleteAction];
     [alert addAction:cancelAction];
     
+    alert.popoverPresentationController.barButtonItem = sender;
+    
     
     [self presentViewController:alert animated:YES completion:nil];
 }
