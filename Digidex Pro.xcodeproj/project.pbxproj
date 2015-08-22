@@ -81,7 +81,7 @@
 		2C42BE431B83979B00475433 /* HTMLNode+XPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HTMLNode+XPath.h"; sourceTree = "<group>"; };
 		2C42BE441B83979B00475433 /* HTMLNode+XPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HTMLNode+XPath.m"; sourceTree = "<group>"; };
 		2C42BE491B8397E800475433 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
-		2C64AEC11B8667A2009CD7AE /* businessCard.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = businessCard.jpg; path = ../../../Downloads/businessCard.jpg; sourceTree = "<group>"; };
+		2C64AEC11B8667A2009CD7AE /* businessCard.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = businessCard.jpg; sourceTree = "<group>"; };
 		2C64AEC41B8678B1009CD7AE /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		2C64AEC51B8678B1009CD7AE /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		2C64AEC61B8678B1009CD7AE /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
