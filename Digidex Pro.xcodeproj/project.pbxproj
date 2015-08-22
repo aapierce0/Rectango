@@ -27,6 +27,7 @@
 		2C64AEDD1B8678B1009CD7AE /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C64AED21B8678B1009CD7AE /* AFURLRequestSerialization.m */; };
 		2C64AEDE1B8678B1009CD7AE /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C64AED41B8678B1009CD7AE /* AFURLResponseSerialization.m */; };
 		2C64AEDF1B8678B1009CD7AE /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C64AED61B8678B1009CD7AE /* AFURLSessionManager.m */; };
+		2CAEE00A1B88FED000989C1C /* DPCreateCardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEE0091B88FED000989C1C /* DPCreateCardTableViewController.m */; };
 		2CF994911B79443000140B3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994901B79443000140B3B /* Foundation.framework */; };
 		2CF994931B79443000140B3B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994921B79443000140B3B /* CoreGraphics.framework */; };
 		2CF994951B79443000140B3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994941B79443000140B3B /* UIKit.framework */; };
@@ -101,6 +102,8 @@
 		2C64AED41B8678B1009CD7AE /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
 		2C64AED51B8678B1009CD7AE /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
 		2C64AED61B8678B1009CD7AE /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
+		2CAEE0081B88FED000989C1C /* DPCreateCardTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPCreateCardTableViewController.h; sourceTree = "<group>"; };
+		2CAEE0091B88FED000989C1C /* DPCreateCardTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCreateCardTableViewController.m; sourceTree = "<group>"; };
 		2CF9948D1B79443000140B3B /* Digidex Pro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Digidex Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF994901B79443000140B3B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2CF994921B79443000140B3B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -265,6 +268,8 @@
 				2CF994CC1B7949F400140B3B /* DPRootCollectionViewController.m */,
 				2C2649401B7A5C03000BEC40 /* DPCardCellView.h */,
 				2C2649411B7A5C03000BEC40 /* DPCardCellView.m */,
+				2CAEE0081B88FED000989C1C /* DPCreateCardTableViewController.h */,
+				2CAEE0091B88FED000989C1C /* DPCreateCardTableViewController.m */,
 				2CFBC9D41B7B93D200705932 /* Detail Table View */,
 				C69CFC151B811FB200D98C7D /* QR Code Scanner */,
 				2CF994AB1B79443000140B3B /* Images.xcassets */,
@@ -447,6 +452,7 @@
 				2C64AED91B8678B1009CD7AE /* AFHTTPSessionManager.m in Sources */,
 				2C26493B1B7996D3000BEC40 /* CardDataModel.xcdatamodeld in Sources */,
 				2CFBC9D01B7B93B700705932 /* DPTitleTableViewCell.m in Sources */,
+				2CAEE00A1B88FED000989C1C /* DPCreateCardTableViewController.m in Sources */,
 				2C64AEDC1B8678B1009CD7AE /* AFURLConnectionOperation.m in Sources */,
 				2C64AEDD1B8678B1009CD7AE /* AFURLRequestSerialization.m in Sources */,
 				2C64AEDF1B8678B1009CD7AE /* AFURLSessionManager.m in Sources */,
