@@ -11,6 +11,8 @@
 #import "DPCardCellView.h"
 #import "DPDetailTableViewController.h"
 
+#import "AFNetworking.h"
+
 #define CELL_COUNT 4
 #define CELL_IDENTIFIER @"Business Card"
 #define HEADER_IDENTIFIER @"WaterfallHeader"
@@ -256,45 +258,57 @@
 
 - (IBAction)composeDigidexCard:(id)sender {
 	
+	
+	NSString *baseURLString = @"http://bloviations.net/digidex";
+	
+	
 	// First, upload the image...
-	UIImage *cardImage = [UIImage imageNamed:@"businessCard"];
-	NSData *pngImageData = UIImagePNGRepresentation(cardImage);
+	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
 	
-	NSURL *digidexImageUploadURL = [NSURL URLWithString:@"http://localhost:8888d/uploadImage.php"];
-	NSMutableURLRequest *imageUploadRequest = [NSMutableURLRequest requestWithURL:digidexImageUploadURL];
-	[imageUploadRequest setHTTPMethod:@"POST"];
-	[imageUploadRequest setHTTPBody:pngImageData];
+	manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+	manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", nil];
 	
-	// Send the request to upload the image.
-	[NSURLConnection sendAsynchronousRequest:imageUploadRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+	manager.requestSerializer = [AFJSONRequestSerializer serializer];
+	NSLog(@"manager request serializer: %@", manager.requestSerializer);
+	
+	[manager POST:[baseURLString stringByAppendingPathComponent:@"uploadImage.php"] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
 		
-		// use the returned URL
-		NSString *imageURL = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-		NSLog(@"Image Upload complete... image URL: %@", imageURL);
+		// Add the URL to the card image.
+		NSURL *filePath = [[NSBundle mainBundle] URLForResource:@"businessCard" withExtension:@".jpg"];
+		[formData appendPartWithFileURL:filePath name:@"image" error:nil];
 		
-		NSString *bodyString = [NSString stringWithFormat:@"{\"name\":\"Avery Pierce\", \"occupation\":\"Digidex Maniac\", \"_cardURL\": \"%@\"}", imageURL];
-		NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+	} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		
+		// The upload was a success. The file's final resting place is at the returned address.
+		NSString *imageURL = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+		
+		NSDictionary *parameters = @{@"name":@"Avery Pierce",
+									 @"_cardURL":imageURL,
+									 @"business":@"RR Donnelley"};
 		
 		
-		NSURL *digidexServerURL = [NSURL URLWithString:@"http://bloviations.net/digidex/digidex.php"];
-		NSMutableURLRequest *createCardRequest = [NSMutableURLRequest requestWithURL:digidexServerURL];
-		[createCardRequest setHTTPMethod:@"POST"];
 		
-		[createCardRequest setHTTPBody:bodyData];
-		
-		[NSURLConnection sendAsynchronousRequest:createCardRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-			if (connectionError) {
-				NSLog(@"A connection error occurred... %@", connectionError);
-			} else {
-				NSString *newDigidexURLString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-				NSURL *newDigidexURL = [NSURL URLWithString:newDigidexURLString];
-				
-				[[UIApplication sharedApplication] openURL:newDigidexURL];
-			}
+		// Submit the JSON request to create the card.
+		[manager POST:[baseURLString stringByAppendingPathComponent:@"digidex.php"] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+			
+			// Card returned. Here is the URL for it.
+			NSString *cardURLString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+			NSLog(@"card creation success! %@", cardURLString);
+			
+			// Show the card right away...
+			NSURL *cardURL = [NSURL URLWithString:cardURLString];
+			[[UIApplication sharedApplication] openURL:cardURL];
+			
+		} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+			
+			// The card creation failed somehow.
+			NSLog(@"Error: %@", error);
 		}];
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		
+		// The image upload failed somehow.
+		NSLog(@"Error: %@", error);
 	}];
-	
-	
 	
 }
 
