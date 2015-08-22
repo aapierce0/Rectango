@@ -498,7 +498,7 @@
 				
 				NSArray *metaTags = [document.head childrenOfTag:@"meta"];
 				
-				NSLog(@"%li meta tags in the document.", metaTags.count);
+				NSLog(@"%li meta tags in the document.", (unsigned long)metaTags.count);
 				
 				// Run through the meta tags until we find one with the right name.
 				HTMLNode *selectedTag = nil;
