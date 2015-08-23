@@ -8,14 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DPCreateCardTableViewController : UITableViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
+@interface DPCreateCardTableViewController : UITableViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate> {
 	UIImage *_cardImage;
+	
+	NSString *_cardName;
+	NSMutableArray *_keyValuePairs;
 }
-
-@property (weak, nonatomic) IBOutlet UITableViewCell *cardImageViewTableCell;
-@property (weak, nonatomic) IBOutlet UIImageView *cardImageView;
-@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
-@property (weak, nonatomic) IBOutlet UITextView *detailsTextView;
 
 - (IBAction)saveData:(id)sender;
 - (IBAction)dismiss:(id)sender;

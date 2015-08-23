@@ -28,6 +28,11 @@
 		2C64AEDE1B8678B1009CD7AE /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C64AED41B8678B1009CD7AE /* AFURLResponseSerialization.m */; };
 		2C64AEDF1B8678B1009CD7AE /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C64AED61B8678B1009CD7AE /* AFURLSessionManager.m */; };
 		2CAEE00A1B88FED000989C1C /* DPCreateCardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEE0091B88FED000989C1C /* DPCreateCardTableViewController.m */; };
+		2CAEE00D1B8A61BE00989C1C /* DPTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEE00C1B8A61BE00989C1C /* DPTextFieldTableViewCell.m */; };
+		2CAEE0111B8A62D300989C1C /* DPEditableKeyValueTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEE0101B8A62D300989C1C /* DPEditableKeyValueTableViewCell.m */; };
+		2CAEE0141B8A645300989C1C /* DPLargeButtonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEE0131B8A645300989C1C /* DPLargeButtonTableViewCell.m */; };
+		2CAEE0171B8A729700989C1C /* DPTableViewTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEE0161B8A729700989C1C /* DPTableViewTextField.m */; };
+		2CAEE0191B8A7BFA00989C1C /* uploadPlaceholderImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CAEE0181B8A7BFA00989C1C /* uploadPlaceholderImage.png */; };
 		2CF994911B79443000140B3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994901B79443000140B3B /* Foundation.framework */; };
 		2CF994931B79443000140B3B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994921B79443000140B3B /* CoreGraphics.framework */; };
 		2CF994951B79443000140B3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994941B79443000140B3B /* UIKit.framework */; };
@@ -103,6 +108,15 @@
 		2C64AED61B8678B1009CD7AE /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
 		2CAEE0081B88FED000989C1C /* DPCreateCardTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPCreateCardTableViewController.h; sourceTree = "<group>"; };
 		2CAEE0091B88FED000989C1C /* DPCreateCardTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCreateCardTableViewController.m; sourceTree = "<group>"; };
+		2CAEE00B1B8A61BE00989C1C /* DPTextFieldTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPTextFieldTableViewCell.h; sourceTree = "<group>"; };
+		2CAEE00C1B8A61BE00989C1C /* DPTextFieldTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPTextFieldTableViewCell.m; sourceTree = "<group>"; };
+		2CAEE00F1B8A62D300989C1C /* DPEditableKeyValueTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEditableKeyValueTableViewCell.h; sourceTree = "<group>"; };
+		2CAEE0101B8A62D300989C1C /* DPEditableKeyValueTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPEditableKeyValueTableViewCell.m; sourceTree = "<group>"; };
+		2CAEE0121B8A645300989C1C /* DPLargeButtonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPLargeButtonTableViewCell.h; sourceTree = "<group>"; };
+		2CAEE0131B8A645300989C1C /* DPLargeButtonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPLargeButtonTableViewCell.m; sourceTree = "<group>"; };
+		2CAEE0151B8A729700989C1C /* DPTableViewTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPTableViewTextField.h; sourceTree = "<group>"; };
+		2CAEE0161B8A729700989C1C /* DPTableViewTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPTableViewTextField.m; sourceTree = "<group>"; };
+		2CAEE0181B8A7BFA00989C1C /* uploadPlaceholderImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uploadPlaceholderImage.png; sourceTree = "<group>"; };
 		2CF9948D1B79443000140B3B /* Digidex Pro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Digidex Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF994901B79443000140B3B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2CF994921B79443000140B3B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -220,6 +234,24 @@
 			name = AFNetworking;
 			sourceTree = "<group>";
 		};
+		2CAEE00E1B8A61D800989C1C /* Create new card */ = {
+			isa = PBXGroup;
+			children = (
+				2CAEE0181B8A7BFA00989C1C /* uploadPlaceholderImage.png */,
+				2CAEE0081B88FED000989C1C /* DPCreateCardTableViewController.h */,
+				2CAEE0091B88FED000989C1C /* DPCreateCardTableViewController.m */,
+				2CAEE00B1B8A61BE00989C1C /* DPTextFieldTableViewCell.h */,
+				2CAEE00C1B8A61BE00989C1C /* DPTextFieldTableViewCell.m */,
+				2CAEE00F1B8A62D300989C1C /* DPEditableKeyValueTableViewCell.h */,
+				2CAEE0101B8A62D300989C1C /* DPEditableKeyValueTableViewCell.m */,
+				2CAEE0121B8A645300989C1C /* DPLargeButtonTableViewCell.h */,
+				2CAEE0131B8A645300989C1C /* DPLargeButtonTableViewCell.m */,
+				2CAEE0151B8A729700989C1C /* DPTableViewTextField.h */,
+				2CAEE0161B8A729700989C1C /* DPTableViewTextField.m */,
+			);
+			name = "Create new card";
+			sourceTree = "<group>";
+		};
 		2CF994841B79443000140B3B = {
 			isa = PBXGroup;
 			children = (
@@ -265,8 +297,7 @@
 				2CF994CC1B7949F400140B3B /* DPRootCollectionViewController.m */,
 				2C2649401B7A5C03000BEC40 /* DPCardCellView.h */,
 				2C2649411B7A5C03000BEC40 /* DPCardCellView.m */,
-				2CAEE0081B88FED000989C1C /* DPCreateCardTableViewController.h */,
-				2CAEE0091B88FED000989C1C /* DPCreateCardTableViewController.m */,
+				2CAEE00E1B8A61D800989C1C /* Create new card */,
 				2CFBC9D41B7B93D200705932 /* Detail Table View */,
 				C69CFC151B811FB200D98C7D /* QR Code Scanner */,
 				2CF994AB1B79443000140B3B /* Images.xcassets */,
@@ -413,6 +444,7 @@
 				2CF994AC1B79443000140B3B /* Images.xcassets in Resources */,
 				2CF994A41B79443000140B3B /* Main_iPhone.storyboard in Resources */,
 				2CF9949B1B79443000140B3B /* InfoPlist.strings in Resources */,
+				2CAEE0191B8A7BFA00989C1C /* uploadPlaceholderImage.png in Resources */,
 				C6476DE41B803B840065D89F /* Launch Screen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,11 +474,14 @@
 				2C26493D1B7996D3000BEC40 /* DKDataStore.m in Sources */,
 				2CFBC9CD1B7B8FF800705932 /* DPImageTableViewCell.m in Sources */,
 				2CF994A11B79443000140B3B /* DPAppDelegate.m in Sources */,
+				2CAEE00D1B8A61BE00989C1C /* DPTextFieldTableViewCell.m in Sources */,
 				2CF9949D1B79443000140B3B /* main.m in Sources */,
 				2C2649421B7A5C03000BEC40 /* DPCardCellView.m in Sources */,
 				2C26493C1B7996D3000BEC40 /* DigidexKit.m in Sources */,
+				2CAEE0141B8A645300989C1C /* DPLargeButtonTableViewCell.m in Sources */,
 				2C64AED91B8678B1009CD7AE /* AFHTTPSessionManager.m in Sources */,
 				2C26493B1B7996D3000BEC40 /* CardDataModel.xcdatamodeld in Sources */,
+				2CAEE0171B8A729700989C1C /* DPTableViewTextField.m in Sources */,
 				2CFBC9D01B7B93B700705932 /* DPTitleTableViewCell.m in Sources */,
 				2CAEE00A1B88FED000989C1C /* DPCreateCardTableViewController.m in Sources */,
 				2C64AEDC1B8678B1009CD7AE /* AFURLConnectionOperation.m in Sources */,
@@ -460,6 +495,7 @@
 				2C42BE461B83979B00475433 /* HTMLNode.m in Sources */,
 				2C64AEDA1B8678B1009CD7AE /* AFNetworkReachabilityManager.m in Sources */,
 				2CF994CA1B79495600140B3B /* CHTCollectionViewWaterfallLayout.m in Sources */,
+				2CAEE0111B8A62D300989C1C /* DPEditableKeyValueTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
