@@ -33,6 +33,7 @@
 		2CAEE0141B8A645300989C1C /* DPLargeButtonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEE0131B8A645300989C1C /* DPLargeButtonTableViewCell.m */; };
 		2CAEE0171B8A729700989C1C /* DPTableViewTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEE0161B8A729700989C1C /* DPTableViewTextField.m */; };
 		2CAEE0191B8A7BFA00989C1C /* uploadPlaceholderImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CAEE0181B8A7BFA00989C1C /* uploadPlaceholderImage.png */; };
+		2CAEE01B1B8A846400989C1C /* AppIcon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2CAEE01A1B8A846400989C1C /* AppIcon.jpg */; };
 		2CF994911B79443000140B3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994901B79443000140B3B /* Foundation.framework */; };
 		2CF994931B79443000140B3B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994921B79443000140B3B /* CoreGraphics.framework */; };
 		2CF994951B79443000140B3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994941B79443000140B3B /* UIKit.framework */; };
@@ -117,6 +118,7 @@
 		2CAEE0151B8A729700989C1C /* DPTableViewTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPTableViewTextField.h; sourceTree = "<group>"; };
 		2CAEE0161B8A729700989C1C /* DPTableViewTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPTableViewTextField.m; sourceTree = "<group>"; };
 		2CAEE0181B8A7BFA00989C1C /* uploadPlaceholderImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uploadPlaceholderImage.png; sourceTree = "<group>"; };
+		2CAEE01A1B8A846400989C1C /* AppIcon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = AppIcon.jpg; sourceTree = "<group>"; };
 		2CF9948D1B79443000140B3B /* Digidex Pro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Digidex Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF994901B79443000140B3B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2CF994921B79443000140B3B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -287,6 +289,7 @@
 		2CF994961B79443000140B3B /* Digidex Pro */ = {
 			isa = PBXGroup;
 			children = (
+				2CAEE01A1B8A846400989C1C /* AppIcon.jpg */,
 				2C64AEC11B8667A2009CD7AE /* businessCard.jpg */,
 				2CF9949F1B79443000140B3B /* DPAppDelegate.h */,
 				2CF994A01B79443000140B3B /* DPAppDelegate.m */,
@@ -446,6 +449,7 @@
 				2CF9949B1B79443000140B3B /* InfoPlist.strings in Resources */,
 				2CAEE0191B8A7BFA00989C1C /* uploadPlaceholderImage.png in Resources */,
 				C6476DE41B803B840065D89F /* Launch Screen.xib in Resources */,
+				2CAEE01B1B8A846400989C1C /* AppIcon.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
