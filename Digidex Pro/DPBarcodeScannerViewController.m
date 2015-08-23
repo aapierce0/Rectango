@@ -207,7 +207,10 @@
 
 - (IBAction)activateScanner:(id)sender {
 	
-	if ([self setupScanner] && !_scannerIsShown) {
+    if (_scannerIsShown)
+        return; // The scanner is already shown. Turn back.
+    
+	if ([self setupScanner]) {
 		
 		_scannerIsShown = YES;
 		
