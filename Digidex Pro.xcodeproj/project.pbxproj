@@ -35,7 +35,6 @@
 		2CF9949D1B79443000140B3B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF9949C1B79443000140B3B /* main.m */; };
 		2CF994A11B79443000140B3B /* DPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF994A01B79443000140B3B /* DPAppDelegate.m */; };
 		2CF994A41B79443000140B3B /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF994A21B79443000140B3B /* Main_iPhone.storyboard */; };
-		2CF994A71B79443000140B3B /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF994A51B79443000140B3B /* Main_iPad.storyboard */; };
 		2CF994AC1B79443000140B3B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CF994AB1B79443000140B3B /* Images.xcassets */; };
 		2CF994B31B79443000140B3B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994B21B79443000140B3B /* XCTest.framework */; };
 		2CF994B41B79443000140B3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994901B79443000140B3B /* Foundation.framework */; };
@@ -115,7 +114,6 @@
 		2CF9949F1B79443000140B3B /* DPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DPAppDelegate.h; sourceTree = "<group>"; };
 		2CF994A01B79443000140B3B /* DPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DPAppDelegate.m; sourceTree = "<group>"; };
 		2CF994A31B79443000140B3B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
-		2CF994A61B79443000140B3B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		2CF994AB1B79443000140B3B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2CF994B11B79443000140B3B /* Digidex ProTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Digidex ProTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF994B21B79443000140B3B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -261,7 +259,6 @@
 				2CF9949F1B79443000140B3B /* DPAppDelegate.h */,
 				2CF994A01B79443000140B3B /* DPAppDelegate.m */,
 				2CF994A21B79443000140B3B /* Main_iPhone.storyboard */,
-				2CF994A51B79443000140B3B /* Main_iPad.storyboard */,
 				2C26491F1B799566000BEC40 /* Digidex Kit */,
 				2C42BE481B8397A200475433 /* Vendor */,
 				2CF994CB1B7949F400140B3B /* DPRootCollectionViewController.h */,
@@ -412,7 +409,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CF994A71B79443000140B3B /* Main_iPad.storyboard in Resources */,
 				2C64AEC21B8667A2009CD7AE /* businessCard.jpg in Resources */,
 				2CF994AC1B79443000140B3B /* Images.xcassets in Resources */,
 				2CF994A41B79443000140B3B /* Main_iPhone.storyboard in Resources */,
@@ -500,14 +496,6 @@
 				2CF994A31B79443000140B3B /* Base */,
 			);
 			name = Main_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		2CF994A51B79443000140B3B /* Main_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2CF994A61B79443000140B3B /* Base */,
-			);
-			name = Main_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		2CF994BB1B79443000140B3B /* InfoPlist.strings */ = {

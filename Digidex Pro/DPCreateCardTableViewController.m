@@ -35,6 +35,17 @@
 
 #pragma mark - Table view data source
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+	if (indexPath.section == 0 && _cardImage != nil) {
+		// This is the image section... return the aspect height.
+		CGFloat newHeight = (tableView.bounds.size.width / _cardImage.size.width) * _cardImage.size.height;
+		return newHeight;
+	}
+	
+	return 44;
+}
+
 //- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 //#warning Potentially incomplete method implementation.
 //    // Return the number of sections.
@@ -136,6 +147,22 @@
 	
 	
 	
+	// At this point, the file will begin saving. Display the loading dialog.
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Saving..."
+																   message:@"\n\n"
+															preferredStyle:UIAlertControllerStyleAlert];
+	
+	UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+	
+	spinner.center = CGPointMake(130.5, 65.5);
+	spinner.color = [UIColor blackColor];
+	[spinner startAnimating];
+	[alert.view addSubview:spinner];
+	[self presentViewController:alert animated:NO completion:nil];
+	
+	
+	
+	
 	
 	
 	// The results object will represent the new card.
@@ -154,8 +181,10 @@
 	[manager POST:[baseURLString stringByAppendingPathComponent:@"uploadImage.php"] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
 		
 		// Add the URL to the card image.
-		NSURL *filePath = [[NSBundle mainBundle] URLForResource:@"businessCard" withExtension:@".jpg"];
-		[formData appendPartWithFileURL:filePath name:@"image" error:nil];
+		if (_cardImage != nil) {
+			NSData *PNGImageData = UIImagePNGRepresentation(_cardImage);
+			[formData appendPartWithFileData:PNGImageData name:@"image" fileName:@"businesCard" mimeType:@"image/png"];
+		}
 		
 	} success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		
@@ -171,6 +200,8 @@
 		
 		// Submit the JSON request to create the card.
 		[manager POST:[baseURLString stringByAppendingPathComponent:@"digidex.php"] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+			
+			[alert dismissViewControllerAnimated:YES completion:^{}];
 			
 			// Card returned. Here is the URL for it.
 			NSString *cardURLString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
@@ -189,11 +220,15 @@
 			
 			// The card creation failed somehow.
 			NSLog(@"Error: %@", error);
+			
+			[alert dismissViewControllerAnimated:YES completion:^{}];
 		}];
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		
 		// The image upload failed somehow.
 		NSLog(@"Error: %@", error);
+		
+		[alert dismissViewControllerAnimated:YES completion:^{}];
 	}];
 }
 
@@ -204,4 +239,31 @@
 		
 	}];
 }
+
+- (IBAction)selectCardImage:(id)sender {
+	
+	// Show the image picker.
+	UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+	imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+	imagePicker.delegate = self;
+	
+	[self presentViewController:imagePicker animated:YES completion:^{}];
+	
+}
+
+
+#pragma mark - UIImagePickerControllerDelegate methods
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info;
+{
+	
+	// When the user has selected their image, show it in the card image view.
+	_cardImage = info[@"UIImagePickerControllerOriginalImage"];
+	self.cardImageView.image = _cardImage;
+	
+	[self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+	
+	[picker dismissViewControllerAnimated:YES completion:^{}];
+}
+
 @end
