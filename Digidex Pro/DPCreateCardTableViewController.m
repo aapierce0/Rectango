@@ -16,6 +16,37 @@
 
 #import "AFNetworking.h"
 
+// UPLOAD Maximum is 2 MB ~= 2,000,000 B
+#define UPLOAD_TARGET_SIZE 2000000.0
+
+@interface UIImage (resizeImage)
+
++ (UIImage*)imagewithImage:(UIImage*)image scaledByFactor:(CGFloat)scaleFactor;
++ (UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize;
+
+@end
+
+@implementation UIImage (resizeImage)
+
++ (UIImage*)imagewithImage:(UIImage*)image scaledByFactor:(CGFloat)scaleFactor; {
+	
+	CGSize newSize = CGSizeMake(image.size.width * scaleFactor, image.size.height * scaleFactor);
+	return [UIImage imageWithImage:image scaledToSize:newSize];
+}
+
++ (UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize; {
+	
+	UIGraphicsBeginImageContext( newSize );
+	[image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+	UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	
+	return newImage;
+}
+
+@end
+
+
 @interface DPCreateCardTableViewController ()
 
 @end
@@ -263,8 +294,35 @@
 		
 		// Add the URL to the card image.
 		if (_cardImage != nil) {
-			NSData *PNGImageData = UIImagePNGRepresentation(_cardImage);
-			[formData appendPartWithFileData:PNGImageData name:@"image" fileName:@"businesCard" mimeType:@"image/png"];
+			
+			// Scale the image down so that it isn't huge.
+			// We want to scale the image down enough so that it's 2MB or less.
+			
+			NSData *uploadImageData = nil;
+			NSData *originalImageData =	UIImagePNGRepresentation(_cardImage);
+			
+			if (originalImageData.length < UPLOAD_TARGET_SIZE) {
+				
+				// If the original image is less than the maximum, then we don't need to do anything.
+				uploadImageData = originalImageData;
+			} else {
+				
+				// Compute how much the image size needs to be reduced.
+				CGFloat fileReductionFactor = UPLOAD_TARGET_SIZE / originalImageData.length;
+				
+				
+				// If you scale a rectangle down by 50% (1/2) in each coordinate, the resulting area is 25% (1/4) of the original.
+				// Therefore: The desired image scale factor is approx. the square root of the target size reduction.
+				CGFloat imageScaleFactor = sqrtf(fileReductionFactor);
+				imageScaleFactor = imageScaleFactor * 0.9; // Reduce it by another 10% for goot measure...
+				
+				UIImage *scaledImage = [UIImage imagewithImage:_cardImage scaledByFactor:imageScaleFactor];
+				uploadImageData = UIImagePNGRepresentation(scaledImage);
+			}
+			
+			
+			NSLog(@"Original Image size: %@; scaled image size: %@", @(originalImageData.length), @(uploadImageData.length));
+			[formData appendPartWithFileData:uploadImageData name:@"image" fileName:@"businessCard.png" mimeType:@"image/png"];
 		}
 		
 	} success:^(AFHTTPRequestOperation *operation, id responseObject) {
