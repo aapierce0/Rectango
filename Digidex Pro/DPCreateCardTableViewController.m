@@ -61,10 +61,38 @@
 	_cardImage = [UIImage imageNamed:@"uploadPlaceholderImage"];
 	_cardName = @"";
 	
+	
 	_keyValuePairs = [[NSMutableArray alloc] init];
-	[_keyValuePairs addObject:[@{@"key":@"email address", @"value":@""} mutableCopy]];
-	[_keyValuePairs addObject:[@{@"key":@"phone", @"value":@""} mutableCopy]];
-	[_keyValuePairs addObject:[@{@"key":@"", @"value":@""} mutableCopy]];
+	if (self.initialKeyValuePairs) {
+		
+		// Copy the key-value pairs here.
+		for (NSDictionary *pair in self.initialKeyValuePairs) {
+			
+			if ([pair[@"key"] isEqualToString:@"name"]) {
+				
+				if (pair[@"value"]) {
+					_cardName = pair[@"value"];
+				}
+				
+			} else if (pair[@"key"] != nil) {
+				
+				// Make sure the value isn't nil. If it is, use an empty string instead.
+				NSString *value = pair[@"value"];
+				if (value == nil)
+					value = @"";
+				
+				[_keyValuePairs addObject:[@{@"key":pair[@"key"], @"value":value} mutableCopy]];
+			}
+		}
+		
+	} else {
+		
+		// Use default key-value pairs.
+		[_keyValuePairs addObject:[@{@"key":@"email address", @"value":@""} mutableCopy]];
+		[_keyValuePairs addObject:[@{@"key":@"phone", @"value":@""} mutableCopy]];
+		[_keyValuePairs addObject:[@{@"key":@"", @"value":@""} mutableCopy]];
+	}
+	
 	
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -137,6 +165,7 @@
 		cellTextField.delegate = self;
 		cellTextField.indexPath = indexPath;
 		cellTextField.type = DPTableViewTextFieldTypeName;
+		cellTextField.text = _cardName;
 		
 	} else if (indexPath.section - 2 < _keyValuePairs.count) {
 		

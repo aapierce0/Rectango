@@ -7,6 +7,8 @@
 //
 
 #import "DPCreatePickerTableViewController.h"
+#import "DPCreateCardTableViewController.h"
+
 
 @interface DPCreatePickerTableViewController ()
 
@@ -37,6 +39,60 @@
 	[self.navigationController dismissViewControllerAnimated:YES completion:^{
 		
 	}];
+}
+
+- (IBAction)importFromContacts:(id)sender
+{
+	ABPeoplePickerNavigationController *peoplePicker = [[ABPeoplePickerNavigationController alloc] init];
+	peoplePicker.peoplePickerDelegate = self;
+	[self presentViewController:peoplePicker animated:YES completion:^{
+		
+	}];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+	if ([[[tableView cellForRowAtIndexPath:indexPath] reuseIdentifier] isEqualToString:@"Import From Contacts"]) {
+		[self importFromContacts:self];
+	}
+}
+
+
+#pragma mark - ABPeoplePickerDelegate methods
+- (void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person;
+{
+	
+	// Capture this metadata from the contact
+	NSString *name = (__bridge NSString*)ABRecordCopyCompositeName(person);
+	
+	
+	
+	ABMultiValueRef emails = ABRecordCopyValue(person, kABPersonEmailProperty);
+	NSString *email = @"";
+	if (ABMultiValueGetCount(emails) > 0) {
+		email = (__bridge NSString *)ABMultiValueCopyValueAtIndex(emails, 0);
+	}
+	
+	ABMultiValueRef phones = ABRecordCopyValue(person, kABPersonPhoneProperty);
+	NSString *phone = @"";
+	if (ABMultiValueGetCount(phones) > 0) {
+		phone = (__bridge NSString *)ABMultiValueCopyValueAtIndex(phones, 0);
+	}
+	
+	NSArray *keyValuePairs = @[@{@"key":@"name", @"value":name},
+							   @{@"key":@"email", @"value":email},
+							   @{@"key":@"phone", @"value":phone}];
+	
+	
+	
+	UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPhone"
+															 bundle: nil];
+	
+	DPCreateCardTableViewController *controller = (DPCreateCardTableViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"CreateCardTableViewController"];
+	controller.initialKeyValuePairs = keyValuePairs;
+	
+	[self.navigationController pushViewController:controller animated:YES];
+	
 }
 
 /*

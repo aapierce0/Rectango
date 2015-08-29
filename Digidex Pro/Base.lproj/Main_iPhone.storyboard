@@ -214,7 +214,7 @@
         <!--Create Card Table View Controller-->
         <scene sceneID="Cqy-l0-So1">
             <objects>
-                <tableViewController id="pX7-Mf-zHk" customClass="DPCreateCardTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="CreateCardTableViewController" id="pX7-Mf-zHk" customClass="DPCreateCardTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="ecI-AB-KhH">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -361,12 +361,12 @@
                         <sections>
                             <tableViewSection id="Ncf-gv-0Jg">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="w7o-fw-on8" imageView="ZKv-ca-05h" style="IBUITableViewCellStyleDefault" id="tgd-8Y-nHR">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Import From Contacts" textLabel="w7o-fw-on8" imageView="ZKv-ca-05h" style="IBUITableViewCellStyleDefault" id="tgd-8Y-nHR">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tgd-8Y-nHR" id="2lk-oh-nJD">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Import From Contacts..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="w7o-fw-on8">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Import From Contacts..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="w7o-fw-on8">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -383,7 +383,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GPz-d8-T9s" id="sbU-MX-U4N">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Custom" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kz6-P1-3ld">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Create New" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kz6-P1-3ld">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -416,7 +416,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xtN-7M-zoi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2295" y="1152"/>
+            <point key="canvasLocation" x="2299" y="1152"/>
         </scene>
         <!--Detail Table View Controller-->
         <scene sceneID="3E5-cY-bwJ">

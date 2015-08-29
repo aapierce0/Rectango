@@ -15,6 +15,8 @@
 	NSMutableArray *_keyValuePairs;
 }
 
+@property (strong) NSArray *initialKeyValuePairs;
+
 - (IBAction)saveData:(id)sender;
 - (IBAction)dismiss:(id)sender;
 - (IBAction)selectCardImage:(id)sender;

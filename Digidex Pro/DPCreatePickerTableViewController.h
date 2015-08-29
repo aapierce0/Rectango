@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+@import AddressBookUI;
 
-@interface DPCreatePickerTableViewController : UITableViewController
+@interface DPCreatePickerTableViewController : UITableViewController <ABPeoplePickerNavigationControllerDelegate>
 
 - (IBAction)dismiss:(id)sender;
 
