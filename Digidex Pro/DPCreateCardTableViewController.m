@@ -16,8 +16,9 @@
 
 #import "AFNetworking.h"
 
-// UPLOAD Maximum is 2 MB ~= 2,000,000 B
-#define UPLOAD_TARGET_SIZE 2000000.0
+
+// UPLOAD Maximum is 1.5 MB ~= 1,500,000 B
+#define UPLOAD_TARGET_SIZE 1500000.0
 
 @interface UIImage (resizeImage)
 
@@ -296,7 +297,7 @@
 		if (_cardImage != nil) {
 			
 			// Scale the image down so that it isn't huge.
-			// We want to scale the image down enough so that it's 2MB or less.
+			// We want to scale the image down enough so that it's manageable
 			
 			NSData *uploadImageData = nil;
 			NSData *originalImageData =	UIImagePNGRepresentation(_cardImage);
