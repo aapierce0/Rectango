@@ -87,9 +87,15 @@
 		// This is the image section... return the aspect height.
 		CGFloat newHeight = (tableView.bounds.size.width / _cardImage.size.width) * _cardImage.size.height;
 		return newHeight;
+		
+	} else if (indexPath.section == 1 || indexPath.section - 2 >= _keyValuePairs.count) {
+		
+		// Name cell
+		return 44; // The default single cell height.
 	}
 	
-	return 44;
+	// All other cells use the editable key value format.
+	return [DPEditableKeyValueTableViewCell defaultRowHeight];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

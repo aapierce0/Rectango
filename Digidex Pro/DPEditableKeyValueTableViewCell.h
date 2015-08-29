@@ -15,4 +15,6 @@
 @property (weak, nonatomic) IBOutlet DPTableViewTextField *keyTextField;
 @property (weak, nonatomic) IBOutlet DPTableViewTextField *valueTextField;
 
++ (CGFloat)defaultRowHeight;
+
 @end
