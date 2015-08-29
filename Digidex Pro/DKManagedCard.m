@@ -143,10 +143,17 @@
 
 
 
+- (void)setCachedCardImage:(UIImage *)image;
+{
+	_cachedCardImage = image;
+}
+
 - (UIImage *)cardImage;
 {
 	if (_cardImage) {
 		return _cardImage;
+	} else if (_cachedCardImage) {
+		return _cachedCardImage;
 	} else {
 		return [UIImage imageNamed:@"placeholderCard.jpg"];
 	}

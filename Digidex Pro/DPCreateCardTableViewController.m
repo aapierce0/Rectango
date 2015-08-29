@@ -15,6 +15,7 @@
 #import "DPTableViewTextField.h"
 
 #import "AFNetworking.h"
+#import "DigidexKit.h"
 
 
 // UPLOAD Maximum is 1.5 MB ~= 1,500,000 B
@@ -260,19 +261,12 @@
 	
 	
 	
-	// At this point, the file will begin saving. Display the loading dialog.
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uploading..."
+	
+	// Display a dialog to indicate that data is being updated
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uploading Image..."
 																   message:@"\n\n\n"
 															preferredStyle:UIAlertControllerStyleAlert];
-	
-	
-	[self presentViewController:alert animated:NO completion:nil];
-	
-	UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-	spinner.center = CGPointMake(130.5, 65.5);
-	spinner.color = [UIColor blackColor];
-	[spinner startAnimating];
-	[alert.view addSubview:spinner];
+
 	
 	
 	
@@ -291,7 +285,7 @@
 	manager.requestSerializer = [AFJSONRequestSerializer serializer];
 	NSLog(@"manager request serializer: %@", manager.requestSerializer);
 	
-	[manager POST:[baseURLString stringByAppendingPathComponent:@"uploadImage.php"] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+	__block AFHTTPRequestOperation *activeOperation = [manager POST:[baseURLString stringByAppendingPathComponent:@"uploadImage.php"] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
 		
 		// Add the URL to the card image.
 		if (_cardImage != nil) {
@@ -321,12 +315,14 @@
 				uploadImageData = UIImagePNGRepresentation(scaledImage);
 			}
 			
-			
-			NSLog(@"Original Image size: %@; scaled image size: %@", @(originalImageData.length), @(uploadImageData.length));
 			[formData appendPartWithFileData:uploadImageData name:@"image" fileName:@"businessCard.png" mimeType:@"image/png"];
 		}
 		
 	} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		
+		
+		// Update the alert to indicate that the image upload has finished, and we are now creating the digidex record.
+		[alert setTitle:@"Creating Record..."];
 		
 		// The upload was a success. The file's final resting place is at the returned address.
 		NSString *imageURL = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
@@ -339,21 +335,20 @@
 		
 		
 		// Submit the JSON request to create the card.
-		[manager POST:[baseURLString stringByAppendingPathComponent:@"digidex.php"] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		activeOperation = [manager POST:[baseURLString stringByAppendingPathComponent:@"digidex.php"] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 			
+			activeOperation = nil;
 			[alert dismissViewControllerAnimated:YES completion:^{}];
 			
 			// Card returned. Here is the URL for it.
 			NSString *cardURLString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-			NSLog(@"card creation success! %@", cardURLString);
+			
+			NSURL *cardURL = [NSURL URLWithString:cardURLString];
+			DKManagedCard *card = [[DKDataStore sharedDataStore] addContactWithURL:cardURL];
+			[card setCachedCardImage:_cardImage];
 			
 			// dismiss this view controller.
-			[self.navigationController dismissViewControllerAnimated:YES completion:^{
-				
-				// Show the card right away...
-				NSURL *cardURL = [NSURL URLWithString:cardURLString];
-				[[UIApplication sharedApplication] openURL:cardURL];
-			}];
+			[self.navigationController dismissViewControllerAnimated:YES completion:^{}];
 			
 			
 		} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -361,15 +356,39 @@
 			// The card creation failed somehow.
 			NSLog(@"Error: %@", error);
 			
+			activeOperation = nil;
 			[alert dismissViewControllerAnimated:YES completion:^{}];
 		}];
+		
+		
+		
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		
 		// The image upload failed somehow.
 		NSLog(@"Error: %@", error);
 		
+		activeOperation = nil;
 		[alert dismissViewControllerAnimated:YES completion:^{}];
 	}];
+	
+	
+	
+	
+	
+	// The cancel button on the alert will kill the active request.
+	[alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+		[activeOperation cancel];
+		[alert dismissViewControllerAnimated:YES completion:^{}];
+	}]];
+	
+	[self presentViewController:alert animated:NO completion:nil];
+	
+	UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+	spinner.center = CGPointMake(130.5, 75.5);
+	spinner.color = [UIColor blackColor];
+	[spinner startAnimating];
+	[alert.view addSubview:spinner];
+
 }
 
 - (IBAction)dismiss:(id)sender

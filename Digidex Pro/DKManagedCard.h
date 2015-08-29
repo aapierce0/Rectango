@@ -14,7 +14,10 @@
 
 @interface DKManagedCard : NSManagedObject {
 	NSDictionary *_cardDictionary;
+	
 	UIImage *_cardImage;
+	UIImage *_cachedCardImage;
+	
 	CGSize _cardImageSize;
 	
 	NSArray *_filteredKeys;
@@ -38,6 +41,8 @@
 - (NSString*)guessedName;
 - (NSString*)guessedOrganization;
 - (NSString*)guessedOccupation;
+
+- (void)setCachedCardImage:(UIImage *)image;
 
 + (void)determineDigidexURLFromProvidedURL:(NSURL*)providedURL completion:(void (^)(NSURL *determinedURL))completion;
 
