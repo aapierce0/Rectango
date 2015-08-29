@@ -233,14 +233,14 @@
 																   message:@"\n\n\n"
 															preferredStyle:UIAlertControllerStyleAlert];
 	
-	UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 	
+	[self presentViewController:alert animated:NO completion:nil];
+	
+	UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 	spinner.center = CGPointMake(130.5, 65.5);
 	spinner.color = [UIColor blackColor];
 	[spinner startAnimating];
 	[alert.view addSubview:spinner];
-	[self presentViewController:alert animated:NO completion:nil];
-	
 	
 	
 	
