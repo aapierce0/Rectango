@@ -67,29 +67,76 @@
 	
 	
 	
-	ABMultiValueRef emails = ABRecordCopyValue(person, kABPersonEmailProperty);
-	NSString *email = @"";
-	if (ABMultiValueGetCount(emails) > 0) {
-		email = (__bridge NSString *)ABMultiValueCopyValueAtIndex(emails, 0);
+	NSArray *singleStringKeys =	@[@{@"organization":	@(kABPersonOrganizationProperty)},
+								  @{@"job title":		@(kABPersonJobTitleProperty)},
+								  @{@"department":		@(kABPersonDepartmentProperty)}];
+	
+	NSArray *multiStringKeys =	@[@{@"URL":				@(kABPersonURLProperty)},
+								  @{@"email":			@(kABPersonEmailProperty)},
+								  @{@"phone":			@(kABPersonPhoneProperty)}];
+	
+	
+	
+	NSMutableArray *keyValuePairs = [@[@{@"key":@"name", @"value": name}] mutableCopy];
+	
+	
+	for (NSDictionary *keyValuePair in singleStringKeys) {
+		
+		NSString *key = keyValuePair.allKeys[0];
+		NSString *stringValue = (__bridge NSString *)(ABRecordCopyValue(person, [keyValuePair[key] intValue]));
+		
+		if (stringValue && [stringValue length] > 0)
+			[keyValuePairs addObject:@{@"key":key, @"value":stringValue}];
+		
 	}
 	
-	ABMultiValueRef phones = ABRecordCopyValue(person, kABPersonPhoneProperty);
-	NSString *phone = @"";
-	if (ABMultiValueGetCount(phones) > 0) {
-		phone = (__bridge NSString *)ABMultiValueCopyValueAtIndex(phones, 0);
+	for (NSDictionary *keyValuePair in multiStringKeys) {
+		
+		NSString *key = keyValuePair.allKeys[0];
+		ABMultiValueRef multiValue = ABRecordCopyValue(person, [keyValuePair[key] intValue]);
+		long count = ABMultiValueGetCount(multiValue);
+		for (int i = 0; i < count; i++) {
+			
+			CFStringRef label = ABMultiValueCopyLabelAtIndex(multiValue, i);
+			NSString *localizedLabel = (__bridge NSString *)(ABAddressBookCopyLocalizedLabel(label));
+			
+			NSString *value = (__bridge NSString *)ABMultiValueCopyValueAtIndex(multiValue, i);
+			
+			if (value && [value length] > 0) {
+				[keyValuePairs addObject:@{@"key":[NSString stringWithFormat:@"%@ %@", localizedLabel, key], @"value":value}];
+			}
+		}
 	}
 	
-	NSArray *keyValuePairs = @[@{@"key":@"name", @"value":name},
-							   @{@"key":@"email", @"value":email},
-							   @{@"key":@"phone", @"value":phone}];
 	
+	// Address is a special case...
+	ABMultiValueRef addresses = ABRecordCopyValue(person, kABPersonAddressProperty);
+	long addressCount = ABMultiValueGetCount(addresses);
+	for (int i = 0; i < addressCount; i++) {
+		
+		CFStringRef label = ABMultiValueCopyLabelAtIndex(addresses, i);
+		NSString *localizedLabel = (__bridge NSString*)ABAddressBookCopyLocalizedLabel(label);
+		
+		CFDictionaryRef address = ABMultiValueCopyValueAtIndex(addresses, i);
+		
+		NSString *street =	CFDictionaryGetValue(address, kABPersonAddressStreetKey);
+		NSString *city =	CFDictionaryGetValue(address, kABPersonAddressCityKey);
+		NSString *state =	CFDictionaryGetValue(address, kABPersonAddressStateKey);
+		NSString *zip =		CFDictionaryGetValue(address, kABPersonAddressZIPKey);
+		NSString *country = CFDictionaryGetValue(address, kABPersonAddressCountryKey);
+		
+		NSString *addressString = [NSString stringWithFormat:@"%@\n%@, %@ %@\n%@", street, city, state, zip, country];
+		
+		[keyValuePairs addObject:@{@"key": [NSString stringWithFormat:@"%@ %@", localizedLabel, @"address"], @"value": addressString}];
+	}
+
 	
 	
 	UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPhone"
 															 bundle: nil];
 	
 	DPCreateCardTableViewController *controller = (DPCreateCardTableViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"CreateCardTableViewController"];
-	controller.initialKeyValuePairs = keyValuePairs;
+	controller.initialKeyValuePairs = [keyValuePairs copy];
 	
 	[self.navigationController pushViewController:controller animated:YES];
 	
