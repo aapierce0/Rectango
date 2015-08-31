@@ -13,6 +13,7 @@
 #import "DPEditableKeyValueTableViewCell.h"
 #import "DPLargeButtonTableViewCell.h"
 #import "DPTableViewTextField.h"
+#import "DPTableViewTextView.h"
 
 #import "AFNetworking.h"
 #import "DigidexKit.h"
@@ -123,7 +124,16 @@
 	}
 	
 	// All other cells use the editable key value format.
-	return [DPEditableKeyValueTableViewCell defaultRowHeight];
+	// The cell's height varies depending on how much content it contains.
+	// TODO: handle soft line wraps too.
+	NSDictionary *pair = _keyValuePairs[indexPath.section-2];
+	NSArray *components = [pair[@"value"] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+	
+	if (components.count > 1) {
+		return [DPEditableKeyValueTableViewCell defaultMultilineRowHeight];
+	} else {
+		return [DPEditableKeyValueTableViewCell defaultRowHeight];
+	}
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -169,11 +179,20 @@
 		
 	} else if (indexPath.section - 2 < _keyValuePairs.count) {
 		
+		NSDictionary *pair = _keyValuePairs[indexPath.section-2];
+		
+		// Identify if this field has multiple lines.
+		NSString *cellIdentifier = @"KeyValueCell";
+		NSArray *components = [pair[@"value"] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+		if (components.count > 1) {
+			cellIdentifier = @"LongKeyValueCell";
+		}
+		
 		// This is a key value cell
-		DPEditableKeyValueTableViewCell *keyValueCell = [tableView dequeueReusableCellWithIdentifier:@"KeyValueCell" forIndexPath:indexPath];
+		DPEditableKeyValueTableViewCell *keyValueCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+		
 		
 		// Get the key-value pair from the array.
-		NSDictionary *pair = _keyValuePairs[indexPath.section-2];
 		keyValueCell.keyTextField.placeholder = @"field name";
 		keyValueCell.keyTextField.text = pair[@"key"];
 		keyValueCell.keyTextField.textColor = self.view.tintColor;
@@ -181,11 +200,24 @@
 		keyValueCell.keyTextField.type = DPTableViewTextFieldTypeKey;
 		keyValueCell.keyTextField.indexPath = indexPath;
 		
-		keyValueCell.valueTextField.placeholder = @"info";
-		keyValueCell.valueTextField.text = pair[@"value"];
-		keyValueCell.valueTextField.delegate = self;
-		keyValueCell.valueTextField.type = DPTableViewTextFieldTypeValue;
-		keyValueCell.valueTextField.indexPath = indexPath;
+		if (keyValueCell.valueTextView != nil) {
+			
+			keyValueCell.valueTextView.text = pair[@"value"];
+			keyValueCell.valueTextView.delegate = self;
+			keyValueCell.valueTextView.type = DPTableViewTextFieldTypeValue;
+			keyValueCell.valueTextView.indexPath = indexPath;
+			keyValueCell.valueTextView.textContainerInset = UIEdgeInsetsMake(8, 26, 8, 8);
+			
+		}
+		
+		if (keyValueCell.valueTextField != nil) {
+		
+			keyValueCell.valueTextField.placeholder = @"info";
+			keyValueCell.valueTextField.text = pair[@"value"];
+			keyValueCell.valueTextField.delegate = self;
+			keyValueCell.valueTextField.type = DPTableViewTextFieldTypeValue;
+			keyValueCell.valueTextField.indexPath = indexPath;
+		}
 		
 		cell = keyValueCell;
 		
@@ -480,6 +512,25 @@
 				[_keyValuePairs[arrayIndex] setObject:myTextField.text forKey:@"key"];
 			} else {
 				[_keyValuePairs[arrayIndex] setObject:myTextField.text forKey:@"value"];
+			}
+		}
+	}
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView;
+{
+	// Get the table view cell;
+	if ([textView isKindOfClass:[DPTableViewTextView class]]) {
+		DPTableViewTextView *myTextView = (DPTableViewTextView*)textView;
+		
+		
+		if (myTextView.indexPath.section >= 2) {
+			NSUInteger arrayIndex = myTextView.indexPath.section-2;
+			
+			if (myTextView.type == DPTableViewTextFieldTypeKey) {
+				[_keyValuePairs[arrayIndex] setObject:myTextView.text forKey:@"key"];
+			} else {
+				[_keyValuePairs[arrayIndex] setObject:myTextView.text forKey:@"value"];
 			}
 		}
 	}

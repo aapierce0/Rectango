@@ -14,6 +14,10 @@
 	return 81.0;
 }
 
++ (CGFloat)defaultMultilineRowHeight; {
+	return 120.0;
+}
+
 
 - (void)awakeFromNib {
     // Initialization code
@@ -35,9 +39,9 @@
 	// Draw them with a 2.0 stroke width so they are a bit more visible.
 	CGContextSetLineWidth(context, 0.5f);
 	
-	CGContextMoveToPoint(context, 22.0f, floor(rect.size.height/2)+0.25f); //start at this point
+	CGContextMoveToPoint(context, 22.0f, 40.25f); //start at this point
 	
-	CGContextAddLineToPoint(context, rect.size.width, floor(rect.size.height/2)+0.25f); //draw to this point
+	CGContextAddLineToPoint(context, rect.size.width, 40.25f); //draw to this point
 	
 	// and now draw the Path!
 	CGContextStrokePath(context);

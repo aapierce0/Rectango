@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DPCreateCardTableViewController : UITableViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate> {
+@interface DPCreateCardTableViewController : UITableViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate, UITextViewDelegate> {
 	UIImage *_cardImage;
 	
 	NSString *_cardName;
