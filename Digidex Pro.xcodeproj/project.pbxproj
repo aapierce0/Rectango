@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2C0B473C1B9242050045FF2E /* DPCreatePickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0B473B1B9242050045FF2E /* DPCreatePickerTableViewController.m */; };
 		2C0B473F1B93DAD70045FF2E /* DPTableViewTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0B473E1B93DAD70045FF2E /* DPTableViewTextView.m */; };
+		2C0B47431B93EACD0045FF2E /* DPSelectDataTypeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0B47421B93EACD0045FF2E /* DPSelectDataTypeTableViewController.m */; };
 		2C26493B1B7996D3000BEC40 /* CardDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C2649311B7996D3000BEC40 /* CardDataModel.xcdatamodeld */; };
 		2C26493C1B7996D3000BEC40 /* DigidexKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2649341B7996D3000BEC40 /* DigidexKit.m */; };
 		2C26493D1B7996D3000BEC40 /* DKDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2649361B7996D3000BEC40 /* DKDataStore.m */; };
@@ -75,6 +76,8 @@
 		2C0B473D1B93DAD70045FF2E /* DPTableViewTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPTableViewTextView.h; sourceTree = "<group>"; };
 		2C0B473E1B93DAD70045FF2E /* DPTableViewTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPTableViewTextView.m; sourceTree = "<group>"; };
 		2C0B47401B93DB560045FF2E /* DPTableViewTextFieldType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DPTableViewTextFieldType.h; sourceTree = "<group>"; };
+		2C0B47411B93EACD0045FF2E /* DPSelectDataTypeTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPSelectDataTypeTableViewController.h; sourceTree = "<group>"; };
+		2C0B47421B93EACD0045FF2E /* DPSelectDataTypeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPSelectDataTypeTableViewController.m; sourceTree = "<group>"; };
 		2C2649081B798C87000BEC40 /* libDigidexKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libDigidexKit.a; path = "../../Library/Developer/Xcode/DerivedData/Digidex-cxcukeqfygeewpaleogxstwtarqg/Build/Products/Debug-iphoneos/libDigidexKit.a"; sourceTree = "<group>"; };
 		2C2649321B7996D3000BEC40 /* CardDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CardDataModel.xcdatamodel; sourceTree = "<group>"; };
 		2C2649331B7996D3000BEC40 /* DigidexKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigidexKit.h; sourceTree = "<group>"; };
@@ -260,6 +263,8 @@
 				2CAEE0161B8A729700989C1C /* DPTableViewTextField.m */,
 				2C0B473D1B93DAD70045FF2E /* DPTableViewTextView.h */,
 				2C0B473E1B93DAD70045FF2E /* DPTableViewTextView.m */,
+				2C0B47411B93EACD0045FF2E /* DPSelectDataTypeTableViewController.h */,
+				2C0B47421B93EACD0045FF2E /* DPSelectDataTypeTableViewController.m */,
 			);
 			name = "Create new card";
 			sourceTree = "<group>";
@@ -507,6 +512,7 @@
 				2C64AEDF1B8678B1009CD7AE /* AFURLSessionManager.m in Sources */,
 				2C64AEDE1B8678B1009CD7AE /* AFURLResponseSerialization.m in Sources */,
 				2C42BE471B83979B00475433 /* HTMLNode+XPath.m in Sources */,
+				2C0B47431B93EACD0045FF2E /* DPSelectDataTypeTableViewController.m in Sources */,
 				2CFBC9D31B7B93C000705932 /* DPDetailTableViewCell.m in Sources */,
 				2C42BE451B83979B00475433 /* HTMLDocument.m in Sources */,
 				C69CFC1B1B8121EA00D98C7D /* DPBarcodeScannerViewController.m in Sources */,

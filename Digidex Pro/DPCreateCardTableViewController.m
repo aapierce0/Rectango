@@ -14,6 +14,7 @@
 #import "DPLargeButtonTableViewCell.h"
 #import "DPTableViewTextField.h"
 #import "DPTableViewTextView.h"
+#import "DPSelectDataTypeTableViewController.h"
 
 #import "AFNetworking.h"
 #import "DigidexKit.h"
@@ -134,6 +135,8 @@
 	NSArray *components = [pair[@"value"] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 	
 	if (components.count > 1) {
+		return [DPEditableKeyValueTableViewCell defaultMultilineRowHeight];
+	} else if ([pair[@"type"] isEqualToString:@"multiline"] || [pair[@"type"] isEqualToString:@"address"]) {
 		return [DPEditableKeyValueTableViewCell defaultMultilineRowHeight];
 	} else {
 		return [DPEditableKeyValueTableViewCell defaultRowHeight];
@@ -280,13 +283,26 @@
 	} else {
 		
 		// This is the large button view
-		NSIndexSet *insertIndexSet = [NSIndexSet indexSetWithIndex:_keyValuePairs.count+2];
-		[_keyValuePairs addObject:[@{@"key":@"", @"value":@""} mutableCopy]];
-		
-		[tableView insertSections:insertIndexSet withRowAnimation:UITableViewRowAnimationFade];
+		[self performSegueWithIdentifier:@"ChooseSectionStyleSegue" sender:self];
 	}
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)createNewFieldWithType:(NSString*)type;
+{
+	if (type) {
+		NSIndexSet *insertIndexSet = [NSIndexSet indexSetWithIndex:_keyValuePairs.count+2];
+		[_keyValuePairs addObject:[@{@"key":type, @"value":@"", @"type":type} mutableCopy]];
+		[self.tableView insertSections:insertIndexSet withRowAnimation:UITableViewRowAnimationFade];
+	}
+
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender;
+{
+	DPSelectDataTypeTableViewController *selectViewController = (DPSelectDataTypeTableViewController*)[[[segue destinationViewController] viewControllers] firstObject];
+	selectViewController.createCardTableViewController = self;
 }
 
 /*
