@@ -19,6 +19,7 @@
 	UIImage *_cachedCardImage;
 	
 	CGSize _cardImageSize;
+	CGSize _cachedCardImageSize;
 	
 	NSArray *_filteredKeys;
 }

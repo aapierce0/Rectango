@@ -28,6 +28,8 @@
 	
     if (self) {
 		
+		_cardImageSize = CGSizeZero;
+		_cachedCardImageSize = CGSizeZero;
 		self.originalURL = URL;
 		[self reloadCard];
 		
@@ -146,6 +148,7 @@
 - (void)setCachedCardImage:(UIImage *)image;
 {
 	_cachedCardImage = image;
+	_cachedCardImageSize = image.size;
 }
 
 - (UIImage *)cardImage;
@@ -227,6 +230,11 @@
 
 - (CGSize)cardImageSize;
 {
+	// If the offical card size is not available, but the cached card *is*, then use that instead.
+	if (CGSizeEqualToSize(_cardImageSize, CGSizeZero) && !CGSizeEqualToSize(_cachedCardImageSize, CGSizeZero)) {
+		return _cachedCardImageSize;
+	}
+	
 	return _cardImageSize;
 }
 
