@@ -82,15 +82,19 @@
 				if (value == nil)
 					value = @"";
 				
-				[_keyValuePairs addObject:[@{@"key":pair[@"key"], @"value":value} mutableCopy]];
+				NSString *type = pair[@"type"];
+				if (type == nil)
+					type = @"";
+				
+				[_keyValuePairs addObject:[@{@"key":pair[@"key"], @"value":value, @"type":type} mutableCopy]];
 			}
 		}
 		
 	} else {
 		
 		// Use default key-value pairs.
-		[_keyValuePairs addObject:[@{@"key":@"email address", @"value":@""} mutableCopy]];
-		[_keyValuePairs addObject:[@{@"key":@"phone", @"value":@""} mutableCopy]];
+		[_keyValuePairs addObject:[@{@"key":@"email address", @"value":@"", @"type":@"email"} mutableCopy]];
+		[_keyValuePairs addObject:[@{@"key":@"phone", @"value":@"", @"type": @"phone"} mutableCopy]];
 		[_keyValuePairs addObject:[@{@"key":@"", @"value":@""} mutableCopy]];
 	}
 	
@@ -184,7 +188,14 @@
 		// Identify if this field has multiple lines.
 		NSString *cellIdentifier = @"KeyValueCell";
 		NSArray *components = [pair[@"value"] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+		
+		// If the value has more than one line, use the multiline cell
 		if (components.count > 1) {
+			cellIdentifier = @"LongKeyValueCell";
+		}
+		
+		// Test if this pair is the type "multiline" or "address". If so, use the multiline cell
+		if ([pair[@"type"] isEqualToString:@"multiline"] || [pair[@"type"] isEqualToString:@"address"]) {
 			cellIdentifier = @"LongKeyValueCell";
 		}
 		
@@ -212,11 +223,28 @@
 		
 		if (keyValueCell.valueTextField != nil) {
 		
-			keyValueCell.valueTextField.placeholder = @"info";
+
 			keyValueCell.valueTextField.text = pair[@"value"];
 			keyValueCell.valueTextField.delegate = self;
 			keyValueCell.valueTextField.type = DPTableViewTextFieldTypeValue;
 			keyValueCell.valueTextField.indexPath = indexPath;
+			
+			
+			// Use a custom keyboard type, if specified.
+			if ([pair[@"type"] isEqualToString:@"phone"]) {
+				keyValueCell.valueTextField.keyboardType = UIKeyboardTypePhonePad;
+				keyValueCell.valueTextField.placeholder = @"(888) 555-1212";
+			} else if ([pair[@"type"] isEqualToString:@"email"]) {
+				keyValueCell.valueTextField.keyboardType = UIKeyboardTypeEmailAddress;
+				keyValueCell.valueTextField.placeholder = @"j.appleseed@example.com";
+			} else if ([pair[@"type"] isEqualToString:@"URL"]) {
+				keyValueCell.valueTextField.keyboardType = UIKeyboardTypeURL;
+				keyValueCell.valueTextField.placeholder = @"http://www.digidex.org";
+			} else {
+				keyValueCell.valueTextField.keyboardType = UIKeyboardTypeDefault;
+				keyValueCell.valueTextField.placeholder = @"info";
+			}
+			
 		}
 		
 		cell = keyValueCell;

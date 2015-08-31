@@ -103,7 +103,7 @@
 			NSString *value = (__bridge NSString *)ABMultiValueCopyValueAtIndex(multiValue, i);
 			
 			if (value && [value length] > 0) {
-				[keyValuePairs addObject:@{@"key":[NSString stringWithFormat:@"%@ %@", localizedLabel, key], @"value":value}];
+				[keyValuePairs addObject:@{@"key":[NSString stringWithFormat:@"%@ %@", localizedLabel, key], @"value":value, @"type":key}];
 			}
 		}
 	}
