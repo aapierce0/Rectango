@@ -328,7 +328,7 @@
 									   _cardUpdated = YES;
 									   completionHandler(nil);
 									   
-									   if ([self isInserted])
+									   if ([self managedObjectContext])
 										   [self writeToDisk];
 									   
 									   [[NSNotificationCenter defaultCenter] postNotificationName:@"ContactLoaded" object:self];
@@ -394,7 +394,7 @@
 								   _cardImageSize = _cardImage.size;
 								   completionHandler(nil);
 								   
-								   if ([self isInserted])
+								   if ([self managedObjectContext])
 									   [self writeImageToDisk];
 								   
 								   [[NSNotificationCenter defaultCenter] postNotificationName:@"ImageLoaded" object:self];
