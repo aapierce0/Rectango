@@ -10,6 +10,7 @@
 
 @interface DPCreateCardTableViewController : UITableViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate, UITextViewDelegate> {
 	UIImage *_cardImage;
+	BOOL _imageSelected;
 	
 	NSString *_cardName;
 	NSMutableArray *_keyValuePairs;

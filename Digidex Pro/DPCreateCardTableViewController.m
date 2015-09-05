@@ -60,6 +60,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	_imageSelected = NO;
 	_cardImage = [UIImage imageNamed:@"uploadPlaceholderImage"];
 	_cardName = @"";
 	
@@ -373,6 +374,26 @@
 	
 	
 	
+	// Check to make sure that an image was supplied. If not, tell the user to supply one.
+	if (!_imageSelected) {
+		// Display a dialog to indicate that data is being updated
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No Image Selected"
+																	   message:@"Please select an image for your digidex card before continuing"
+																preferredStyle:UIAlertControllerStyleAlert];
+		
+		[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}]];
+		[self presentViewController:alert animated:YES completion:^{
+			
+		}];
+		return;
+	}
+	
+	
+	
+	
+	
+	
+	
 	// Display a dialog to indicate that data is being updated
 	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uploading Image..."
 																   message:@"\n\n\n"
@@ -529,6 +550,7 @@
 	
 	// When the user has selected their image, show it in the card image view.
 	_cardImage = info[@"UIImagePickerControllerOriginalImage"];
+	_imageSelected = YES;
 	
 	[self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 	
