@@ -140,6 +140,7 @@
 - (void)insertCard:(DKManagedCard*)card;
 {
 	if (![card isInserted]) {
+		[card writeToDisk];
 		[_moc insertObject:card];
 		
 		NSError *saveError;
@@ -154,6 +155,7 @@
 
 - (void)deleteCard:(DKManagedCard *)card;
 {
+	[card deleteCachedFile];
     [_moc deleteObject:card];
     
     NSError *saveError;

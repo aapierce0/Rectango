@@ -46,7 +46,9 @@
 - (NSString*)guessedOrganization;
 - (NSString*)guessedOccupation;
 
+- (void)writeToDisk;
 - (void)reloadCard;
+- (void)deleteCachedFile;
 
 - (void)setCachedCardImage:(UIImage *)image;
 

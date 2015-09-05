@@ -315,7 +315,10 @@
 									   _cardDictionary = jsonObject;
 									   _cardUpdated = YES;
 									   completionHandler(nil);
-									   [self writeToDisk];
+									   
+									   if ([self isInserted])
+										   [self writeToDisk];
+									   
 									   [[NSNotificationCenter defaultCenter] postNotificationName:@"ContactLoaded" object:self];
 									   
 								   } else if (jsonError) {
@@ -463,6 +466,14 @@
 			NSLog(@"Error saving managed object context %@", error);
 		}
 	}
+}
+
+- (void)deleteCachedFile;
+{
+	NSError *error;
+	[[NSFileManager defaultManager] removeItemAtPath:self.localPath error:&error];
+	if (error)
+		NSLog(@"Error deleting file: %@", error);
 }
 
 
