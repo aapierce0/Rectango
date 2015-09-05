@@ -361,6 +361,117 @@
 	}
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+	NSDictionary *keyPair = [self keyPairForIndexPath:indexPath];
+	DPValueActionType actionType = [self actionTypeForIndexPath:indexPath];
+
+	NSLog(@"Action type... %@", @(actionType));
+	
+	if (actionType == DPValueActionTypeNone) {
+		// Do Nothing.
+		return;
+	}
+	
+	
+	// Test if this is a URL
+	NSURL *URL = [NSURL URLWithString:keyPair[@"value"]];
+	if (URL && URL.scheme) {
+		
+		// Open the URL
+		[[UIApplication sharedApplication] openURL:URL];
+	}
+	
+	
+	// If this is is a phone number, append the tel scheme, and open it.
+	NSURLComponents *components = [[NSURLComponents alloc] initWithString:keyPair[@"value"]];
+	switch (actionType) {
+		case DPValueActionTypePhone:
+			components.scheme = @"tel";
+			break;
+		case DPValueActionTypeEmail:
+			components.scheme = @"mailto";
+			break;
+		case DPValueActionTypeStreetAddress:
+			components.scheme = @"http";
+			components.host = @"maps.apple.com";
+			components.path = [NSString stringWithFormat:@"?q=%@", keyPair[@"value"]];
+			break;
+		default:
+			
+			// I don't know how to handle this... do nothing.
+			return;
+			break;
+	}
+	
+	NSLog(@"Opening URL: %@", components.URL);
+	[[UIApplication sharedApplication] openURL:components.URL];
+
+}
+
+
+
+
+
+
+
+
+
+
+- (DPValueActionType)actionTypeForIndexPath:(NSIndexPath*)indexPath;
+{
+	NSDictionary *keyPair = [self keyPairForIndexPath:indexPath];
+	NSString *testString = keyPair[@"value"];
+	
+	NSDictionary *schemeMapping = @{@"http":	@(DPValueActionTypeWebAddress),
+									@"https":	@(DPValueActionTypeWebAddress),
+									@"podcast":	@(DPValueActionTypePodcast),
+									@"tel":		@(DPValueActionTypePhone),
+									@"mailto":	@(DPValueActionTypeEmail)};
+	
+	// The easiest thing to do is test if this is a URL
+	NSURL *URL = [NSURL URLWithString:testString];
+	if (URL && URL.scheme) {
+		
+		// DPValueActionType is typedef'd from unsigned long.
+		DPValueActionType returnValue = [schemeMapping[URL.scheme] unsignedLongValue];
+		return returnValue;
+	}
+	
+	
+	NSDictionary *regexMapping = @{@"^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$":@(DPValueActionTypePhone),
+								   @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$":@(DPValueActionTypeEmail)};
+	
+	// Loop through the possible regex matches.
+	__block DPValueActionType returnValue = DPValueActionTypeNone;
+	[regexMapping enumerateKeysAndObjectsUsingBlock:^(id regexString, id typeNumber, BOOL *stop) {
+		
+		NSError *error = nil;
+		NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexString options:kNilOptions error:&error];
+		if ([regex numberOfMatchesInString:testString options:kNilOptions range:NSMakeRange(0, testString.length)] != 0) {
+			
+			// This pattern matched! Set return value to the corresponding type.
+			returnValue = [typeNumber unsignedLongValue];
+			*stop = YES;
+		}
+	}];
+	
+	if (returnValue != DPValueActionTypeNone) {
+		return returnValue;
+	}
+	
+	
+	
+	// Lastly, if the key field contains the word "address", lets assume this is a street address.
+	if ([[keyPair[@"key"] uppercaseString] containsString:@"ADDRESS"]) {
+		return DPValueActionTypeStreetAddress;
+	}
+	
+	return DPValueActionTypeNone;
+}
+
+
+
 
 /*
 // Override to support conditional editing of the table view.

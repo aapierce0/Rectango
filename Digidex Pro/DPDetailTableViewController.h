@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, DPValueActionType) {
+    DPValueActionTypePhone,
+    DPValueActionTypeEmail,
+    DPValueActionTypePodcast,
+	DPValueActionTypeStreetAddress,
+	DPValueActionTypeWebAddress,
+	DPValueActionTypeNone
+};
+
 @class DKManagedCard;
 
 @interface DPDetailTableViewController : UITableViewController
