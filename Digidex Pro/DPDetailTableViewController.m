@@ -384,18 +384,20 @@
 	
 	
 	// If this is is a phone number, append the tel scheme, and open it.
-	NSURLComponents *components = [[NSURLComponents alloc] initWithString:keyPair[@"value"]];
+	NSURLComponents *components = [[NSURLComponents alloc] init];
 	switch (actionType) {
 		case DPValueActionTypePhone:
 			components.scheme = @"tel";
+            components.host = keyPair[@"value"];
 			break;
 		case DPValueActionTypeEmail:
 			components.scheme = @"mailto";
+            components.host = keyPair[@"value"];
 			break;
 		case DPValueActionTypeStreetAddress:
 			components.scheme = @"http";
 			components.host = @"maps.apple.com";
-			components.path = [NSString stringWithFormat:@"?q=%@", keyPair[@"value"]];
+            components.queryItems = @[[NSURLQueryItem queryItemWithName:@"q" value:keyPair[@"value"]]];
 			break;
 		default:
 			
@@ -434,12 +436,17 @@
 	if (URL && URL.scheme) {
 		
 		// DPValueActionType is typedef'd from unsigned long.
-		DPValueActionType returnValue = [schemeMapping[URL.scheme] unsignedLongValue];
-		return returnValue;
+        NSNumber *mappedValue = schemeMapping[URL.scheme];
+        if (mappedValue) {
+            DPValueActionType returnValue = [schemeMapping[URL.scheme] unsignedLongValue];
+            return returnValue;
+        } else {
+            return DPValueActionTypeUnknown;
+        }
 	}
 	
 	
-	NSDictionary *regexMapping = @{@"^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$":@(DPValueActionTypePhone),
+	NSDictionary *regexMapping = @{@"^(\\+?\\d{1,2})?[\\s\\.-]*\\(?\\d{3}\\)?[\\s\\.-]*\\d{3}[\\s\\.-]*\\d{4}$":@(DPValueActionTypePhone),
 								   @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$":@(DPValueActionTypeEmail)};
 	
 	// Loop through the possible regex matches.

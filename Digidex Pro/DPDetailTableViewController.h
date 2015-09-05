@@ -14,6 +14,7 @@ typedef NS_ENUM(NSUInteger, DPValueActionType) {
     DPValueActionTypePodcast,
 	DPValueActionTypeStreetAddress,
 	DPValueActionTypeWebAddress,
+    DPValueActionTypeUnknown,
 	DPValueActionTypeNone
 };
 
