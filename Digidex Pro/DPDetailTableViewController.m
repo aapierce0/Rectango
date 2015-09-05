@@ -67,11 +67,14 @@
 		
         self.navigationItem.leftItemsSupplementBackButton = YES;
         self.navigationItem.leftBarButtonItem =     [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteCard:)];
-        
-        self.navigationItem.rightBarButtonItem =    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareCard:)];
+		
+		UIBarButtonItem *refreshBarButtonItem =		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
+		UIBarButtonItem *shareBarButtonItem =		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareCard:)];
         if (!self.selectedCard.originalURL) {
-            self.navigationItem.rightBarButtonItem.enabled = NO;
+            shareBarButtonItem.enabled = NO;
         }
+		
+		self.navigationItem.rightBarButtonItems = @[shareBarButtonItem, refreshBarButtonItem];
 	}
 }
 
@@ -142,6 +145,13 @@
         
     }];
 }
+
+
+- (void)refresh:(id)sender;
+{
+	[self.selectedCard reloadCard];
+}
+
 
 - (void)dismiss;
 {
@@ -478,6 +488,10 @@
 - (DPValueActionType)actionTypeForIndexPath:(NSIndexPath*)indexPath;
 {
 	NSDictionary *keyPair = [self keyPairForIndexPath:indexPath];
+	if (keyPair == nil)
+		return DPValueActionTypeNone;
+	
+	
 	NSString *testString = keyPair[@"value"];
 	
 	NSDictionary *schemeMapping = @{@"http":	@(DPValueActionTypeWebAddress),

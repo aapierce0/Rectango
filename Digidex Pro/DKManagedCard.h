@@ -22,6 +22,8 @@
 	CGSize _cachedCardImageSize;
 	
 	NSArray *_filteredKeys;
+	
+	BOOL _cardUpdated;
 }
 
 @property (nonatomic, retain) NSString * localFilename;
@@ -43,6 +45,8 @@
 - (NSString*)guessedName;
 - (NSString*)guessedOrganization;
 - (NSString*)guessedOccupation;
+
+- (void)reloadCard;
 
 - (void)setCachedCardImage:(UIImage *)image;
 

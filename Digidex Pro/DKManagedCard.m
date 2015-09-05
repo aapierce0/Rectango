@@ -14,7 +14,7 @@
 
 @implementation DKManagedCard
 
-@dynamic localPath;
+@dynamic localFilename;
 @dynamic originalURL;
 @dynamic tags;
 
@@ -28,6 +28,7 @@
 	
     if (self) {
 		
+		_cardUpdated = NO;
 		_cardImageSize = CGSizeZero;
 		_cachedCardImageSize = CGSizeZero;
 		self.originalURL = URL;
@@ -177,13 +178,15 @@
 
 - (NSArray *)filteredKeys;
 {
-	if (!_filteredKeys) {
+	if (!_filteredKeys || _cardUpdated) {
 		
 		// Get a list of all the keys that should be displayed in the detail table view
 		NSArray *allKeys = [_cardDictionary allKeys];
 		_filteredKeys = [allKeys filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
 			return (![evaluatedObject hasPrefix:@"_"] && ![[self guessedNameKeys] containsObject:evaluatedObject]);
 		}]];
+		
+		_cardUpdated = NO;
 	}
 	
 	return _filteredKeys;
@@ -207,6 +210,7 @@
 			// Double check that the result file is a dictionary.
 			if ([jsonObject isKindOfClass:[NSDictionary class]]) {
 				_cardDictionary = jsonObject;
+				_cardUpdated = YES;
 				[[NSNotificationCenter defaultCenter] postNotificationName:@"ContactLoaded" object:self];
 				
 			} else if (jsonError) {
@@ -309,9 +313,10 @@
 								   // Double check that the result file is a dictionary.
 								   if ([jsonObject isKindOfClass:[NSDictionary class]]) {
 									   _cardDictionary = jsonObject;
+									   _cardUpdated = YES;
 									   completionHandler(nil);
-									   [[NSNotificationCenter defaultCenter] postNotificationName:@"ContactLoaded" object:self];
 									   [self writeToDisk];
+									   [[NSNotificationCenter defaultCenter] postNotificationName:@"ContactLoaded" object:self];
 									   
 								   } else if (jsonError) {
 									   
