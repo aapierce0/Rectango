@@ -297,6 +297,43 @@
 		NSUInteger lines = [[keyPair[@"value"] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] count];
 		detailCell.valueLabel.numberOfLines = lines;
 		
+		DPValueActionType actionType = [self actionTypeForIndexPath:indexPath];
+		if (actionType == DPValueActionTypeNone) {
+			detailCell.accessoryView = nil;
+		} else {
+			
+			UIImage *buttonImage = nil;
+			switch (actionType) {
+				case DPValueActionTypePhone:
+					buttonImage = [UIImage imageNamed:@"phone icon"];
+					break;
+				case DPValueActionTypeEmail:
+					buttonImage = [UIImage imageNamed:@"email icon"];
+					break;
+				case DPValueActionTypeRSS:
+					buttonImage = [UIImage imageNamed:@"RSS icon"];
+					break;
+				case DPValueActionTypePodcast:
+					buttonImage = [UIImage imageNamed:@"podcast icon"];
+					break;
+				case DPValueActionTypeStreetAddress:
+					buttonImage = [UIImage imageNamed:@"map icon"];
+					break;
+				case DPValueActionTypeWebAddress:
+					buttonImage = [UIImage imageNamed:@"safari icon"];
+					break;
+				case DPValueActionTypeUnknown:
+					buttonImage = [UIImage imageNamed:@"question mark icon"];
+					break;
+				default:
+					break;
+			}
+			
+			UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+			imageView.image = buttonImage;
+			detailCell.accessoryView = imageView;
+		}
+		
 		cell = detailCell;
 	}
     
