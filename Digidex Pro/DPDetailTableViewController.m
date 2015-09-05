@@ -483,6 +483,8 @@
 	NSDictionary *schemeMapping = @{@"http":	@(DPValueActionTypeWebAddress),
 									@"https":	@(DPValueActionTypeWebAddress),
 									@"podcast":	@(DPValueActionTypePodcast),
+									@"itpc":	@(DPValueActionTypePodcast),
+									@"pcast":	@(DPValueActionTypePodcast),
 									@"tel":		@(DPValueActionTypePhone),
 									@"mailto":	@(DPValueActionTypeEmail),
 									@"rss":		@(DPValueActionTypeRSS),
