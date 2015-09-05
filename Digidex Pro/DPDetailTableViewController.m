@@ -429,7 +429,9 @@
 									@"https":	@(DPValueActionTypeWebAddress),
 									@"podcast":	@(DPValueActionTypePodcast),
 									@"tel":		@(DPValueActionTypePhone),
-									@"mailto":	@(DPValueActionTypeEmail)};
+									@"mailto":	@(DPValueActionTypeEmail),
+									@"rss":		@(DPValueActionTypeRSS),
+									@"feed":	@(DPValueActionTypeRSS)};
 	
 	// The easiest thing to do is test if this is a URL
 	NSURL *URL = [NSURL URLWithString:testString];

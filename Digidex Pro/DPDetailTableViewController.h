@@ -11,6 +11,7 @@
 typedef NS_ENUM(NSUInteger, DPValueActionType) {
     DPValueActionTypePhone,
     DPValueActionTypeEmail,
+	DPValueActionTypeRSS,
     DPValueActionTypePodcast,
 	DPValueActionTypeStreetAddress,
 	DPValueActionTypeWebAddress,
