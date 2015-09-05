@@ -372,6 +372,11 @@
 
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section;
 {
+	return [self sectionTitleForIndexPath:section];
+}
+
+- (NSString *)sectionTitleForIndexPath:(NSInteger)section;
+{
 	if (section == 0) {
 		return nil;
 	} else if (section == 1) {
@@ -509,7 +514,7 @@
 	
 	
 	// Lastly, if the key field contains the word "address", lets assume this is a street address.
-	if ([[keyPair[@"key"] uppercaseString] containsString:@"ADDRESS"]) {
+	if ([[keyPair[@"key"] uppercaseString] containsString:@"ADDRESS"] || [[[self sectionTitleForIndexPath:indexPath.section] uppercaseString] containsString:@"ADDRESS"]) {
 		return DPValueActionTypeStreetAddress;
 	}
 	
