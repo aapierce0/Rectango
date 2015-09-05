@@ -18,6 +18,7 @@
 #define CARD_CELL_IDENTIFIER @"CardCell"
 #define TITLE_CELL_IDENTIFIER @"TitleCell"
 #define DETAIL_CELL_IDENTIFIER @"DetailCell"
+#define DETAIL_CELL_URL_IDENTIFIER @"DetailCellURL"
 
 @interface DPDetailTableViewController ()
 
@@ -286,10 +287,23 @@
 	} else {
 		
 		// This is a key/value cell.
-		DPDetailTableViewCell *detailCell = (DPDetailTableViewCell *)[tableView dequeueReusableCellWithIdentifier:DETAIL_CELL_IDENTIFIER forIndexPath:indexPath];
+		DPDetailTableViewCell *detailCell = nil;
 		
-		
+		DPValueActionType actionType = [self actionTypeForIndexPath:indexPath];
 		NSDictionary *keyPair = [self keyPairForIndexPath:indexPath];
+		
+		
+		switch (actionType) {
+			case DPValueActionTypeWebAddress:
+			case DPValueActionTypeRSS:
+			case DPValueActionTypePodcast:
+				detailCell = (DPDetailTableViewCell *)[tableView dequeueReusableCellWithIdentifier:DETAIL_CELL_URL_IDENTIFIER forIndexPath:indexPath];
+				break;
+			default:
+				detailCell = (DPDetailTableViewCell *)[tableView dequeueReusableCellWithIdentifier:DETAIL_CELL_IDENTIFIER forIndexPath:indexPath];
+				break;
+		}
+		
 		detailCell.keyLabel.text = keyPair[@"key"];
 		detailCell.valueLabel.text = keyPair[@"value"];
 		
@@ -297,7 +311,6 @@
 		NSUInteger lines = [[keyPair[@"value"] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] count];
 		detailCell.valueLabel.numberOfLines = lines;
 		
-		DPValueActionType actionType = [self actionTypeForIndexPath:indexPath];
 		if (actionType == DPValueActionTypeNone) {
 			detailCell.accessoryView = nil;
 		} else {
