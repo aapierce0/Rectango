@@ -141,6 +141,7 @@
 {
 	if (![card isInserted]) {
 		[card writeToDisk];
+		[card writeImageToDisk];
 		[_moc insertObject:card];
 		
 		NSError *saveError;

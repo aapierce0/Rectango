@@ -20,6 +20,7 @@
 	
 	CGSize _cardImageSize;
 	CGSize _cachedCardImageSize;
+	CGSize _localImageSize;
 	
 	NSArray *_filteredKeys;
 	
@@ -27,7 +28,10 @@
 }
 
 @property (nonatomic, retain) NSString * localFilename;
+@property (readonly) NSString *localImageFilename;
 @property (readonly) NSString *localPath;
+@property (readonly) NSString *localImagePath;
+
 @property (nonatomic, retain) id originalURL;
 @property (readonly) NSURL *digidexURL; // This is a URL with the digidex:// scheme.
 @property (nonatomic, retain) NSSet *tags;
@@ -47,6 +51,8 @@
 - (NSString*)guessedOccupation;
 
 - (void)writeToDisk;
+- (void)writeImageToDisk;
+
 - (void)reloadCard;
 - (void)deleteCachedFile;
 

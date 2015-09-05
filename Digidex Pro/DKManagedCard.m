@@ -31,6 +31,7 @@
 		_cardUpdated = NO;
 		_cardImageSize = CGSizeZero;
 		_cachedCardImageSize = CGSizeZero;
+		_localImageSize = CGSizeZero;
 		self.originalURL = URL;
 		[self reloadCard];
 		
@@ -158,9 +159,30 @@
 		return _cardImage;
 	} else if (_cachedCardImage) {
 		return _cachedCardImage;
+	} else if (self.localImagePath && [[NSFileManager defaultManager] fileExistsAtPath:self.localImagePath isDirectory:nil]) {
+		return [UIImage imageWithContentsOfFile:self.localImagePath];
 	} else {
 		return [UIImage imageNamed:@"placeholderCard.jpg"];
 	}
+}
+
+- (CGSize)cardImageSize;
+{
+	if (!CGSizeEqualToSize(_cardImageSize, CGSizeZero)) {
+		return _cardImageSize;
+	} else if (!CGSizeEqualToSize(_cachedCardImageSize, CGSizeZero)) {
+		return _cachedCardImageSize;
+	} else if (!CGSizeEqualToSize(_localImageSize, CGSizeZero)) {
+		return _localImageSize;
+	} else if (self.localImagePath && [[NSFileManager defaultManager] fileExistsAtPath:self.localImagePath isDirectory:nil]) {
+		// If the local image size hasn't been calculated yet, but the local image file is available, calculate the size now.
+		UIImage *localImage = [UIImage imageWithContentsOfFile:self.localImagePath];
+		_localImageSize = localImage.size;
+		return _localImageSize;
+	}
+	
+	// If there are no other options, then simply return CGSizeZero.
+	return CGSizeZero;
 }
 
 - (NSURL*)digidexURL;
@@ -230,16 +252,6 @@
 			NSLog(@"Error loading JSON data: %@", error);
 		}
 	}
-}
-
-- (CGSize)cardImageSize;
-{
-	// If the offical card size is not available, but the cached card *is*, then use that instead.
-	if (CGSizeEqualToSize(_cardImageSize, CGSizeZero) && !CGSizeEqualToSize(_cachedCardImageSize, CGSizeZero)) {
-		return _cachedCardImageSize;
-	}
-	
-	return _cardImageSize;
 }
 
 
@@ -381,6 +393,10 @@
 								   _cardImage = [[UIImage alloc] initWithData:data];
 								   _cardImageSize = _cardImage.size;
 								   completionHandler(nil);
+								   
+								   if ([self isInserted])
+									   [self writeImageToDisk];
+								   
 								   [[NSNotificationCenter defaultCenter] postNotificationName:@"ImageLoaded" object:self];
 								   
 							   } else if (connectionError) {
@@ -400,11 +416,17 @@
 	
 }
 
-- (void)writeToDisk;
+
+
+
+
+
+
+
+
+
+- (NSString*)localApplicationSupportDirectory;
 {
-	
-	NSLog(@"Writing contact to disk!");
-	// Get the path to the Application Support folder
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
 	NSString *applicationSupportDirectory = [paths firstObject];
 	
@@ -414,6 +436,17 @@
 	if (createDirectoryError) {
 		NSLog(@"There was an error creating the digidex folder in the sandboxed Application Support folder: %@", createDirectoryError.localizedDescription);
 	}
+	
+	return digidexApplicationSupportDirectory;
+}
+
+
+- (void)writeToDisk;
+{
+	
+	NSLog(@"Writing contact to disk!");
+	
+	NSString *digidexApplicationSupportDirectory = [self localApplicationSupportDirectory];
 	
 	NSString *baseFileName = self.guessedName ? self.guessedName : @"Unknown Card";
 	
@@ -466,12 +499,34 @@
 			NSLog(@"Error saving managed object context %@", error);
 		}
 	}
+	
+	
+	
+	
+	
+}
+
+- (void)writeImageToDisk;
+{
+	// If the image is not available, bail out now.
+	if (!_cardImage) {
+		return;
+	}
+	
+	NSData *imageData = UIImagePNGRepresentation(_cardImage);
+	if (imageData) {
+		[[NSFileManager defaultManager] createFileAtPath:self.localImagePath contents:imageData attributes:@{}];
+	}
 }
 
 - (void)deleteCachedFile;
 {
 	NSError *error;
 	[[NSFileManager defaultManager] removeItemAtPath:self.localPath error:&error];
+	if (error)
+		NSLog(@"Error deleting file: %@", error);
+	
+	[[NSFileManager defaultManager] removeItemAtPath:self.localImagePath error:&error];
 	if (error)
 		NSLog(@"Error deleting file: %@", error);
 }
@@ -483,21 +538,29 @@
 		return nil;
 	}
 	
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-	NSString *applicationSupportDirectory = [paths firstObject];
-	
-	NSString *digidexApplicationSupportDirectory = [applicationSupportDirectory stringByAppendingPathComponent:@"Digidex"];
-	NSError *createDirectoryError;
-	[[NSFileManager defaultManager] createDirectoryAtPath:digidexApplicationSupportDirectory withIntermediateDirectories:YES attributes:nil error:&createDirectoryError];
-	if (createDirectoryError) {
-		NSLog(@"There was an error creating the digidex folder in the sandboxed Application Support folder: %@", createDirectoryError.localizedDescription);
-	}
+	NSString *digidexApplicationSupportDirectory = [self localApplicationSupportDirectory];
 	
 	return [digidexApplicationSupportDirectory stringByAppendingPathComponent:self.localFilename];
 }
 
+- (NSString*)localImageFilename;
+{
+	if (self.localFilename == nil)
+		return nil;
+	
+	NSString *baseFilename = [self.localFilename stringByDeletingPathExtension];
+	return [baseFilename stringByAppendingPathExtension:@"png"];
+}
 
-
+- (NSString*)localImagePath;
+{
+	if (self.localImageFilename == nil)
+		return nil;
+	
+	NSString *digidexApplicationSupportDirectory = [self localApplicationSupportDirectory];
+	
+	return [digidexApplicationSupportDirectory stringByAppendingPathComponent:self.localImageFilename];
+}
 
 
 
