@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13C64" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="13F1112" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Card" representedClassName="DKManagedCard" syncable="YES">
-        <attribute name="localPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="localFilename" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="originalURL" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="cards" inverseEntity="Tag" syncable="YES"/>
     </entity>

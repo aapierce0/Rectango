@@ -410,7 +410,7 @@
 	NSString *baseFileName = self.guessedName ? self.guessedName : @"Unknown Card";
 	
 	
-	if (!self.localPath) {
+	if (!self.localFilename) {
 		
 		// First, check to see if this file exists already. We don't want to overwrite a different contact with the same name!
 		NSString *finalFilePath = nil;
@@ -436,7 +436,7 @@
 		
 		NSLog(@"Final File path is %@", finalFilePath);
 		
-		self.localPath = finalFilePath;
+		self.localFilename = [finalFilePath lastPathComponent];
 	}
 	
 	// Write this JSON data to the URL specified.
@@ -460,6 +460,25 @@
 	}
 }
 
+
+- (NSString*)localPath;
+{
+	if (self.localFilename == nil) {
+		return nil;
+	}
+	
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+	NSString *applicationSupportDirectory = [paths firstObject];
+	
+	NSString *digidexApplicationSupportDirectory = [applicationSupportDirectory stringByAppendingPathComponent:@"Digidex"];
+	NSError *createDirectoryError;
+	[[NSFileManager defaultManager] createDirectoryAtPath:digidexApplicationSupportDirectory withIntermediateDirectories:YES attributes:nil error:&createDirectoryError];
+	if (createDirectoryError) {
+		NSLog(@"There was an error creating the digidex folder in the sandboxed Application Support folder: %@", createDirectoryError.localizedDescription);
+	}
+	
+	return [digidexApplicationSupportDirectory stringByAppendingPathComponent:self.localFilename];
+}
 
 
 

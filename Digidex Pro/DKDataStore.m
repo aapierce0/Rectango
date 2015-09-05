@@ -21,9 +21,9 @@
 		NSURL *managedObjectModelURL = [[NSBundle mainBundle] URLForResource:@"CardDataModel" withExtension:@"momd"];
 		_mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:managedObjectModelURL];
 		
-		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-		NSString *applicationSupportDirectory = [paths firstObject];
-		NSURL *storeURL = [[NSURL fileURLWithPath:applicationSupportDirectory]
+		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+		NSString *libraryPathDirectory = [paths firstObject];
+		NSURL *storeURL = [[NSURL fileURLWithPath:libraryPathDirectory]
 						   URLByAppendingPathComponent:@"CardDataModel.sqlite"];
 		
 //		[[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
@@ -61,9 +61,14 @@
 			 Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
 			 
 			 */
+			
+			[[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
+			
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 			abort();
 		}
+		
+		NSLog(@"Core Data error: %@", error);
 		
 		_moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
 		[_moc setPersistentStoreCoordinator:_psc];
