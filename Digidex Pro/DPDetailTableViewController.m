@@ -212,7 +212,11 @@
 	} else if ([value isKindOfClass:[NSDictionary class]]) {
 		
 		// Use the row number to determine which sub-key to use.
-		NSString *subKey = [(NSDictionary*)value allKeys][indexPath.row];
+		NSDictionary *nestedDictionary = value;
+		
+		NSArray *orderedKeys = [DKManagedCard orderedKeysForObject:nestedDictionary];
+		NSString *subKey = orderedKeys[indexPath.row];
+
 		id subValue = ((NSDictionary*)value)[subKey];
 		
 		return @{@"key":subKey, @"value":[subValue description]};
@@ -262,7 +266,7 @@
 		} else if ([value isKindOfClass:[NSDictionary class]]) {
 			
 			// Complex fields that contain an object or array (such as assorted phone numbers) will contain a row for each item
-			return [(NSDictionary*)value allKeys].count;
+			return [DKManagedCard orderedKeysForObject:(NSDictionary*)value].count;
 			
 		} else if ([value isKindOfClass:[NSArray class]]) {
 			

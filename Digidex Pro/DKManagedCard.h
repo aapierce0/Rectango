@@ -59,6 +59,7 @@
 - (void)setCachedCardImage:(UIImage *)image;
 
 + (void)determineDigidexURLFromProvidedURL:(NSURL*)providedURL completion:(void (^)(NSURL *determinedURL))completion;
++ (NSArray*)orderedKeysForObject:(NSDictionary*)object;
 
 @end
 
