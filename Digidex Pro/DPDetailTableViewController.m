@@ -139,7 +139,17 @@
 
 - (void)shareCard:(id)sender;
 {
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.selectedCard.digidexURL, self.selectedCard.cardImage] applicationActivities:nil];
+	
+	NSURL *shareURL = self.selectedCard.digidexURL;
+	if (self.selectedCard.cardDictionary[@"_shareURL"]) {
+		NSURL *newShareURL = [NSURL URLWithString:self.selectedCard.cardDictionary[@"_shareURL"]];
+		
+		// If the new shareURL is not a valid URL, then the variable will be nil.
+		if (newShareURL != nil)
+			shareURL = newShareURL;
+	}
+	
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[shareURL, self.selectedCard.cardImage] applicationActivities:nil];
     activityViewController.popoverPresentationController.barButtonItem = sender;
     [self presentViewController:activityViewController animated:YES completion:^{
         
