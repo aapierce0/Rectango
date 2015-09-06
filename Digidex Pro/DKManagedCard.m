@@ -202,10 +202,11 @@
 {
 	if (!_filteredKeys || _cardUpdated) {
 		
-		// Get a list of all the keys that should be displayed in the detail table view
-		NSArray *allKeys = [_cardDictionary allKeys];
-		_filteredKeys = [allKeys filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-			return (![evaluatedObject hasPrefix:@"_"] && ![[self guessedNameKeys] containsObject:evaluatedObject]);
+		NSArray *orderedKeys = [DKManagedCard orderedKeysForObject:self.cardDictionary];
+		
+		// Also make sure this key is not a named key
+		_filteredKeys = [orderedKeys filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+			return (![[self guessedNameKeys] containsObject:evaluatedObject]);
 		}]];
 		
 		_cardUpdated = NO;
@@ -214,6 +215,31 @@
 	return _filteredKeys;
 }
 
++ (NSArray*)orderedKeysForObject:(NSDictionary*)object;
+{
+	
+	NSArray *orderedKeys = [object allKeys];
+	
+	// If this object has a "_order" key, then use that instead.
+	if (object[@"_order"] && [object[@"_order"] isKindOfClass:[NSArray class]]) {
+		orderedKeys = object[@"_order"];
+	} else {
+		orderedKeys = [orderedKeys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+			return [obj1 compare:obj2];
+		}];
+	}
+	
+	
+	// cross-check that each item in the _order actually has a corresponding key in the dictionary
+	NSArray *filteredKeys = [orderedKeys filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+		
+		// Make sure this key actually exists in the dictionary, and that it doesn't start with an underscore.
+		return (object[evaluatedObject] != nil && ![evaluatedObject hasPrefix:@"_"]);
+	}]];
+	
+	
+	return filteredKeys;
+}
 
 
 - (void)loadCardFromCachedData;
