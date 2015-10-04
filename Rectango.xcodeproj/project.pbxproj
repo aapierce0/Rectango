@@ -30,7 +30,6 @@
 		2C64AEDD1B8678B1009CD7AE /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C64AED21B8678B1009CD7AE /* AFURLRequestSerialization.m */; };
 		2C64AEDE1B8678B1009CD7AE /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C64AED41B8678B1009CD7AE /* AFURLResponseSerialization.m */; };
 		2C64AEDF1B8678B1009CD7AE /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C64AED61B8678B1009CD7AE /* AFURLSessionManager.m */; };
-		2C6628221BC455AE00122BC6 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2C6628211BC455AE00122BC6 /* README.md */; };
 		2CAEE00A1B88FED000989C1C /* DPCreateCardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEE0091B88FED000989C1C /* DPCreateCardTableViewController.m */; };
 		2CAEE00D1B8A61BE00989C1C /* DPTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEE00C1B8A61BE00989C1C /* DPTextFieldTableViewCell.m */; };
 		2CAEE0111B8A62D300989C1C /* DPEditableKeyValueTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEE0101B8A62D300989C1C /* DPEditableKeyValueTableViewCell.m */; };
@@ -118,7 +117,6 @@
 		2C64AED41B8678B1009CD7AE /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
 		2C64AED51B8678B1009CD7AE /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
 		2C64AED61B8678B1009CD7AE /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
-		2C6628211BC455AE00122BC6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2CAEE0081B88FED000989C1C /* DPCreateCardTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPCreateCardTableViewController.h; sourceTree = "<group>"; };
 		2CAEE0091B88FED000989C1C /* DPCreateCardTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCreateCardTableViewController.m; sourceTree = "<group>"; };
 		2CAEE00B1B8A61BE00989C1C /* DPTextFieldTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPTextFieldTableViewCell.h; sourceTree = "<group>"; };
@@ -131,21 +129,21 @@
 		2CAEE0161B8A729700989C1C /* DPTableViewTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPTableViewTextField.m; sourceTree = "<group>"; };
 		2CAEE0181B8A7BFA00989C1C /* uploadPlaceholderImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uploadPlaceholderImage.png; sourceTree = "<group>"; };
 		2CAEE01A1B8A846400989C1C /* AppIcon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = AppIcon.jpg; sourceTree = "<group>"; };
-		2CF9948D1B79443000140B3B /* Digidex Pro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Digidex Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CF9948D1B79443000140B3B /* Rectango.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rectango.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF994901B79443000140B3B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2CF994921B79443000140B3B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2CF994941B79443000140B3B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		2CF994981B79443000140B3B /* Digidex Pro-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Digidex Pro-Info.plist"; sourceTree = "<group>"; };
+		2CF994981B79443000140B3B /* Rectango-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Rectango-Info.plist"; sourceTree = "<group>"; };
 		2CF9949A1B79443000140B3B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2CF9949C1B79443000140B3B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2CF9949E1B79443000140B3B /* Digidex Pro-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Digidex Pro-Prefix.pch"; sourceTree = "<group>"; };
+		2CF9949E1B79443000140B3B /* Rectango-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Rectango-Prefix.pch"; sourceTree = "<group>"; };
 		2CF9949F1B79443000140B3B /* DPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DPAppDelegate.h; sourceTree = "<group>"; };
 		2CF994A01B79443000140B3B /* DPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DPAppDelegate.m; sourceTree = "<group>"; };
 		2CF994A31B79443000140B3B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		2CF994AB1B79443000140B3B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		2CF994B11B79443000140B3B /* Digidex ProTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Digidex ProTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CF994B11B79443000140B3B /* Rectango.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Rectango.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF994B21B79443000140B3B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		2CF994BA1B79443000140B3B /* Digidex ProTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Digidex ProTests-Info.plist"; sourceTree = "<group>"; };
+		2CF994BA1B79443000140B3B /* RectangoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RectangoTests-Info.plist"; sourceTree = "<group>"; };
 		2CF994BC1B79443000140B3B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2CF994BE1B79443000140B3B /* Digidex_ProTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Digidex_ProTests.m; sourceTree = "<group>"; };
 		2CF994C81B79495600140B3B /* CHTCollectionViewWaterfallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTCollectionViewWaterfallLayout.h; sourceTree = "<group>"; };
@@ -274,8 +272,7 @@
 		2CF994841B79443000140B3B = {
 			isa = PBXGroup;
 			children = (
-				2C6628211BC455AE00122BC6 /* README.md */,
-				2CF994961B79443000140B3B /* Digidex Pro */,
+				2CF994961B79443000140B3B /* Rectango */,
 				2CF994B81B79443000140B3B /* Digidex ProTests */,
 				2CF9948F1B79443000140B3B /* Frameworks */,
 				2CF9948E1B79443000140B3B /* Products */,
@@ -285,8 +282,8 @@
 		2CF9948E1B79443000140B3B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2CF9948D1B79443000140B3B /* Digidex Pro.app */,
-				2CF994B11B79443000140B3B /* Digidex ProTests.xctest */,
+				2CF9948D1B79443000140B3B /* Rectango.app */,
+				2CF994B11B79443000140B3B /* Rectango.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -304,7 +301,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		2CF994961B79443000140B3B /* Digidex Pro */ = {
+		2CF994961B79443000140B3B /* Rectango */ = {
 			isa = PBXGroup;
 			children = (
 				2CAEE01A1B8A846400989C1C /* AppIcon.jpg */,
@@ -327,16 +324,17 @@
 				2CF994971B79443000140B3B /* Supporting Files */,
 				C6476DE31B803B840065D89F /* Launch Screen.xib */,
 			);
+			name = Rectango;
 			path = "Digidex Pro";
 			sourceTree = "<group>";
 		};
 		2CF994971B79443000140B3B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				2CF994981B79443000140B3B /* Digidex Pro-Info.plist */,
+				2CF994981B79443000140B3B /* Rectango-Info.plist */,
 				2CF994991B79443000140B3B /* InfoPlist.strings */,
 				2CF9949C1B79443000140B3B /* main.m */,
-				2CF9949E1B79443000140B3B /* Digidex Pro-Prefix.pch */,
+				2CF9949E1B79443000140B3B /* Rectango-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -353,7 +351,7 @@
 		2CF994B91B79443000140B3B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				2CF994BA1B79443000140B3B /* Digidex ProTests-Info.plist */,
+				2CF994BA1B79443000140B3B /* RectangoTests-Info.plist */,
 				2CF994BB1B79443000140B3B /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -386,9 +384,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2CF9948C1B79443000140B3B /* Digidex Pro */ = {
+		2CF9948C1B79443000140B3B /* Rectango */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2CF994C21B79443000140B3B /* Build configuration list for PBXNativeTarget "Digidex Pro" */;
+			buildConfigurationList = 2CF994C21B79443000140B3B /* Build configuration list for PBXNativeTarget "Rectango" */;
 			buildPhases = (
 				2CF994891B79443000140B3B /* Sources */,
 				2CF9948A1B79443000140B3B /* Frameworks */,
@@ -398,14 +396,14 @@
 			);
 			dependencies = (
 			);
-			name = "Digidex Pro";
+			name = Rectango;
 			productName = "Digidex Pro";
-			productReference = 2CF9948D1B79443000140B3B /* Digidex Pro.app */;
+			productReference = 2CF9948D1B79443000140B3B /* Rectango.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2CF994B01B79443000140B3B /* Digidex ProTests */ = {
+		2CF994B01B79443000140B3B /* RectangoTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2CF994C51B79443000140B3B /* Build configuration list for PBXNativeTarget "Digidex ProTests" */;
+			buildConfigurationList = 2CF994C51B79443000140B3B /* Build configuration list for PBXNativeTarget "RectangoTests" */;
 			buildPhases = (
 				2CF994AD1B79443000140B3B /* Sources */,
 				2CF994AE1B79443000140B3B /* Frameworks */,
@@ -416,9 +414,9 @@
 			dependencies = (
 				2CF994B71B79443000140B3B /* PBXTargetDependency */,
 			);
-			name = "Digidex ProTests";
+			name = RectangoTests;
 			productName = "Digidex ProTests";
-			productReference = 2CF994B11B79443000140B3B /* Digidex ProTests.xctest */;
+			productReference = 2CF994B11B79443000140B3B /* Rectango.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -439,7 +437,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2CF994881B79443000140B3B /* Build configuration list for PBXProject "Digidex Pro" */;
+			buildConfigurationList = 2CF994881B79443000140B3B /* Build configuration list for PBXProject "Rectango" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -452,8 +450,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2CF9948C1B79443000140B3B /* Digidex Pro */,
-				2CF994B01B79443000140B3B /* Digidex ProTests */,
+				2CF9948C1B79443000140B3B /* Rectango */,
+				2CF994B01B79443000140B3B /* RectangoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -494,7 +492,6 @@
 				2C64AEDB1B8678B1009CD7AE /* AFSecurityPolicy.m in Sources */,
 				2C64AED81B8678B1009CD7AE /* AFHTTPRequestOperationManager.m in Sources */,
 				2C64AED71B8678B1009CD7AE /* AFHTTPRequestOperation.m in Sources */,
-				2C6628221BC455AE00122BC6 /* README.md in Sources */,
 				2CFBC9D71B7B953900705932 /* DPDetailTableViewController.m in Sources */,
 				2CF994CD1B7949F400140B3B /* DPRootCollectionViewController.m in Sources */,
 				2C26493D1B7996D3000BEC40 /* DKDataStore.m in Sources */,
@@ -540,7 +537,7 @@
 /* Begin PBXTargetDependency section */
 		2CF994B71B79443000140B3B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2CF9948C1B79443000140B3B /* Digidex Pro */;
+			target = 2CF9948C1B79443000140B3B /* Rectango */;
 			targetProxy = 2CF994B61B79443000140B3B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -660,13 +657,14 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Digidex Pro/Digidex Pro-Prefix.pch";
-				INFOPLIST_FILE = "Digidex Pro/Digidex Pro-Info.plist";
+				GCC_PREFIX_HEADER = "Digidex Pro/Rectango-Prefix.pch";
+				INFOPLIST_FILE = "Digidex Pro/Rectango-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Digidex-cxcukeqfygeewpaleogxstwtarqg/Build/Products/Debug-iphoneos",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = aapierce.Rectango;
+				PRODUCT_NAME = Rectango;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -680,18 +678,19 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Digidex Pro/Digidex Pro-Prefix.pch";
+				GCC_PREFIX_HEADER = "Digidex Pro/Rectango-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					$SDKROOT/usr/include/libxml2,
 				);
-				INFOPLIST_FILE = "Digidex Pro/Digidex Pro-Info.plist";
+				INFOPLIST_FILE = "Digidex Pro/Rectango-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Digidex-cxcukeqfygeewpaleogxstwtarqg/Build/Products/Debug-iphoneos",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = aapierce.Rectango;
+				PRODUCT_NAME = Rectango;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -707,13 +706,13 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Digidex Pro/Digidex Pro-Prefix.pch";
+				GCC_PREFIX_HEADER = "Digidex Pro/Rectango-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Digidex ProTests/Digidex ProTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "Digidex ProTests/RectangoTests-Info.plist";
+				PRODUCT_NAME = Rectango;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -729,9 +728,9 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Digidex Pro/Digidex Pro-Prefix.pch";
-				INFOPLIST_FILE = "Digidex ProTests/Digidex ProTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Digidex Pro/Rectango-Prefix.pch";
+				INFOPLIST_FILE = "Digidex ProTests/RectangoTests-Info.plist";
+				PRODUCT_NAME = Rectango;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -740,7 +739,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2CF994881B79443000140B3B /* Build configuration list for PBXProject "Digidex Pro" */ = {
+		2CF994881B79443000140B3B /* Build configuration list for PBXProject "Rectango" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2CF994C01B79443000140B3B /* Debug */,
@@ -749,7 +748,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2CF994C21B79443000140B3B /* Build configuration list for PBXNativeTarget "Digidex Pro" */ = {
+		2CF994C21B79443000140B3B /* Build configuration list for PBXNativeTarget "Rectango" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2CF994C31B79443000140B3B /* Debug */,
@@ -758,7 +757,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2CF994C51B79443000140B3B /* Build configuration list for PBXNativeTarget "Digidex ProTests" */ = {
+		2CF994C51B79443000140B3B /* Build configuration list for PBXNativeTarget "RectangoTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2CF994C61B79443000140B3B /* Debug */,
