@@ -30,6 +30,7 @@
 		2C64AEDD1B8678B1009CD7AE /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C64AED21B8678B1009CD7AE /* AFURLRequestSerialization.m */; };
 		2C64AEDE1B8678B1009CD7AE /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C64AED41B8678B1009CD7AE /* AFURLResponseSerialization.m */; };
 		2C64AEDF1B8678B1009CD7AE /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C64AED61B8678B1009CD7AE /* AFURLSessionManager.m */; };
+		2C6628221BC455AE00122BC6 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2C6628211BC455AE00122BC6 /* README.md */; };
 		2CAEE00A1B88FED000989C1C /* DPCreateCardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEE0091B88FED000989C1C /* DPCreateCardTableViewController.m */; };
 		2CAEE00D1B8A61BE00989C1C /* DPTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEE00C1B8A61BE00989C1C /* DPTextFieldTableViewCell.m */; };
 		2CAEE0111B8A62D300989C1C /* DPEditableKeyValueTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEE0101B8A62D300989C1C /* DPEditableKeyValueTableViewCell.m */; };
@@ -117,6 +118,7 @@
 		2C64AED41B8678B1009CD7AE /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
 		2C64AED51B8678B1009CD7AE /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
 		2C64AED61B8678B1009CD7AE /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
+		2C6628211BC455AE00122BC6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2CAEE0081B88FED000989C1C /* DPCreateCardTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPCreateCardTableViewController.h; sourceTree = "<group>"; };
 		2CAEE0091B88FED000989C1C /* DPCreateCardTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCreateCardTableViewController.m; sourceTree = "<group>"; };
 		2CAEE00B1B8A61BE00989C1C /* DPTextFieldTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPTextFieldTableViewCell.h; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 		2CF994841B79443000140B3B = {
 			isa = PBXGroup;
 			children = (
+				2C6628211BC455AE00122BC6 /* README.md */,
 				2CF994961B79443000140B3B /* Digidex Pro */,
 				2CF994B81B79443000140B3B /* Digidex ProTests */,
 				2CF9948F1B79443000140B3B /* Frameworks */,
@@ -491,6 +494,7 @@
 				2C64AEDB1B8678B1009CD7AE /* AFSecurityPolicy.m in Sources */,
 				2C64AED81B8678B1009CD7AE /* AFHTTPRequestOperationManager.m in Sources */,
 				2C64AED71B8678B1009CD7AE /* AFHTTPRequestOperation.m in Sources */,
+				2C6628221BC455AE00122BC6 /* README.md in Sources */,
 				2CFBC9D71B7B953900705932 /* DPDetailTableViewController.m in Sources */,
 				2CF994CD1B7949F400140B3B /* DPRootCollectionViewController.m in Sources */,
 				2C26493D1B7996D3000BEC40 /* DKDataStore.m in Sources */,
