@@ -663,7 +663,7 @@
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Digidex-cxcukeqfygeewpaleogxstwtarqg/Build/Products/Debug-iphoneos",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = aapierce.Rectango;
+				PRODUCT_BUNDLE_IDENTIFIER = "aapierce.Digidex-Pro";
 				PRODUCT_NAME = Rectango;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -689,7 +689,7 @@
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Digidex-cxcukeqfygeewpaleogxstwtarqg/Build/Products/Debug-iphoneos",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = aapierce.Rectango;
+				PRODUCT_BUNDLE_IDENTIFIER = "aapierce.Digidex-Pro";
 				PRODUCT_NAME = Rectango;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
