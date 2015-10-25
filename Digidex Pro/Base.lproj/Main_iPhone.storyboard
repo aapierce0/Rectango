@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="8IA-wX-AFR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1112" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="8IA-wX-AFR">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -52,7 +52,7 @@
                     </collectionView>
                     <navigationItem key="navigationItem" title="Rectango" id="uyQ-F2-REy">
                         <barButtonItem key="backBarButtonItem" title="Home" id="fKE-I8-cCa"/>
-                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="5pb-my-FCj">
+                        <barButtonItem key="leftBarButtonItem" image="plus-outline" id="5pb-my-FCj">
                             <connections>
                                 <segue destination="TTU-ei-dyC" kind="presentation" id="rhu-f2-zhY"/>
                             </connections>
@@ -85,7 +85,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gBH-Su-0TQ">
                                         <rect key="frame" x="0.0" y="208" width="600" height="392"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="ENTER URL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G9V-dp-6IF">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENTER URL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G9V-dp-6IF">
                                                 <rect key="frame" x="16" y="8" width="68" height="15"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
@@ -108,7 +108,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="URL"/>
                                             </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BhE-3f-ozi">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BhE-3f-ozi">
                                                 <rect key="frame" x="259" y="69" width="82" height="30"/>
                                                 <animations/>
                                                 <state key="normal" title="Bogus Card"/>
@@ -145,7 +145,17 @@
                                                     <action selector="dismiss" destination="TTU-ei-dyC" eventType="touchUpInside" id="uNb-yC-vPg"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Tap to Scan QR Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kf7-Mn-7cx">
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tay-e4-ObY">
+                                                <rect key="frame" x="512" y="24" width="80" height="30"/>
+                                                <state key="normal" title="Debug Item">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="debugCaptureURL:" destination="TTU-ei-dyC" eventType="touchUpInside" id="rgc-tV-vsF"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to Scan QR Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kf7-Mn-7cx">
                                                 <rect key="frame" x="217" y="89" width="167" height="21"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -158,7 +168,9 @@
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="5fz-Nn-pqn"/>
+                                            <constraint firstItem="Tay-e4-ObY" firstAttribute="top" secondItem="25z-23-UZK" secondAttribute="top" constant="24" id="8ze-SC-cYd"/>
                                             <constraint firstAttribute="centerY" secondItem="kf7-Mn-7cx" secondAttribute="centerY" id="YxZ-1t-f2n"/>
+                                            <constraint firstAttribute="trailing" secondItem="Tay-e4-ObY" secondAttribute="trailing" constant="8" id="dn2-Lb-iqH"/>
                                             <constraint firstAttribute="centerX" secondItem="kf7-Mn-7cx" secondAttribute="centerX" id="o1i-P7-eBs"/>
                                         </constraints>
                                         <connections>
@@ -194,6 +206,7 @@
                         <outlet property="URLTextField" destination="nDG-sp-qhf" id="dHU-xU-NYR"/>
                         <outlet property="auxView" destination="gBH-Su-0TQ" id="usY-cl-aCf"/>
                         <outlet property="backButton" destination="aK2-0C-W8T" id="aAp-WP-WeG"/>
+                        <outlet property="debugItemButton" destination="Tay-e4-ObY" id="a77-dX-S04"/>
                         <outlet property="scannerView" destination="25z-23-UZK" id="QcS-0R-ctu"/>
                         <outlet property="scannerViewHeightConstraint" destination="5fz-Nn-pqn" id="N0t-Sy-oqz"/>
                         <outlet property="scrollView" destination="2pr-AR-7E0" id="80G-nB-4aM"/>
@@ -624,7 +637,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Contacts Icon" id="ZKv-ca-05h">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="contact-outline" id="ZKv-ca-05h">
                                                     <rect key="frame" x="15" y="0.0" width="43" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
@@ -649,7 +662,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Document Icon" id="ri7-qY-G6L">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="compose-outline" id="ri7-qY-G6L">
                                                     <rect key="frame" x="15" y="0.0" width="42" height="42"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
@@ -847,7 +860,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Contacts Icon" width="341" height="341"/>
-        <image name="Document Icon" width="42" height="42"/>
+        <image name="compose-outline" width="24" height="24"/>
+        <image name="contact-outline" width="24" height="24"/>
+        <image name="plus-outline" width="24" height="24"/>
     </resources>
 </document>

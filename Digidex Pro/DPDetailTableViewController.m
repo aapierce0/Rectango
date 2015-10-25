@@ -342,25 +342,25 @@
 			UIImage *buttonImage = nil;
 			switch (actionType) {
 				case DPValueActionTypePhone:
-					buttonImage = [UIImage imageNamed:@"phone icon"];
+					buttonImage = [UIImage imageNamed:@"telephone-outline"];
 					break;
 				case DPValueActionTypeEmail:
-					buttonImage = [UIImage imageNamed:@"email icon"];
+					buttonImage = [UIImage imageNamed:@"email-outline"];
 					break;
 				case DPValueActionTypeRSS:
-					buttonImage = [UIImage imageNamed:@"RSS icon"];
+					buttonImage = [UIImage imageNamed:@"rss-outline"];
 					break;
 				case DPValueActionTypePodcast:
-					buttonImage = [UIImage imageNamed:@"podcast icon"];
+					buttonImage = [UIImage imageNamed:@"podcast-outline"];
 					break;
 				case DPValueActionTypeStreetAddress:
-					buttonImage = [UIImage imageNamed:@"map icon"];
+					buttonImage = [UIImage imageNamed:@"map-outline"];
 					break;
 				case DPValueActionTypeWebAddress:
-					buttonImage = [UIImage imageNamed:@"safari icon"];
+					buttonImage = [UIImage imageNamed:@"safari-outline"];
 					break;
 				case DPValueActionTypeUnknown:
-					buttonImage = [UIImage imageNamed:@"question mark icon"];
+					buttonImage = [UIImage imageNamed:@"help-outline"];
 					break;
 				default:
 					break;

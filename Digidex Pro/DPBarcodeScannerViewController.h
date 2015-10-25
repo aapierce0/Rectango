@@ -22,10 +22,12 @@
 @property (weak, nonatomic) IBOutlet UITextField *URLTextField;
 
 - (IBAction)createBogusCard:(id)sender;
+- (IBAction)debugCaptureURL:(id)sender;
 - (IBAction)submitURL:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UILabel *tapToScanLabel;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UIButton *debugItemButton;
 - (IBAction)dismiss;
 
 @end
