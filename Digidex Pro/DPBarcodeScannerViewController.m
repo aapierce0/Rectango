@@ -45,13 +45,56 @@
 
 @end
 
+
+
+
+
+
+
+
+
 @implementation DPBarcodeScannerViewController
 
 
 
 
+- (void)didReceiveMemoryWarning {
+	[super didReceiveMemoryWarning];
+	// Dispose of any resources that can be recreated.
+}
 
 
+// This view controller should not include a navigation bar.
+// These two methods will cause the navigation bar to appear on child view controllers.
+- (void)viewWillAppear:(BOOL)animated {
+	[self.navigationController setNavigationBarHidden:YES animated:animated];
+	[super viewWillAppear:animated];
+}
+- (void)viewWillDisappear:(BOOL)animated {
+	[self.navigationController setNavigationBarHidden:NO animated:animated];
+	[super viewWillDisappear:animated];
+}
+
+// The content of this view controller should be visisble beneath the status bar.
+- (UIStatusBarStyle)preferredStatusBarStyle;
+{
+	return UIStatusBarStyleLightContent;
+}
+
+
+- (IBAction)dismiss;
+{
+	[self.session stopRunning];
+	[self.navigationController popViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:^{
+	}];
+}
+
+
+
+
+
+#pragma mark - Initialization
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -92,48 +135,104 @@
 
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+
+
+
+
+#pragma mark - Camera Setup
+
+- (IBAction)activateScanner:(id)sender {
+	
+	if (_scannerIsShown)
+		return; // The scanner is already shown. Turn back.
+	
+	if ([self setupScanner]) {
+		
+		_scannerIsShown = YES;
+		
+		
+		self.backButton.enabled = NO;
+		self.preview.opacity = 0.0;
+		
+		// Animate the scanner into the full screen
+		[UIView animateWithDuration:0.4 animations:^{
+			
+			self.preview.frame = self.scannerView.bounds;
+			self.preview.opacity = 1.0;
+			
+			// Fade out the auxillery controls
+			self.backButton.alpha = 0.0;
+			self.tapToScanLabel.alpha = 0.0;
+			
+			// Move the cancel view into frame
+			_cancelScanView.layer.shadowOpacity = 0.6;
+			if (_cancelButtonVerticalOffsetConstraint != nil) {
+				_cancelButtonVerticalOffsetConstraint.constant = 0;
+				[self.view layoutIfNeeded];
+			}
+			
+		} completion:^(BOOL finished) {
+			
+		}];
+	}
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	[self.navigationController setNavigationBarHidden:YES animated:animated];
-	[super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	[self.navigationController setNavigationBarHidden:NO animated:animated];
-	[super viewWillDisappear:animated];
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle;
+- (IBAction)deactivateScanner:(id)sender;
 {
-	return UIStatusBarStyleLightContent;
+	[self.session stopRunning];
+	
+	
+	// Animate the scanner out of full screen
+	[UIView animateWithDuration:0.4 animations:^{
+		
+		// Fade out the auxillery controls
+		self.backButton.alpha = 1.0;
+		self.tapToScanLabel.alpha = 1.0;
+		self.preview.opacity = 0.0;
+		
+		// Move the cancel view into frame
+		_cancelScanView.layer.shadowOpacity = 0.2;
+		if (_cancelButtonVerticalOffsetConstraint != nil) {
+			_cancelButtonVerticalOffsetConstraint.constant = -50;
+		}
+		
+		if (_scannedInfoViewVerticalOffsetConstraint != nil) {
+			_scannedInfoViewVerticalOffsetConstraint.constant = -50;
+		}
+		
+		[self.view layoutIfNeeded];
+		
+	} completion:^(BOOL finished) {
+		
+		self.backButton.enabled = YES;
+		
+		[_cancelScanView removeFromSuperview];
+		_cancelScanView = nil;
+		_cancelButtonVerticalOffsetConstraint = nil;
+		_scannerIsShown = NO;
+		
+		if (_scannedInfoView != nil) {
+			[_scannedInfoView removeFromSuperview];
+			_scannedInfoView = nil;
+			_scannedInfoViewVerticalOffsetConstraint = nil;
+		}
+		
+		
+		
+		[self.preview removeFromSuperlayer];
+		
+	}];
 }
-
-
-
-
-
 
 - (BOOL)setupScanner;
 {
     self.device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     self.input = [AVCaptureDeviceInput deviceInputWithDevice:self.device error:nil];
 	
+	// If there is no input device, then we fail.
 	if (!self.input) {
-		
-		// Alert the user that the camera is not available, and then bail.
-		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Camera Not Found"
-																	   message:@"Your device does not have a camera, so it will not be able to scan QR Codes"
-																preferredStyle:UIAlertControllerStyleAlert];
-		
-		[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}]];
-		
-//		[self presentViewController:alert animated:YES completion:^{}];
-//		return NO;
-		return YES;
+		return NO;
 	}
 	
     self.session = [[AVCaptureSession alloc] init];
@@ -160,43 +259,11 @@
 	
 }
 
-
-- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection;
-{
-	// If the last scan was less than 3 seconds ago, ignore this data.
-	if ([[NSDate date] timeIntervalSinceDate:_lastScan] < 3)
-		return;
-	
-    NSLog(@"metadataObjectsL %@", metadataObjects);
-    for (AVMetadataMachineReadableCodeObject *metadataObject in metadataObjects) {
-		
-		// Capture the URL
-        NSURL *url = [NSURL URLWithString:metadataObject.stringValue];
-        if (url != nil) {
-			
-			// Set the last scan to now.
-			_lastScan = [NSDate date];
-            [self captureURL:url];
-        }
-    }
-}
-
--(IBAction)debugCaptureURL:(id)sender;
-{
-
-	
-	NSURL *bogusURL;
-	if (arc4random() % 2 == 0)
-		bogusURL = [DPBarcodeScannerViewController bogusURL];
-	else
-		bogusURL = [NSURL URLWithString:@"http://digidex.org/"];
-	
-	[self captureURL:bogusURL];
-}
-
+// When the user interface rotates, be sure to update the orientation of the preview.
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation;
 {
-    self.preview.connection.videoOrientation = [self videoOrientationForCurrentDeviceOrientation];
+	if (self.preview && self.preview.connection)
+		self.preview.connection.videoOrientation = [self videoOrientationForCurrentDeviceOrientation];
 }
 
 - (AVCaptureVideoOrientation)videoOrientationForCurrentDeviceOrientation;
@@ -220,31 +287,43 @@
             videoOrientation = AVCaptureVideoOrientationPortrait;
             break;
     }
-    
+	
     return videoOrientation;
 }
 
 
-+ (NSURL*)bogusURL;
+
+
+
+
+
+
+
+#pragma mark - User Inputs
+
+// This method is called when the camera detects a QR code.
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection;
 {
-	NSArray *bogusURLs = @[@"http://bloviations.net/contact/cardData0.json",
-						   @"http://bloviations.net/contact/cardData1.json",
-						   @"http://bloviations.net/contact/cardData2.json",
-						   @"http://bloviations.net/contact/cardData3.json",
-						   @"http://bloviations.net/contact/soulful_sparrow.json",
-						   @"http://bloviations.net/contact/elgin_history_museum.json"];
+	// If the last scan was less than 3 seconds ago, ignore this data.
+	if ([[NSDate date] timeIntervalSinceDate:_lastScan] < 3)
+		return;
 	
-	NSURL *bogusURL = [NSURL URLWithString:[bogusURLs objectAtIndex:(arc4random() % bogusURLs.count)]];
-	return bogusURL;
+	NSLog(@"metadataObjectsL %@", metadataObjects);
+	for (AVMetadataMachineReadableCodeObject *metadataObject in metadataObjects) {
+		
+		// Capture the URL
+		NSURL *url = [NSURL URLWithString:metadataObject.stringValue];
+		if (url != nil) {
+			
+			// Set the last scan to now.
+			_lastScan = [NSDate date];
+			[self captureURL:url];
+		}
+	}
 }
 
 
-- (IBAction)createBogusCard:(id)sender {
-	
-	NSURL *bogusURL = [DPBarcodeScannerViewController bogusURL];
-    [self processURL:bogusURL token:[self generateToken]];
-}
-
+// This is called from the text field
 - (IBAction)submitURL:(id)sender {
 	
 	// Get the URL from the text field, and load it.
@@ -252,6 +331,13 @@
     [self processURL:enteredURL token:[self generateToken]];
 }
 
+
+
+
+
+
+
+#pragma mark - URL Processing
 
 - (void)captureURL:(NSURL*)url;
 {
@@ -337,25 +423,24 @@
 	[self processURL:url token:[self generateToken]];
 }
 
-- (void)infoViewTapped:(UIGestureRecognizer*)gestureRecognizer;
+// This utility function will generate a random string.
+// This random string is used to uniquely identify
+- (NSString*)generateToken;
 {
-	if (_loadedCard) {
-		
-		DPDetailTableViewController *detailViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"DetailViewController"];
-		detailViewController.selectedCard = _loadedCard;
-		detailViewController.title = @"New Card";
-		
-		UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
-		
-		[self presentViewController:navigationController animated:YES completion:^{
-		}];
-	} else if (_loadedAltURL) {
-		[[UIApplication sharedApplication] openURL:_loadedAltURL];
+	NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	NSMutableString *randomString = [NSMutableString stringWithCapacity: 10];
+	
+	for (int i=0; i<10; i++) {
+		[randomString appendFormat: @"%C", [letters characterAtIndex: arc4random_uniform((uint)[letters length])]];
 	}
+	
+	return randomString;
 }
 
 - (void)processURL:(NSURL*)url token:(NSString*)token;
 {
+	// Capture the provided token here.
+	// If the user tries to scan a new address, this will be overwritten, and we will know to ignore the old notifications.
 	_activeToken = token;
 	
 	_loadedCard = nil;
@@ -405,122 +490,36 @@
 	}];
 }
 
-- (IBAction)dismiss;
+- (void)infoViewTapped:(UIGestureRecognizer*)gestureRecognizer;
 {
-    [self.session stopRunning];
-    [self.navigationController popViewControllerAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:^{
-    }];
-}
-
-- (NSString*)generateToken;
-{
-	NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-	NSMutableString *randomString = [NSMutableString stringWithCapacity: 10];
-	
-	for (int i=0; i<10; i++) {
-		[randomString appendFormat: @"%C", [letters characterAtIndex: arc4random_uniform((uint)[letters length])]];
-	}
-	
-	return randomString;
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-- (IBAction)activateScanner:(id)sender {
-	
-    if (_scannerIsShown)
-        return; // The scanner is already shown. Turn back.
-    
-	if ([self setupScanner]) {
+	if (_loadedCard) {
 		
-		_scannerIsShown = YES;
+		DPDetailTableViewController *detailViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"DetailViewController"];
+		detailViewController.selectedCard = _loadedCard;
+		detailViewController.title = @"New Card";
 		
+		UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
 		
-		self.backButton.enabled = NO;
-        self.preview.opacity = 0.0;
-		
-		// Animate the scanner into the full screen
-		[UIView animateWithDuration:0.4 animations:^{
-			
-            self.preview.frame = self.scannerView.bounds;
-            self.preview.opacity = 1.0;
-			
-			// Fade out the auxillery controls
-			self.backButton.alpha = 0.0;
-            self.tapToScanLabel.alpha = 0.0;
-			
-			// Move the cancel view into frame
-			_cancelScanView.layer.shadowOpacity = 0.6;
-			if (_cancelButtonVerticalOffsetConstraint != nil) {
-				_cancelButtonVerticalOffsetConstraint.constant = 0;
-				[self.view layoutIfNeeded];
-			}
-			
-		} completion:^(BOOL finished) {
-			
+		[self presentViewController:navigationController animated:YES completion:^{
 		}];
+	} else if (_loadedAltURL) {
+		[[UIApplication sharedApplication] openURL:_loadedAltURL];
 	}
 }
 
 
 
 
-- (IBAction)deactivateScanner:(id)sender;
-{
-	[self.session stopRunning];
-	
-	
-	// Animate the scanner out of full screen
-	[UIView animateWithDuration:0.4 animations:^{
-		
-		// Fade out the auxillery controls
-		self.backButton.alpha = 1.0;
-        self.tapToScanLabel.alpha = 1.0;
-        self.preview.opacity = 0.0;
-		
-		// Move the cancel view into frame
-		_cancelScanView.layer.shadowOpacity = 0.2;
-		if (_cancelButtonVerticalOffsetConstraint != nil) {
-			_cancelButtonVerticalOffsetConstraint.constant = -50;
-		}
-		
-		if (_scannedInfoViewVerticalOffsetConstraint != nil) {
-			_scannedInfoViewVerticalOffsetConstraint.constant = -50;
-		}
-		
-		[self.view layoutIfNeeded];
-		
-	} completion:^(BOOL finished) {
-		
-		self.backButton.enabled = YES;
 
-		[_cancelScanView removeFromSuperview];
-		_cancelScanView = nil;
-		_cancelButtonVerticalOffsetConstraint = nil;
-		_scannerIsShown = NO;
-		
-		if (_scannedInfoView != nil) {
-			[_scannedInfoView removeFromSuperview];
-			_scannedInfoView = nil;
-			_scannedInfoViewVerticalOffsetConstraint = nil;
-		}
-		
-		
-        
-        [self.preview removeFromSuperlayer];
-		
-	}];
-}
 
+
+
+
+
+
+
+
+#pragma mark - Contact import methods
 
 - (IBAction)importFromContacts:(id)sender
 {
@@ -531,7 +530,6 @@
 	}];
 }
 
-#pragma mark - ABPeoplePickerDelegate methods
 - (void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person;
 {
 	
@@ -612,7 +610,45 @@
 	controller.initialKeyValuePairs = [keyValuePairs copy];
 	
 	[self.navigationController pushViewController:controller animated:YES];
+}
+
+
+
+
+
+
+
+#pragma mark - Debug Methods
+
+// This method spoofs a captured URL
+-(IBAction)debugCaptureURL:(id)sender;
+{
+	NSURL *bogusURL;
+	if (arc4random() % 2 == 0)
+		bogusURL = [DPBarcodeScannerViewController bogusURL];
+	else
+		bogusURL = [NSURL URLWithString:@"http://digidex.org/"];
 	
+	[self captureURL:bogusURL];
+}
+
+- (IBAction)createBogusCard:(id)sender {
+	
+	NSURL *bogusURL = [DPBarcodeScannerViewController bogusURL];
+	[self processURL:bogusURL token:[self generateToken]];
+}
+
++ (NSURL*)bogusURL;
+{
+	NSArray *bogusURLs = @[@"http://bloviations.net/contact/cardData0.json",
+						   @"http://bloviations.net/contact/cardData1.json",
+						   @"http://bloviations.net/contact/cardData2.json",
+						   @"http://bloviations.net/contact/cardData3.json",
+						   @"http://bloviations.net/contact/soulful_sparrow.json",
+						   @"http://bloviations.net/contact/elgin_history_museum.json"];
+	
+	NSURL *bogusURL = [NSURL URLWithString:[bogusURLs objectAtIndex:(arc4random() % bogusURLs.count)]];
+	return bogusURL;
 }
 
 
