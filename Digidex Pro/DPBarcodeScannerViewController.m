@@ -330,7 +330,7 @@
 		
 		if (determinedURL != nil) {
 			
-			_loadedCard = [[DKDataStore sharedDataStore] makeTransientContactWithURL:url];
+			_loadedCard = [[DKDataStore sharedDataStore] makeTransientContactWithURL:determinedURL];
 			
 			[_scannedInfoLabel setText:[determinedURL absoluteString]];
 			
