@@ -47,6 +47,12 @@
 
 @implementation DPBarcodeScannerViewController
 
+
+
+
+
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -61,6 +67,27 @@
 //    [self setupScanner];
 	
 	self.edgesForExtendedLayout = UIRectEdgeNone;
+	
+	
+	
+	AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+	switch (authStatus) {
+		case AVAuthorizationStatusAuthorized:
+			// Immediately start the scanner
+			[self setupScanner];
+			break;
+		case AVAuthorizationStatusDenied:
+			// TODO: Indicate that the user has denied access
+			break;
+		case AVAuthorizationStatusRestricted:
+			// TODO: Indicate that the camera access is restricted
+			break;
+		case AVAuthorizationStatusNotDetermined:
+			// TODO: Instruct the user to tap the ask permission
+			break;
+		default:
+			break;
+	}
 }
 
 
@@ -85,10 +112,13 @@
 	return UIStatusBarStyleLightContent;
 }
 
+
+
+
+
+
 - (BOOL)setupScanner;
 {
-
-	
     self.device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     self.input = [AVCaptureDeviceInput deviceInputWithDevice:self.device error:nil];
 	
@@ -414,76 +444,17 @@
 		
 		_scannerIsShown = YES;
 		
-		// Create a "Cancel" button and place it off the bottom of the screen.
-		// It will be animated into view when the Camera takes full screen.
-		_cancelScanView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.scrollView.bounds.size.width, 50)];
-		_cancelScanView.translatesAutoresizingMaskIntoConstraints = NO;
-		_cancelScanView.backgroundColor = [UIColor whiteColor];
-		
-		_cancelScanView.layer.masksToBounds = NO;
-		_cancelScanView.layer.shadowOffset = CGSizeMake(0, -1.0);
-		_cancelScanView.layer.shadowRadius = 5.0;
-		_cancelScanView.layer.shadowOpacity = 0.2;
-		
-		
-		UILabel *cancelScanLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 20)];
-		cancelScanLabel.text = @"Cancel";
-        cancelScanLabel.font = [UIFont systemFontOfSize:20 weight:UIFontWeightBold];
-		cancelScanLabel.textColor = self.view.tintColor;
-		cancelScanLabel.translatesAutoresizingMaskIntoConstraints = NO;
-		
-		[_cancelScanView addSubview:cancelScanLabel];
-		[_cancelScanView addConstraint:[NSLayoutConstraint constraintWithItem:cancelScanLabel
-																	attribute:NSLayoutAttributeCenterX
-																	relatedBy:NSLayoutRelationEqual
-																	   toItem:cancelScanLabel.superview
-																	attribute:NSLayoutAttributeCenterX
-																   multiplier:1.f constant:0.f]];
-		
-		[_cancelScanView addConstraint:[NSLayoutConstraint constraintWithItem:cancelScanLabel
-																	attribute:NSLayoutAttributeCenterY
-																	relatedBy:NSLayoutRelationEqual
-																	   toItem:cancelScanLabel.superview
-																	attribute:NSLayoutAttributeCenterY
-																   multiplier:1.f constant:0.f]];
-		
-		[self.view addSubview:_cancelScanView];
-		
-		[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(0)-[_cancelScanView]-(0)-|" options:kNilOptions metrics:nil views:NSDictionaryOfVariableBindings(_cancelScanView)]];
-		NSArray *verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_cancelScanView(==50)]-(-50)-|" options:kNilOptions metrics:nil views:NSDictionaryOfVariableBindings(_cancelScanView)];
-		for (NSLayoutConstraint *verticalConstraint in verticalConstraints) {
-			// The vertical positioning constraint is -50. If this constraint has a constant of -50, then this is the offset constraint.
-			if (verticalConstraint.constant == -50) {
-				_cancelButtonVerticalOffsetConstraint = verticalConstraint;
-				break;
-			}
-		}
-		
-		[self.view addConstraints:verticalConstraints];
-		[self.view layoutIfNeeded];
-		
-		
-		UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deactivateScanner:)];
-		[_cancelScanView addGestureRecognizer:tapGesture];
-		
-		
-		self.scannerViewHeightConstraint.constant = self.scrollView.bounds.size.height;
-		[self.scrollView setNeedsUpdateConstraints];
 		
 		self.backButton.enabled = NO;
         self.preview.opacity = 0.0;
-        
-        self.scrollView.scrollEnabled = NO;
 		
 		// Animate the scanner into the full screen
 		[UIView animateWithDuration:0.4 animations:^{
 			
-			[self.scrollView layoutIfNeeded];
             self.preview.frame = self.scannerView.bounds;
             self.preview.opacity = 1.0;
 			
 			// Fade out the auxillery controls
-			self.auxView.alpha = 0.0;
 			self.backButton.alpha = 0.0;
             self.tapToScanLabel.alpha = 0.0;
 			
@@ -507,16 +478,11 @@
 {
 	[self.session stopRunning];
 	
-	self.scannerViewHeightConstraint.constant = 200;
-	[self.scrollView setNeedsUpdateConstraints];
 	
 	// Animate the scanner out of full screen
 	[UIView animateWithDuration:0.4 animations:^{
 		
-		[self.scrollView layoutIfNeeded];
-		
 		// Fade out the auxillery controls
-		self.auxView.alpha = 1.0;
 		self.backButton.alpha = 1.0;
         self.tapToScanLabel.alpha = 1.0;
         self.preview.opacity = 0.0;
@@ -551,7 +517,6 @@
 		
         
         [self.preview removeFromSuperlayer];
-        self.scrollView.scrollEnabled = YES;
 		
 	}];
 }

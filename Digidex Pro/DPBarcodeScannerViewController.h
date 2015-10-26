@@ -12,14 +12,9 @@
 
 @interface DPBarcodeScannerViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate, ABPeoplePickerNavigationControllerDelegate>
 
-
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-
 - (IBAction)activateScanner:(id)sender;
 @property (weak, nonatomic) IBOutlet UIView *scannerView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scannerViewHeightConstraint;
 
-@property (weak, nonatomic) IBOutlet UIView *auxView;
 @property (weak, nonatomic) IBOutlet UITextField *URLTextField;
 
 - (IBAction)createBogusCard:(id)sender;
