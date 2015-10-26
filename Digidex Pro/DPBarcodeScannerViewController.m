@@ -9,8 +9,10 @@
 #import "DigidexKit.h"
 #import "DPBarcodeScannerViewController.h"
 #import "DPDetailTableViewController.h"
+#import "DPCreateCardTableViewController.h"
 
 #import "DKManagedCard.h"
+
 
 @interface DPBarcodeScannerViewController () {
     BOOL _tryingURL;
@@ -47,7 +49,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     _tryingURL = NO;
 	_lastScan = [NSDate distantPast];
@@ -58,11 +59,25 @@
 #endif
 	
 //    [self setupScanner];
+	
+	self.edgesForExtendedLayout = UIRectEdgeNone;
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[self.navigationController setNavigationBarHidden:YES animated:animated];
+	[super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[self.navigationController setNavigationBarHidden:NO animated:animated];
+	[super viewWillDisappear:animated];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle;
@@ -144,7 +159,7 @@
 	if (arc4random() % 2 == 0)
 		bogusURL = [DPBarcodeScannerViewController bogusURL];
 	else
-		bogusURL = [NSURL URLWithString:@"http://www.example.org"];
+		bogusURL = [NSURL URLWithString:@"http://digidex.org/"];
 	
 	[self captureURL:bogusURL];
 }
@@ -540,4 +555,100 @@
 		
 	}];
 }
+
+
+- (IBAction)importFromContacts:(id)sender
+{
+	ABPeoplePickerNavigationController *peoplePicker = [[ABPeoplePickerNavigationController alloc] init];
+	peoplePicker.peoplePickerDelegate = self;
+	[self presentViewController:peoplePicker animated:YES completion:^{
+		
+	}];
+}
+
+#pragma mark - ABPeoplePickerDelegate methods
+- (void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person;
+{
+	
+	// Capture this metadata from the contact
+	NSString *name = (__bridge NSString*)ABRecordCopyCompositeName(person);
+	
+	
+	
+	NSArray *singleStringKeys =	@[@{@"organization":	@(kABPersonOrganizationProperty)},
+								  @{@"job title":		@(kABPersonJobTitleProperty)},
+								  @{@"department":		@(kABPersonDepartmentProperty)}];
+	
+	NSArray *multiStringKeys =	@[@{@"URL":				@(kABPersonURLProperty)},
+								  @{@"email":			@(kABPersonEmailProperty)},
+								  @{@"phone":			@(kABPersonPhoneProperty)}];
+	
+	
+	
+	NSMutableArray *keyValuePairs = [@[@{@"key":@"name", @"value": name}] mutableCopy];
+	
+	
+	for (NSDictionary *keyValuePair in singleStringKeys) {
+		
+		NSString *key = keyValuePair.allKeys[0];
+		NSString *stringValue = (__bridge NSString *)(ABRecordCopyValue(person, [keyValuePair[key] intValue]));
+		
+		if (stringValue && [stringValue length] > 0)
+			[keyValuePairs addObject:@{@"key":key, @"value":stringValue}];
+		
+	}
+	
+	for (NSDictionary *keyValuePair in multiStringKeys) {
+		
+		NSString *key = keyValuePair.allKeys[0];
+		ABMultiValueRef multiValue = ABRecordCopyValue(person, [keyValuePair[key] intValue]);
+		long count = ABMultiValueGetCount(multiValue);
+		for (int i = 0; i < count; i++) {
+			
+			CFStringRef label = ABMultiValueCopyLabelAtIndex(multiValue, i);
+			NSString *localizedLabel = (__bridge NSString *)(ABAddressBookCopyLocalizedLabel(label));
+			
+			NSString *value = (__bridge NSString *)ABMultiValueCopyValueAtIndex(multiValue, i);
+			
+			if (value && [value length] > 0) {
+				[keyValuePairs addObject:@{@"key":[NSString stringWithFormat:@"%@ %@", localizedLabel, key], @"value":value, @"type":key}];
+			}
+		}
+	}
+	
+	
+	// Address is a special case...
+	ABMultiValueRef addresses = ABRecordCopyValue(person, kABPersonAddressProperty);
+	long addressCount = ABMultiValueGetCount(addresses);
+	for (int i = 0; i < addressCount; i++) {
+		
+		CFStringRef label = ABMultiValueCopyLabelAtIndex(addresses, i);
+		NSString *localizedLabel = (__bridge NSString*)ABAddressBookCopyLocalizedLabel(label);
+		
+		CFDictionaryRef address = ABMultiValueCopyValueAtIndex(addresses, i);
+		
+		NSString *street =	CFDictionaryGetValue(address, kABPersonAddressStreetKey);
+		NSString *city =	CFDictionaryGetValue(address, kABPersonAddressCityKey);
+		NSString *state =	CFDictionaryGetValue(address, kABPersonAddressStateKey);
+		NSString *zip =		CFDictionaryGetValue(address, kABPersonAddressZIPKey);
+		NSString *country = CFDictionaryGetValue(address, kABPersonAddressCountryKey);
+		
+		NSString *addressString = [NSString stringWithFormat:@"%@\n%@, %@ %@\n%@", street, city, state, zip, country];
+		
+		[keyValuePairs addObject:@{@"key": [NSString stringWithFormat:@"%@ %@", localizedLabel, @"address"], @"value": addressString}];
+	}
+	
+	
+	
+	UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPhone"
+															 bundle: nil];
+	
+	DPCreateCardTableViewController *controller = (DPCreateCardTableViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"CreateCardTableViewController"];
+	controller.initialKeyValuePairs = [keyValuePairs copy];
+	
+	[self.navigationController pushViewController:controller animated:YES];
+	
+}
+
+
 @end

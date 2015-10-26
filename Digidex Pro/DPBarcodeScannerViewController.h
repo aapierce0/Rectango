@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+@import AddressBookUI;
 
-@interface DPBarcodeScannerViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate>
+@interface DPBarcodeScannerViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate, ABPeoplePickerNavigationControllerDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;

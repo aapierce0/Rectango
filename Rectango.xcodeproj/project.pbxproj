@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2C0B473C1B9242050045FF2E /* DPCreatePickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0B473B1B9242050045FF2E /* DPCreatePickerTableViewController.m */; };
 		2C0B473F1B93DAD70045FF2E /* DPTableViewTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0B473E1B93DAD70045FF2E /* DPTableViewTextView.m */; };
 		2C0B47431B93EACD0045FF2E /* DPSelectDataTypeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0B47421B93EACD0045FF2E /* DPSelectDataTypeTableViewController.m */; };
 		2C26493B1B7996D3000BEC40 /* CardDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C2649311B7996D3000BEC40 /* CardDataModel.xcdatamodeld */; };
@@ -71,8 +70,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2C0B473A1B9242050045FF2E /* DPCreatePickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPCreatePickerTableViewController.h; sourceTree = "<group>"; };
-		2C0B473B1B9242050045FF2E /* DPCreatePickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCreatePickerTableViewController.m; sourceTree = "<group>"; };
 		2C0B473D1B93DAD70045FF2E /* DPTableViewTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPTableViewTextView.h; sourceTree = "<group>"; };
 		2C0B473E1B93DAD70045FF2E /* DPTableViewTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPTableViewTextView.m; sourceTree = "<group>"; };
 		2C0B47401B93DB560045FF2E /* DPTableViewTextFieldType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DPTableViewTextFieldType.h; sourceTree = "<group>"; };
@@ -313,8 +310,6 @@
 				2C42BE481B8397A200475433 /* Vendor */,
 				2CF994CB1B7949F400140B3B /* DPRootCollectionViewController.h */,
 				2CF994CC1B7949F400140B3B /* DPRootCollectionViewController.m */,
-				2C0B473A1B9242050045FF2E /* DPCreatePickerTableViewController.h */,
-				2C0B473B1B9242050045FF2E /* DPCreatePickerTableViewController.m */,
 				2C2649401B7A5C03000BEC40 /* DPCardCellView.h */,
 				2C2649411B7A5C03000BEC40 /* DPCardCellView.m */,
 				2CAEE00E1B8A61D800989C1C /* Create new card */,
@@ -498,7 +493,6 @@
 				2CFBC9CD1B7B8FF800705932 /* DPImageTableViewCell.m in Sources */,
 				2CF994A11B79443000140B3B /* DPAppDelegate.m in Sources */,
 				2CAEE00D1B8A61BE00989C1C /* DPTextFieldTableViewCell.m in Sources */,
-				2C0B473C1B9242050045FF2E /* DPCreatePickerTableViewController.m in Sources */,
 				2CF9949D1B79443000140B3B /* main.m in Sources */,
 				2C2649421B7A5C03000BEC40 /* DPCardCellView.m in Sources */,
 				2C26493C1B7996D3000BEC40 /* DigidexKit.m in Sources */,
