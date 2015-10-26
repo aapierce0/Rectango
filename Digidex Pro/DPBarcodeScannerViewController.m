@@ -17,22 +17,22 @@
 @interface DPBarcodeScannerViewController () {
     BOOL _tryingURL;
 	
-	UIView *_cancelScanView;
 	
 	UIView *_scannedInfoView;
 	UIActivityIndicatorView *_scannedInfoActivityIndicatorView;
 	UILabel *_scannedInfoLabel;
 	UIImageView *_scannedInfoImageView;
 	
-	NSLayoutConstraint *_cancelButtonVerticalOffsetConstraint;
+	// This variable will be animated when the a scanned info view appears.
+	// The scanned info view starts outside of the scanner preview, then jumps
+	// in like toast coming out of a toaster.
 	NSLayoutConstraint *_scannedInfoViewVerticalOffsetConstraint;
 	
-	BOOL _scannerIsShown;
-	
+	// These variables are used to track whether or not a URL should be processed.
 	NSString *_activeToken;
-	
 	NSDate *_lastScan;
 	
+	// These variables represent the currently loaded item, whether it's a card or a URL.
 	DKManagedCard *_loadedCard;
 	NSURL *_loadedAltURL;
 }
@@ -54,8 +54,6 @@
 
 
 @implementation DPBarcodeScannerViewController
-
-
 
 
 - (void)didReceiveMemoryWarning {
@@ -89,6 +87,8 @@
 	[self dismissViewControllerAnimated:YES completion:^{
 	}];
 }
+
+
 
 
 
@@ -144,12 +144,7 @@
 
 - (IBAction)activateScanner:(id)sender {
 	
-	if (_scannerIsShown)
-		return; // The scanner is already shown. Turn back.
-	
 	if ([self setupScanner]) {
-		
-		_scannerIsShown = YES;
 		
 		
 		self.backButton.enabled = NO;
@@ -164,13 +159,7 @@
 			// Fade out the auxillery controls
 			self.backButton.alpha = 0.0;
 			self.tapToScanLabel.alpha = 0.0;
-			
-			// Move the cancel view into frame
-			_cancelScanView.layer.shadowOpacity = 0.6;
-			if (_cancelButtonVerticalOffsetConstraint != nil) {
-				_cancelButtonVerticalOffsetConstraint.constant = 0;
-				[self.view layoutIfNeeded];
-			}
+
 			
 		} completion:^(BOOL finished) {
 			
@@ -191,12 +180,8 @@
 		self.tapToScanLabel.alpha = 1.0;
 		self.preview.opacity = 0.0;
 		
-		// Move the cancel view into frame
-		_cancelScanView.layer.shadowOpacity = 0.2;
-		if (_cancelButtonVerticalOffsetConstraint != nil) {
-			_cancelButtonVerticalOffsetConstraint.constant = -50;
-		}
-		
+
+		// If there is any scanned info, get it off the screen.
 		if (_scannedInfoViewVerticalOffsetConstraint != nil) {
 			_scannedInfoViewVerticalOffsetConstraint.constant = -50;
 		}
@@ -206,11 +191,6 @@
 	} completion:^(BOOL finished) {
 		
 		self.backButton.enabled = YES;
-		
-		[_cancelScanView removeFromSuperview];
-		_cancelScanView = nil;
-		_cancelButtonVerticalOffsetConstraint = nil;
-		_scannerIsShown = NO;
 		
 		if (_scannedInfoView != nil) {
 			[_scannedInfoView removeFromSuperview];
@@ -357,10 +337,10 @@
 	_scannedInfoView.layer.shadowRadius = 2.0;
 	_scannedInfoView.layer.shadowOpacity = 0.1;
 	
-	[self.view insertSubview:_scannedInfoView belowSubview:_cancelScanView];
+	[self.scannerView addSubview:_scannedInfoView];
 	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_scannedInfoView]-|" options:kNilOptions metrics:nil views:NSDictionaryOfVariableBindings(_scannedInfoView)]];
 	
-	NSArray *verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_scannedInfoView(==44)]-(-50)-[_cancelScanView]" options:kNilOptions metrics:nil views:NSDictionaryOfVariableBindings(_scannedInfoView, _cancelScanView)];
+	NSArray *verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_scannedInfoView(==44)]-(-50)-|" options:kNilOptions metrics:nil views:NSDictionaryOfVariableBindings(_scannedInfoView)];
 	for (NSLayoutConstraint *verticalConstraint in verticalConstraints) {
 		// The vertical positioning constraint is -50. If this constraint has a constant of -50, then this is the offset constraint.
 		if (verticalConstraint.constant == -50) {
