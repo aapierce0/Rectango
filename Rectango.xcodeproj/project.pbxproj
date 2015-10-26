@@ -426,7 +426,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = DP;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Avery Pierce";
 				TargetAttributes = {
 					2CF9948C1B79443000140B3B = {
@@ -588,6 +588,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -607,7 +608,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					$SDKROOT/usr/include/libxml2,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lxml2";
 				SDKROOT = iphoneos;
@@ -641,7 +642,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				OTHER_LDFLAGS = "-lxml2";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -712,6 +713,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Digidex ProTests/RectangoTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "aapierce.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = Rectango;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -730,6 +732,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Digidex Pro/Rectango-Prefix.pch";
 				INFOPLIST_FILE = "Digidex ProTests/RectangoTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "aapierce.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = Rectango;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
