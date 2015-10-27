@@ -22,11 +22,17 @@
 	UIActivityIndicatorView *_scannedInfoActivityIndicatorView;
 	UILabel *_scannedInfoLabel;
 	UIImageView *_scannedInfoImageView;
+	UIImageView *_scannedCardImageView;
 	
 	// This variable will be animated when the a scanned info view appears.
 	// The scanned info view starts outside of the scanner preview, then jumps
 	// in like toast coming out of a toaster.
 	NSLayoutConstraint *_scannedInfoViewVerticalOffsetConstraint;
+	NSLayoutConstraint *_scannedCardImageViewVerticalOffsetConstraint;
+	
+	// This layout constraint represents the overall height of the bottom view,
+	// including the entire text field.
+	IBOutlet NSLayoutConstraint *_bottomViewHeight;
 	
 	// These variables are used to track whether or not a URL should be processed.
 	NSString *_activeToken;
@@ -35,6 +41,8 @@
 	// These variables represent the currently loaded item, whether it's a card or a URL.
 	DKManagedCard *_loadedCard;
 	NSURL *_loadedAltURL;
+	
+	NSURL *_lastCapturedURL;
 }
 
 @property AVCaptureDevice *device;
@@ -82,6 +90,7 @@
 
 - (IBAction)dismiss;
 {
+	[self.URLTextField resignFirstResponder];
 	[self.session stopRunning];
 	[self.navigationController popViewControllerAnimated:YES];
 	[self dismissViewControllerAnimated:YES completion:^{
@@ -131,7 +140,85 @@
 		default:
 			break;
 	}
+	
+	
+	// We want to be notified if the keyboard appears, so we have a chance to move the text field up into view.
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(keyboardWillShow:)
+												 name:UIKeyboardWillShowNotification
+											   object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(keyboardWillHide:)
+												 name:UIKeyboardWillHideNotification
+											   object:nil];
 }
+
+
+
+
+
+
+
+
+#pragma mark - Keyboard animations
+
+- (void)keyboardWillShow:(NSNotification*)notification;
+{
+	NSDictionary *info = [notification userInfo];
+	CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+	
+	// The height of the textfeild is 30 pts, and it has 8pts of spacing above and below.
+	// 30 + 8 + 8
+	NSInteger animationDuration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] integerValue];
+	[self animateBottomViewHeight:MAX(165, kbSize.height + 30 + 8 + 8) duration:animationDuration];
+}
+
+- (void)keyboardWillHide:(NSNotification*)notification
+{
+	NSDictionary *info = [notification userInfo];
+	NSInteger animationDuration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] integerValue];
+	[self animateBottomViewHeight:165 duration:animationDuration];
+}
+
+- (void)animateBottomViewHeight:(CGFloat)value duration:(NSTimeInterval)duration;
+{
+	[self.view layoutIfNeeded];
+	
+	[UIView animateWithDuration:duration animations:^{
+		
+		// Don't make it shorter than 165pts
+		_bottomViewHeight.constant = value;
+		[self.view layoutIfNeeded];
+	}];
+}
+
+
+
+
+
+
+
+
+
+
+
+#pragma mark - UITextField delegate
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	[textField resignFirstResponder];
+	return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField;
+{
+	NSLog(@"Text did end");
+	NSURL *URL = [NSURL URLWithString:[textField text]];
+	[self captureURL:URL];
+}
+
+
+
 
 
 
@@ -321,9 +408,66 @@
 
 - (void)captureURL:(NSURL*)url;
 {
+	// If the URL is empty, bail out.
+	if ([[url absoluteString] length] == 0)
+		return;
+	
+	
+	// If this URL doesn't have a scheme, add the HTTP scheme.
+	NSLog(@"URL scheme: %@", url.scheme);
+	if (!url.scheme) {
+		url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", url]];
+	}
+	
+	
+	if ([url isEqual:_lastCapturedURL])
+		return;
+	
+	_lastCapturedURL = url;
+	
+	
+	
 	if (_scannedInfoView != nil) {
-		[_scannedInfoView removeFromSuperview];
+		
+		// Capture a reference to this old view.
+		UIView *oldScannedInfoView = _scannedInfoView;
+		NSLayoutConstraint *oldLayoutConstraint = _scannedInfoViewVerticalOffsetConstraint;
+		
+		// Capture a reference to the old card view
+		UIView *oldCardImageView = _scannedCardImageView;
+		NSLayoutConstraint *oldCardLayoutConstraint = _scannedCardImageViewVerticalOffsetConstraint;
+		
+		// nil out the instance variables. We're starting over!
 		_scannedInfoView = nil;
+		_scannedInfoViewVerticalOffsetConstraint = nil;
+		_scannedCardImageView = nil;
+		_scannedCardImageViewVerticalOffsetConstraint = nil;
+		
+		
+		[self.view layoutIfNeeded];
+		
+		[UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+			
+			NSInteger verticalMovement = 60;
+			
+			oldScannedInfoView.alpha = 0.0;
+			oldLayoutConstraint.constant += verticalMovement;
+			
+			if (oldCardImageView != nil) {
+				oldCardImageView.alpha = 0.0;
+			}
+			
+			if (oldCardLayoutConstraint != nil) {
+				oldCardLayoutConstraint.constant += verticalMovement;
+			}
+			
+			[self.view layoutIfNeeded];
+		} completion:^(BOOL finished) {
+			[oldScannedInfoView removeFromSuperview];
+		}];
+		
+		
+		
 	}
 	
 	// Display a view that shows a progress spinner and the scanned URL
@@ -335,10 +479,10 @@
 	_scannedInfoView.layer.masksToBounds = NO;
 	_scannedInfoView.layer.shadowOffset = CGSizeMake(0, -1.0);
 	_scannedInfoView.layer.shadowRadius = 2.0;
-	_scannedInfoView.layer.shadowOpacity = 0.1;
+	_scannedInfoView.layer.shadowOpacity = 0.2;
 	
 	[self.scannerView addSubview:_scannedInfoView];
-	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_scannedInfoView]-|" options:kNilOptions metrics:nil views:NSDictionaryOfVariableBindings(_scannedInfoView)]];
+	[self.scannerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_scannedInfoView]-|" options:kNilOptions metrics:nil views:NSDictionaryOfVariableBindings(_scannedInfoView)]];
 	
 	NSArray *verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_scannedInfoView(==44)]-(-50)-|" options:kNilOptions metrics:nil views:NSDictionaryOfVariableBindings(_scannedInfoView)];
 	for (NSLayoutConstraint *verticalConstraint in verticalConstraints) {
@@ -348,7 +492,7 @@
 			break;
 		}
 	}
-	[self.view addConstraints:verticalConstraints];
+	[self.scannerView addConstraints:verticalConstraints];
 	
 	
 	
@@ -382,7 +526,6 @@
 	[_scannedInfoActivityIndicatorView setHidesWhenStopped:YES];
 	
 	
-	[self.view layoutIfNeeded];
 	
 	
 	// If the info view is tapped, launch the respective view
@@ -390,6 +533,7 @@
 	[_scannedInfoView addGestureRecognizer:tapGestureRecognizer];
 	
 	
+	[self.view layoutIfNeeded];
 	
 	[UIView animateWithDuration:0.8 delay:0.0 usingSpringWithDamping:0.6 initialSpringVelocity:0.1 options:kNilOptions animations:^{
 		if (_scannedInfoViewVerticalOffsetConstraint != nil) {
@@ -456,6 +600,74 @@
 					return;
 				
 				[_scannedInfoLabel setText:[_loadedCard guessedName]];
+			}];
+			
+			
+			// When the card image is loaded, display it with a toaster animation
+			[[NSNotificationCenter defaultCenter] addObserverForName:@"ImageLoaded" object:_loadedCard queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+				
+				// If the user attempted to load something else, ignore this data.
+				if (![_activeToken isEqualToString:token])
+					return;
+				
+				_scannedCardImageView = [[UIImageView alloc] initWithImage:_loadedCard.cardImage];
+				_scannedCardImageView.translatesAutoresizingMaskIntoConstraints = NO;
+				_scannedCardImageView.backgroundColor = [UIColor whiteColor];
+				_scannedCardImageView.layer.cornerRadius = 6;
+				
+				_scannedCardImageView.layer.masksToBounds = NO;
+				_scannedCardImageView.layer.shadowOffset = CGSizeMake(0, -1.0);
+				_scannedCardImageView.layer.shadowRadius = 2.0;
+				_scannedCardImageView.layer.shadowOpacity = 0.2;
+				
+				[self.scannerView insertSubview:_scannedCardImageView belowSubview:_scannedInfoView];
+				[self.scannerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=20)-[_scannedCardImageView]-(>=20)-|" options:kNilOptions metrics:nil views:NSDictionaryOfVariableBindings(_scannedCardImageView)]];
+				
+				NSArray *verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_scannedCardImageView(<=120)]-(-100)-|" options:kNilOptions metrics:nil views:NSDictionaryOfVariableBindings(_scannedCardImageView)];
+				for (NSLayoutConstraint *verticalConstraint in verticalConstraints) {
+					// The vertical positioning constraint is -50. If this constraint has a constant of -50, then this is the offset constraint.
+					if (verticalConstraint.constant == -100) {
+						_scannedCardImageViewVerticalOffsetConstraint = verticalConstraint;
+						break;
+					}
+				}
+				[self.scannerView addConstraints:verticalConstraints];
+				
+				
+				// Make sure the card is centered in the view
+				NSLayoutConstraint *centerXConstraint = [NSLayoutConstraint constraintWithItem:_scannedCardImageView
+																					 attribute:NSLayoutAttributeCenterX
+																					 relatedBy:NSLayoutRelationEqual
+																						toItem:self.scannerView
+																					 attribute:NSLayoutAttributeCenterX
+																					multiplier:1
+																					  constant:0];
+				[self.scannerView addConstraint:centerXConstraint];
+				
+				
+				// Make sure to enfore the aspect ratio
+				CGFloat aspectRatio = _loadedCard.cardImageSize.width / _loadedCard.cardImageSize.height;
+				NSLayoutConstraint *aspectRatioConstraint =[NSLayoutConstraint constraintWithItem:_scannedCardImageView
+																						attribute:NSLayoutAttributeWidth
+																						relatedBy:NSLayoutRelationEqual
+																						   toItem:_scannedCardImageView
+																						attribute:NSLayoutAttributeHeight
+																					   multiplier:aspectRatio
+																						 constant:0.0f];
+				[_scannedCardImageView addConstraint:aspectRatioConstraint];
+				
+				
+				[self.view layoutIfNeeded];
+				
+				[UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.1 options:kNilOptions animations:^{
+					if (_scannedCardImageViewVerticalOffsetConstraint != nil) {
+						_scannedCardImageViewVerticalOffsetConstraint.constant = 50;
+						[self.view layoutIfNeeded];
+					}
+				} completion:^(BOOL finished) {
+					
+				}];
+				
 			}];
 		} else {
 			

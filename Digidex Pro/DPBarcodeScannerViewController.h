@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 @import AddressBookUI;
 
-@interface DPBarcodeScannerViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate, ABPeoplePickerNavigationControllerDelegate>
+@interface DPBarcodeScannerViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate, ABPeoplePickerNavigationControllerDelegate, UITextFieldDelegate>
 
 - (IBAction)activateScanner:(id)sender;
 @property (weak, nonatomic) IBOutlet UIView *scannerView;

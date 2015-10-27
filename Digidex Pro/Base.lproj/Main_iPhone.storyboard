@@ -133,7 +133,10 @@
                                             <constraint firstAttribute="height" constant="30" id="Ykl-ny-EF3"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL" returnKeyType="done"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="TTU-ei-dyC" id="a9C-Eb-IAE"/>
+                                        </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sNG-Zl-h67">
                                         <rect key="frame" x="0.0" y="46" width="300" height="119"/>
@@ -184,6 +187,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="URLTextField" destination="Cbm-CR-5la" id="t2u-cq-BWJ"/>
+                        <outlet property="_bottomViewHeight" destination="qrZ-f4-wns" id="Pkz-oU-JqP"/>
                         <outlet property="backButton" destination="aK2-0C-W8T" id="aAp-WP-WeG"/>
                         <outlet property="debugItemButton" destination="Tay-e4-ObY" id="a77-dX-S04"/>
                         <outlet property="scannerView" destination="25z-23-UZK" id="QcS-0R-ctu"/>
