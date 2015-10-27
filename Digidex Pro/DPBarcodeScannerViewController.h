@@ -22,6 +22,7 @@
 - (IBAction)submitURL:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UILabel *tapToScanLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *tapToScanImageView;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *debugItemButton;
 - (IBAction)dismiss;

@@ -120,22 +120,26 @@
 	
 	self.edgesForExtendedLayout = UIRectEdgeNone;
 	
+	self.tapToScanLabel.textColor = [UIColor lightGrayColor];
+	self.tapToScanImageView.tintColor = [UIColor lightGrayColor];
 	
 	
 	AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
 	switch (authStatus) {
 		case AVAuthorizationStatusAuthorized:
 			// Immediately start the scanner
+			[self.tapToScanLabel removeFromSuperview];
+			[self.tapToScanImageView removeFromSuperview];
 			[self setupScanner];
 			break;
 		case AVAuthorizationStatusDenied:
-			// TODO: Indicate that the user has denied access
+			self.tapToScanLabel.text = @"Camera access denied. Re-enable access in system settings";
 			break;
 		case AVAuthorizationStatusRestricted:
-			// TODO: Indicate that the camera access is restricted
+			self.tapToScanLabel.text = @"Camera access restricted.";
 			break;
 		case AVAuthorizationStatusNotDetermined:
-			// TODO: Instruct the user to tap the ask permission
+			// The user may tap to grant permission
 			break;
 		default:
 			break;
@@ -299,6 +303,7 @@
 	
 	// If there is no input device, then we fail.
 	if (!self.input) {
+		self.tapToScanLabel.text = @"No Camera Available";
 		return NO;
 	}
 	

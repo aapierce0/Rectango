@@ -101,11 +101,18 @@
                                             <action selector="debugCaptureURL:" destination="TTU-ei-dyC" eventType="touchUpInside" id="rgc-tV-vsF"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to Scan QR Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kf7-Mn-7cx">
-                                        <rect key="frame" x="217" y="207" width="167" height="21"/>
-                                        <animations/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera-outline-large" translatesAutoresizingMaskIntoConstraints="NO" id="Wpo-58-DaI">
+                                        <rect key="frame" x="200" y="68" width="200" height="200"/>
+                                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="MgC-sp-6XE"/>
+                                            <constraint firstAttribute="height" constant="200" id="rsF-De-ChZ"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to Scan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nOK-fp-0zy">
+                                        <rect key="frame" x="233" y="236" width="135" height="32"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -114,10 +121,12 @@
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="Tay-e4-ObY" firstAttribute="top" secondItem="25z-23-UZK" secondAttribute="top" constant="24" id="8ze-SC-cYd"/>
-                                    <constraint firstAttribute="centerY" secondItem="kf7-Mn-7cx" secondAttribute="centerY" id="YxZ-1t-f2n"/>
+                                    <constraint firstAttribute="centerX" secondItem="nOK-fp-0zy" secondAttribute="centerX" id="JqZ-Ub-yp2"/>
+                                    <constraint firstItem="nOK-fp-0zy" firstAttribute="top" secondItem="Wpo-58-DaI" secondAttribute="bottom" constant="-32" id="btv-bM-VG6"/>
                                     <constraint firstAttribute="trailing" secondItem="Tay-e4-ObY" secondAttribute="trailing" constant="8" id="dn2-Lb-iqH"/>
                                     <constraint firstItem="aK2-0C-W8T" firstAttribute="top" secondItem="25z-23-UZK" secondAttribute="topMargin" constant="16" id="ewu-jj-WdX"/>
-                                    <constraint firstAttribute="centerX" secondItem="kf7-Mn-7cx" secondAttribute="centerX" id="o1i-P7-eBs"/>
+                                    <constraint firstAttribute="centerX" secondItem="Wpo-58-DaI" secondAttribute="centerX" id="fjX-cO-HRb"/>
+                                    <constraint firstAttribute="centerY" secondItem="Wpo-58-DaI" secondAttribute="centerY" constant="50" id="j9m-Xd-Rol"/>
                                     <constraint firstItem="aK2-0C-W8T" firstAttribute="leading" secondItem="25z-23-UZK" secondAttribute="leadingMargin" constant="8" id="t4T-l4-doo"/>
                                 </constraints>
                                 <connections>
@@ -191,7 +200,8 @@
                         <outlet property="backButton" destination="aK2-0C-W8T" id="aAp-WP-WeG"/>
                         <outlet property="debugItemButton" destination="Tay-e4-ObY" id="a77-dX-S04"/>
                         <outlet property="scannerView" destination="25z-23-UZK" id="QcS-0R-ctu"/>
-                        <outlet property="tapToScanLabel" destination="kf7-Mn-7cx" id="gh4-mp-XSr"/>
+                        <outlet property="tapToScanImageView" destination="Wpo-58-DaI" id="hQC-lP-0xk"/>
+                        <outlet property="tapToScanLabel" destination="nOK-fp-0zy" id="qQY-Ly-DAA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gdK-xH-VJc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -201,7 +211,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1352" y="1108"/>
+            <point key="canvasLocation" x="1352" y="1102"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4fA-hB-mAe">
@@ -755,6 +765,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="camera-outline-large" width="200" height="200"/>
         <image name="compose-outline" width="24" height="24"/>
         <image name="contact-outline" width="24" height="24"/>
         <image name="plus-outline" width="24" height="24"/>
