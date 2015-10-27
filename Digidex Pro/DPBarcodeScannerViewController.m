@@ -115,8 +115,7 @@
 	[self.debugItemButton setHidden:NO];
 	[self.debugItemButton setEnabled:YES];
 #endif
-	
-//    [self setupScanner];
+    
 	
 	self.edgesForExtendedLayout = UIRectEdgeNone;
 	
@@ -156,7 +155,6 @@
 												 name:UIKeyboardWillHideNotification
 											   object:nil];
 }
-
 
 
 
@@ -235,65 +233,65 @@
 
 - (IBAction)activateScanner:(id)sender {
 	
-	if ([self setupScanner]) {
-		
-		
-		self.backButton.enabled = NO;
-		self.preview.opacity = 0.0;
-		
-		// Animate the scanner into the full screen
-		[UIView animateWithDuration:0.4 animations:^{
-			
-			self.preview.frame = self.scannerView.bounds;
-			self.preview.opacity = 1.0;
-			
-			// Fade out the auxillery controls
-			self.backButton.alpha = 0.0;
-			self.tapToScanLabel.alpha = 0.0;
-
-			
-		} completion:^(BOOL finished) {
-			
-		}];
-	}
+//	if ([self setupScanner]) {
+//		
+//		
+//		self.backButton.enabled = NO;
+//		self.preview.opacity = 0.0;
+//		
+//		// Animate the scanner into the full screen
+//		[UIView animateWithDuration:0.4 animations:^{
+//			
+//			self.preview.frame = self.scannerView.bounds;
+//			self.preview.opacity = 1.0;
+//			
+//			// Fade out the auxillery controls
+//			self.backButton.alpha = 0.0;
+//			self.tapToScanLabel.alpha = 0.0;
+//
+//			
+//		} completion:^(BOOL finished) {
+//			
+//		}];
+//	}
 }
 
 - (IBAction)deactivateScanner:(id)sender;
 {
-	[self.session stopRunning];
-	
-	
-	// Animate the scanner out of full screen
-	[UIView animateWithDuration:0.4 animations:^{
-		
-		// Fade out the auxillery controls
-		self.backButton.alpha = 1.0;
-		self.tapToScanLabel.alpha = 1.0;
-		self.preview.opacity = 0.0;
-		
-
-		// If there is any scanned info, get it off the screen.
-		if (_scannedInfoViewVerticalOffsetConstraint != nil) {
-			_scannedInfoViewVerticalOffsetConstraint.constant = -50;
-		}
-		
-		[self.view layoutIfNeeded];
-		
-	} completion:^(BOOL finished) {
-		
-		self.backButton.enabled = YES;
-		
-		if (_scannedInfoView != nil) {
-			[_scannedInfoView removeFromSuperview];
-			_scannedInfoView = nil;
-			_scannedInfoViewVerticalOffsetConstraint = nil;
-		}
-		
-		
-		
-		[self.preview removeFromSuperlayer];
-		
-	}];
+//	[self.session stopRunning];
+//	
+//	
+//	// Animate the scanner out of full screen
+//	[UIView animateWithDuration:0.4 animations:^{
+//		
+//		// Fade out the auxillery controls
+//		self.backButton.alpha = 1.0;
+//		self.tapToScanLabel.alpha = 1.0;
+//		self.preview.opacity = 0.0;
+//		
+//
+//		// If there is any scanned info, get it off the screen.
+//		if (_scannedInfoViewVerticalOffsetConstraint != nil) {
+//			_scannedInfoViewVerticalOffsetConstraint.constant = -50;
+//		}
+//		
+//		[self.view layoutIfNeeded];
+//		
+//	} completion:^(BOOL finished) {
+//		
+//		self.backButton.enabled = YES;
+//		
+//		if (_scannedInfoView != nil) {
+//			[_scannedInfoView removeFromSuperview];
+//			_scannedInfoView = nil;
+//			_scannedInfoViewVerticalOffsetConstraint = nil;
+//		}
+//		
+//		
+//		
+//		[self.preview removeFromSuperlayer];
+//		
+//	}];
 }
 
 - (BOOL)setupScanner;
@@ -337,6 +335,10 @@
 	if (self.preview && self.preview.connection)
 		self.preview.connection.videoOrientation = [self videoOrientationForCurrentDeviceOrientation];
 }
+- (void)viewDidLayoutSubviews;
+{
+    self.preview.frame = self.scannerView.bounds;
+}
 
 - (AVCaptureVideoOrientation)videoOrientationForCurrentDeviceOrientation;
 {
@@ -376,8 +378,8 @@
 // This method is called when the camera detects a QR code.
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection;
 {
-	// If the last scan was less than 3 seconds ago, ignore this data.
-	if ([[NSDate date] timeIntervalSinceDate:_lastScan] < 3)
+	// If the last scan was less than 2 seconds ago, ignore this data.
+	if ([[NSDate date] timeIntervalSinceDate:_lastScan] < 2)
 		return;
 	
 	
