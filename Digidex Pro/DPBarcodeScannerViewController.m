@@ -288,7 +288,7 @@
 	if ([[NSDate date] timeIntervalSinceDate:_lastScan] < 3)
 		return;
 	
-	NSLog(@"metadataObjectsL %@", metadataObjects);
+	
 	for (AVMetadataMachineReadableCodeObject *metadataObject in metadataObjects) {
 		
 		// Capture the URL
@@ -478,10 +478,8 @@
 		detailViewController.selectedCard = _loadedCard;
 		detailViewController.title = @"New Card";
 		
-		UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
+		[self.navigationController pushViewController:detailViewController animated:YES];
 		
-		[self presentViewController:navigationController animated:YES completion:^{
-		}];
 	} else if (_loadedAltURL) {
 		[[UIApplication sharedApplication] openURL:_loadedAltURL];
 	}

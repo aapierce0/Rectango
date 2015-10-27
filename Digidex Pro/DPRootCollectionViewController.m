@@ -64,8 +64,7 @@
 	
     // Add buttons to the right of the navigation bar
     UIBarButtonItem *deleteAll =	[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash		target:self action:@selector(deleteAll:)];
-	UIBarButtonItem *compose =		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose	target:self action:@selector(composeDigidexCard:)];
-	self.navigationItem.rightBarButtonItems = @[deleteAll, compose];
+	self.navigationItem.rightBarButtonItems = @[deleteAll];
 	
 	
 	CHTCollectionViewWaterfallLayout *waterfallLayout = (CHTCollectionViewWaterfallLayout *)self.collectionViewLayout;
@@ -257,13 +256,6 @@
     
     [self presentViewController:alert animated:YES completion:nil];
 }
-
-- (IBAction)composeDigidexCard:(id)sender {
-	
-	[self performSegueWithIdentifier:@"composeDigidexCard" sender:self];
-	
-}
-
 
 
 

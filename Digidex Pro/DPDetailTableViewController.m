@@ -78,6 +78,16 @@
 	}
 }
 
+- (void)viewWillAppear:(BOOL)animated;
+{
+	[super viewWillAppear:animated];
+	
+	// Check to see if this item has a back button item.
+	if (self.navigationController.viewControllers.count > 1) {
+		self.navigationItem.leftBarButtonItem = nil;
+	}
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
