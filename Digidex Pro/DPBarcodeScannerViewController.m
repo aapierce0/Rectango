@@ -127,12 +127,13 @@
 	switch (authStatus) {
 		case AVAuthorizationStatusAuthorized:
 			// Immediately start the scanner
-			[self.tapToScanLabel removeFromSuperview];
-			[self.tapToScanImageView removeFromSuperview];
-			[self setupScanner];
+			if ([self setupScanner]) {
+				[self.tapToScanLabel removeFromSuperview];
+				[self.tapToScanImageView removeFromSuperview];
+			}
 			break;
 		case AVAuthorizationStatusDenied:
-			self.tapToScanLabel.text = @"Camera access denied. Re-enable access in system settings";
+			self.tapToScanLabel.text = @"Camera access denied.\nGo to System Settings > Rectango to enable.";
 			break;
 		case AVAuthorizationStatusRestricted:
 			self.tapToScanLabel.text = @"Camera access restricted.";
@@ -233,65 +234,22 @@
 
 - (IBAction)activateScanner:(id)sender {
 	
-//	if ([self setupScanner]) {
-//		
-//		
-//		self.backButton.enabled = NO;
-//		self.preview.opacity = 0.0;
-//		
-//		// Animate the scanner into the full screen
-//		[UIView animateWithDuration:0.4 animations:^{
-//			
-//			self.preview.frame = self.scannerView.bounds;
-//			self.preview.opacity = 1.0;
-//			
-//			// Fade out the auxillery controls
-//			self.backButton.alpha = 0.0;
-//			self.tapToScanLabel.alpha = 0.0;
-//
-//			
-//		} completion:^(BOOL finished) {
-//			
-//		}];
-//	}
+	AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+	if (authStatus == AVAuthorizationStatusNotDetermined) {
+		[AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+			if(granted) {
+				NSLog(@"Access not granted");
+			}
+		}];
+	}
+	
+	if (!self.session.isRunning) {
+		[self setupScanner];
+	}
 }
 
 - (IBAction)deactivateScanner:(id)sender;
 {
-//	[self.session stopRunning];
-//	
-//	
-//	// Animate the scanner out of full screen
-//	[UIView animateWithDuration:0.4 animations:^{
-//		
-//		// Fade out the auxillery controls
-//		self.backButton.alpha = 1.0;
-//		self.tapToScanLabel.alpha = 1.0;
-//		self.preview.opacity = 0.0;
-//		
-//
-//		// If there is any scanned info, get it off the screen.
-//		if (_scannedInfoViewVerticalOffsetConstraint != nil) {
-//			_scannedInfoViewVerticalOffsetConstraint.constant = -50;
-//		}
-//		
-//		[self.view layoutIfNeeded];
-//		
-//	} completion:^(BOOL finished) {
-//		
-//		self.backButton.enabled = YES;
-//		
-//		if (_scannedInfoView != nil) {
-//			[_scannedInfoView removeFromSuperview];
-//			_scannedInfoView = nil;
-//			_scannedInfoViewVerticalOffsetConstraint = nil;
-//		}
-//		
-//		
-//		
-//		[self.preview removeFromSuperlayer];
-//		
-//	}];
 }
 
 - (BOOL)setupScanner;
