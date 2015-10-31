@@ -16,6 +16,7 @@
 	NSDictionary *_cardDictionary;
 	
 	UIImage *_cardImage;
+	UIImage *_cardThumbnailImage;
 	UIImage *_cachedCardImage;
 	
 	CGSize _cardImageSize;
@@ -41,6 +42,7 @@
 
 @property (readonly) NSURL *cardImageURL;
 @property (readonly) UIImage *cardImage;
+@property (readonly) UIImage *cardThumbnailImage;
 @property (readonly) CGSize cardImageSize;
 
 - (instancetype)initWithContactURL:(NSURL *)URL managedObjectContext:(NSManagedObjectContext *)moc insert:(BOOL)shouldInsertAutomatically;

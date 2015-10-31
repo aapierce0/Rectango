@@ -156,7 +156,7 @@
 	DKManagedCard *card = _allCards[indexPath.item];
 	
 	// Add the card image to the cell
-	[cell.imageView setImage:card.cardImage];
+	[cell.imageView setImage:card.cardThumbnailImage];
 	
 	cell.layer.masksToBounds = NO;
 	cell.layer.shadowOffset = CGSizeMake(0, 1.0);
@@ -253,7 +253,7 @@
 
 - (void)addListenersForCard:(DKManagedCard*)card; {
 	
-	[[NSNotificationCenter defaultCenter] addObserverForName:@"ImageLoaded" object:card queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+	[[NSNotificationCenter defaultCenter] addObserverForName:@"ThumbnailGenerated" object:card queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
 		NSUInteger cardIndex = [_allCards indexOfObject:card];
 		if (cardIndex != NSNotFound) {
 			[self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:cardIndex inSection:0]]];

@@ -166,6 +166,44 @@
 	}
 }
 
+- (UIImage *)cardThumbnailImage;
+{
+	if (_cardThumbnailImage) {
+		return _cardThumbnailImage;
+	}
+	
+	// If the thumbnail image isn't ready yet, return the cardImage.
+	return self.cardImage;
+}
+
+- (void)regenerateThumbnail;
+{
+	// If the original card image doesn't exist yet, bail immediately.
+	if (!_cardImage)
+		return;
+	
+	// Create a thumbnail version of the image for the event object.
+	CGSize size = _cardImage.size;
+	
+	
+	// The max width of the card is 200 points.
+	CGFloat scaleFactor = 1;
+	if (size.width > 200) {
+		scaleFactor = 200 / size.width;
+	}
+	CGSize scaledSize = CGSizeMake(round(size.width * scaleFactor), round(size.height * scaleFactor));
+	
+	
+	// Resize the image
+	UIGraphicsBeginImageContext(scaledSize);
+	[_cardImage drawInRect:CGRectMake(0.0, 0.0, scaledSize.width, scaledSize.height)];
+	_cardThumbnailImage = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	// Done Resizing
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"ThumbnailGenerated" object:self];
+}
+
 - (CGSize)cardImageSize;
 {
 	if (!CGSizeEqualToSize(_cardImageSize, CGSizeZero)) {
@@ -424,6 +462,7 @@
 									   [self writeImageToDisk];
 								   
 								   [[NSNotificationCenter defaultCenter] postNotificationName:@"ImageLoaded" object:self];
+								   [self regenerateThumbnail];
 								   
 							   } else if (connectionError) {
 								   
