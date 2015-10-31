@@ -60,6 +60,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	self.tableView.allowsMultipleSelectionDuringEditing = NO;
+	
 	_imageSelected = NO;
 	_cardImage = [UIImage imageNamed:@"uploadPlaceholderImage"];
 	_cardName = @"";
@@ -306,25 +308,68 @@
 	selectViewController.createCardTableViewController = self;
 }
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+	
     // Return NO if you do not want the specified item to be editable.
-    return YES;
+	if (indexPath.section == 0) {
+		
+		// This is the card view cell...
+		return NO;
+		
+	} else if (indexPath.section == 1) {
+		
+		// This is the name cell...
+		return NO;
+		
+	} else if (indexPath.section - 2 < _keyValuePairs.count) {
+		
+		// This is a key value cell
+		return YES;
+		
+	} else {
+		
+		// This is the large button view
+		return NO;
+		
+	}
+	
+    return NO;
 }
-*/
 
-/*
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+		if (indexPath.section == 0) {
+			
+			// This is the card view cell...
+			
+		} else if (indexPath.section == 1) {
+			
+			// This is the name cell...
+			
+		} else if (indexPath.section - 2 < _keyValuePairs.count) {
+			
+			// This is a key value cell
+			[_keyValuePairs removeObjectAtIndex:indexPath.section-2];
+			
+		} else {
+			
+			// This is the large button view
+			
+		}
+		
+		NSIndexSet *deletedSectionIndexSet = [NSIndexSet indexSetWithIndex:indexPath.section];
+		[tableView deleteSections:deletedSectionIndexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+		
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
 
 /*
 // Override to support rearranging the table view.
@@ -571,7 +616,7 @@
 			// This is the name text field
 			_cardName = myTextField.text;
 			return;
-		} else {
+		} else if (myTextField.indexPath.section - 2 < _keyValuePairs.count){
 			NSUInteger arrayIndex = myTextField.indexPath.section-2;
 			
 			if (myTextField.type == DPTableViewTextFieldTypeKey) {
