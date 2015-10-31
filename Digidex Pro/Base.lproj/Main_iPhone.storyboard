@@ -314,7 +314,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="key" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dba-1I-miH" customClass="DPTableViewTextField">
-                                            <rect key="frame" x="30" y="8" width="562" height="28"/>
+                                            <rect key="frame" x="40" y="8" width="552" height="28"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="28" id="FwX-AI-U9k"/>
@@ -332,20 +332,36 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8wF-q2-XNb">
+                                            <rect key="frame" x="8" y="10" width="24" height="24"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="24" id="a8A-0H-agg"/>
+                                                <constraint firstAttribute="height" constant="24" id="deT-Pj-WJf"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <animations/>
                                     <constraints>
                                         <constraint firstItem="nBV-SP-732" firstAttribute="leading" secondItem="7jX-X7-50T" secondAttribute="leadingMargin" constant="22" id="OhB-dJ-YSX"/>
-                                        <constraint firstItem="dba-1I-miH" firstAttribute="leading" secondItem="7jX-X7-50T" secondAttribute="leadingMargin" constant="22" id="Qxd-jp-jAZ"/>
                                         <constraint firstItem="nBV-SP-732" firstAttribute="trailing" secondItem="7jX-X7-50T" secondAttribute="trailingMargin" id="TFU-Tr-rje"/>
+                                        <constraint firstItem="8wF-q2-XNb" firstAttribute="centerY" secondItem="dba-1I-miH" secondAttribute="centerY" id="TQ2-5f-XnJ"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="nBV-SP-732" secondAttribute="bottom" priority="500" id="Vxn-pj-Zho"/>
+                                        <constraint firstItem="8wF-q2-XNb" firstAttribute="top" secondItem="7jX-X7-50T" secondAttribute="topMargin" id="W5B-OD-5Um"/>
                                         <constraint firstItem="dba-1I-miH" firstAttribute="trailing" secondItem="7jX-X7-50T" secondAttribute="trailingMargin" id="aZt-1O-ZfL"/>
                                         <constraint firstItem="dba-1I-miH" firstAttribute="top" secondItem="7jX-X7-50T" secondAttribute="topMargin" id="nCV-9H-vY3"/>
+                                        <constraint firstItem="8wF-q2-XNb" firstAttribute="leading" secondItem="7jX-X7-50T" secondAttribute="leadingMargin" id="otK-V5-scd"/>
                                         <constraint firstItem="nBV-SP-732" firstAttribute="top" secondItem="dba-1I-miH" secondAttribute="bottom" constant="8" id="u3N-tg-67T"/>
+                                        <constraint firstItem="dba-1I-miH" firstAttribute="leading" secondItem="8wF-q2-XNb" secondAttribute="trailing" constant="8" id="umI-7M-eAB"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="W5B-OD-5Um"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                                 <animations/>
                                 <connections>
+                                    <outlet property="keyIconImageView" destination="8wF-q2-XNb" id="HJ6-sM-Ugb"/>
                                     <outlet property="keyTextField" destination="dba-1I-miH" id="JmT-8u-wbl"/>
                                     <outlet property="valueTextField" destination="nBV-SP-732" id="RhP-nW-bCm"/>
                                 </connections>
@@ -358,7 +374,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="key" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FoQ-Ap-fJb" customClass="DPTableViewTextField">
-                                            <rect key="frame" x="30" y="8" width="562" height="28"/>
+                                            <rect key="frame" x="40" y="8" width="552" height="28"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="28" id="LSS-SM-56Z"/>
@@ -375,20 +391,36 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0wQ-gb-u5d">
+                                            <rect key="frame" x="8" y="10" width="24" height="24"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="24" id="8WO-BJ-VLH"/>
+                                                <constraint firstAttribute="height" constant="24" id="OgV-Rn-ZhZ"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <animations/>
                                     <constraints>
-                                        <constraint firstItem="FoQ-Ap-fJb" firstAttribute="leading" secondItem="CRI-hI-4dx" secondAttribute="leadingMargin" constant="22" id="2zG-wQ-UBd"/>
+                                        <constraint firstItem="FoQ-Ap-fJb" firstAttribute="leading" secondItem="0wQ-gb-u5d" secondAttribute="trailing" constant="8" id="8pS-JX-2k5"/>
                                         <constraint firstItem="FoQ-Ap-fJb" firstAttribute="top" secondItem="CRI-hI-4dx" secondAttribute="topMargin" id="NNM-ss-OLZ"/>
+                                        <constraint firstItem="0wQ-gb-u5d" firstAttribute="top" secondItem="CRI-hI-4dx" secondAttribute="topMargin" id="OjJ-ad-xVj"/>
                                         <constraint firstItem="V0c-6k-t4r" firstAttribute="leading" secondItem="CRI-hI-4dx" secondAttribute="leading" id="S5t-0x-Id5"/>
                                         <constraint firstItem="V0c-6k-t4r" firstAttribute="top" secondItem="FoQ-Ap-fJb" secondAttribute="bottom" constant="4" id="XlV-RN-XgW"/>
                                         <constraint firstItem="FoQ-Ap-fJb" firstAttribute="trailing" secondItem="CRI-hI-4dx" secondAttribute="trailingMargin" id="YwA-I4-Mbu"/>
                                         <constraint firstAttribute="trailing" secondItem="V0c-6k-t4r" secondAttribute="trailing" id="flx-22-mJt"/>
                                         <constraint firstAttribute="bottom" secondItem="V0c-6k-t4r" secondAttribute="bottom" id="hLf-ac-baZ"/>
+                                        <constraint firstItem="0wQ-gb-u5d" firstAttribute="leading" secondItem="CRI-hI-4dx" secondAttribute="leadingMargin" id="mMQ-KO-fiF"/>
+                                        <constraint firstItem="FoQ-Ap-fJb" firstAttribute="centerY" secondItem="0wQ-gb-u5d" secondAttribute="centerY" id="tck-Is-CvZ"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="OjJ-ad-xVj"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                                 <animations/>
                                 <connections>
+                                    <outlet property="keyIconImageView" destination="0wQ-gb-u5d" id="gOD-S1-5Do"/>
                                     <outlet property="keyTextField" destination="FoQ-Ap-fJb" id="VyX-xS-YPw"/>
                                     <outlet property="valueTextView" destination="V0c-6k-t4r" id="9cq-Bf-v39"/>
                                 </connections>
@@ -445,7 +477,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2111" y="1108"/>
+            <point key="canvasLocation" x="2111" y="1106"/>
         </scene>
         <!--Choose Type-->
         <scene sceneID="AV8-lY-BtS">
@@ -591,7 +623,13 @@
                             <outlet property="delegate" destination="o1Q-5Z-OtV" id="svX-m0-Q6F"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Choose Type" id="jVz-Fn-sa6"/>
+                    <navigationItem key="navigationItem" title="Choose Type" id="jVz-Fn-sa6">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="b7y-Zc-Zzn">
+                            <connections>
+                                <action selector="cancel:" destination="o1Q-5Z-OtV" id="7FT-qw-dTn"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yyl-CF-l4H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

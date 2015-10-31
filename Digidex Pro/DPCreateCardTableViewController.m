@@ -225,6 +225,12 @@
 			keyValueCell.valueTextView.indexPath = indexPath;
 			keyValueCell.valueTextView.textContainerInset = UIEdgeInsetsMake(8, 26, 8, 8);
 			
+			if ([pair[@"type"] isEqualToString:@"address"]) {
+				keyValueCell.keyIconImageView.image = [UIImage imageNamed:@"map-outline"];
+			} else {
+				keyValueCell.keyIconImageView.image = [UIImage imageNamed:@"paper-outline"];
+			}
+			
 		}
 		
 		if (keyValueCell.valueTextField != nil) {
@@ -240,15 +246,19 @@
 			if ([pair[@"type"] isEqualToString:@"phone"]) {
 				keyValueCell.valueTextField.keyboardType = UIKeyboardTypePhonePad;
 				keyValueCell.valueTextField.placeholder = @"(888) 555-1212";
+				keyValueCell.keyIconImageView.image = [UIImage imageNamed:@"telephone-outline"];
 			} else if ([pair[@"type"] isEqualToString:@"email"]) {
 				keyValueCell.valueTextField.keyboardType = UIKeyboardTypeEmailAddress;
 				keyValueCell.valueTextField.placeholder = @"j.appleseed@example.com";
+				keyValueCell.keyIconImageView.image = [UIImage imageNamed:@"email-outline"];
 			} else if ([pair[@"type"] isEqualToString:@"URL"]) {
 				keyValueCell.valueTextField.keyboardType = UIKeyboardTypeURL;
 				keyValueCell.valueTextField.placeholder = @"http://www.digidex.org";
+				keyValueCell.keyIconImageView.image = [UIImage imageNamed:@"safari-outline"];
 			} else {
 				keyValueCell.valueTextField.keyboardType = UIKeyboardTypeDefault;
 				keyValueCell.valueTextField.placeholder = @"info";
+				keyValueCell.keyIconImageView.image = [UIImage imageNamed:@"paper-outline"];
 			}
 			
 		}
@@ -296,7 +306,16 @@
 {
 	if (type) {
 		NSIndexSet *insertIndexSet = [NSIndexSet indexSetWithIndex:_keyValuePairs.count+2];
-		[_keyValuePairs addObject:[@{@"key":type, @"value":@"", @"type":type} mutableCopy]];
+		
+		NSDictionary *newPair = nil;
+		if ([type isEqualToString:@"single"] || [type isEqualToString:@"multiline"]) {
+			// For generic single and multiline fields, don't include the key.
+			newPair = @{@"key":@"", @"value":@"", @"type":type};
+		} else {
+			newPair = @{@"key":type, @"value":@"", @"type":type};
+		}
+		
+		[_keyValuePairs addObject:[newPair mutableCopy]];
 		[self.tableView insertSections:insertIndexSet withRowAnimation:UITableViewRowAnimationFade];
 	}
 
@@ -404,10 +423,40 @@
 	NSMutableDictionary *results = [NSMutableDictionary dictionary];
 	
 	// Loop through the key value array
+	NSMutableDictionary *phoneValues = [NSMutableDictionary dictionary];
+	NSMutableDictionary *emailValues = [NSMutableDictionary dictionary];
+	NSMutableDictionary *addressValues = [NSMutableDictionary dictionary];
 	for (NSDictionary *pair in _keyValuePairs) {
 		
 		if ([pair[@"key"] length] > 0) {
-			[results setObject:pair[@"value"] forKey:pair[@"key"]];
+			
+			if ([pair[@"type"] isEqualToString:@"phone"]) {
+				[phoneValues setObject:pair[@"value"] forKey:pair[@"key"]];
+			} else if ([pair[@"type"] isEqualToString:@"email"]) {
+				[emailValues setObject:pair[@"value"] forKey:pair[@"key"]];
+			} else if ([pair[@"type"] isEqualToString:@"address"]) {
+				[addressValues setObject:pair[@"value"] forKey:pair[@"key"]];
+			} else {
+				[results setObject:pair[@"value"] forKey:pair[@"key"]];
+			}
+		}
+	}
+	
+	// Map the phone, email, and address groups to their respective keys.
+	NSDictionary *nestedFields = @{
+								   @"phone":phoneValues,
+								   @"email":emailValues,
+								   @"address":addressValues
+								   };
+	
+	for (NSString *key in nestedFields) {
+		NSDictionary *nestedPairs = nestedFields[key];
+		if (nestedPairs.count > 1) {
+			[results setObject:nestedPairs forKey:key];
+		} else if (nestedPairs.count == 1) {
+			NSString *onlyKey = nestedPairs.allKeys[0];
+			NSDictionary *onlyValue = nestedPairs[onlyKey];
+			[results setObject:onlyValue forKey:onlyKey];
 		}
 	}
 	

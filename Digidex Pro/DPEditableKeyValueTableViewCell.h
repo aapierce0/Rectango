@@ -13,6 +13,7 @@
 
 @interface DPEditableKeyValueTableViewCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UIImageView *keyIconImageView;
 @property (weak, nonatomic) IBOutlet DPTableViewTextField *keyTextField;
 @property (weak, nonatomic) IBOutlet DPTableViewTextField *valueTextField;
 @property (weak, nonatomic) IBOutlet DPTableViewTextView *valueTextView;
