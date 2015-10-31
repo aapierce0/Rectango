@@ -127,10 +127,7 @@
 	switch (authStatus) {
 		case AVAuthorizationStatusAuthorized:
 			// Immediately start the scanner
-			if ([self setupScanner]) {
-				[self.tapToScanLabel removeFromSuperview];
-				[self.tapToScanImageView removeFromSuperview];
-			}
+            [self setupScanner];
 			break;
 		case AVAuthorizationStatusDenied:
 			self.tapToScanLabel.text = @"Camera access denied.\nGo to System Settings > Rectango to enable.";
@@ -237,13 +234,13 @@
 	AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
 	if (authStatus == AVAuthorizationStatusNotDetermined) {
 		[AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-			if(granted) {
-				NSLog(@"Access not granted");
-			}
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self setupScanner];
+            });
 		}];
 	}
 	
-	if (!self.session.isRunning) {
+    if (!self.session.isRunning && [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo] == AVAuthorizationStatusAuthorized) {
 		[self setupScanner];
 	}
 }
@@ -254,6 +251,20 @@
 
 - (BOOL)setupScanner;
 {
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    switch (authStatus) {
+        case AVAuthorizationStatusDenied:
+            self.tapToScanLabel.text = @"Camera access denied.\nGo to System Settings > Rectango to enable.";
+            return NO;
+        case AVAuthorizationStatusRestricted:
+            self.tapToScanLabel.text = @"Camera access restricted.";
+            return NO;
+        default:
+            break;
+    }
+    
+    
+    
     self.device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     self.input = [AVCaptureDeviceInput deviceInputWithDevice:self.device error:nil];
 	
@@ -283,6 +294,11 @@
     self.scannerView.layer.masksToBounds = YES;
     
     [self.session startRunning];
+    
+    // Remove the camera image and the "tap to scan" label from the view.
+    [self.tapToScanLabel removeFromSuperview];
+    [self.tapToScanImageView removeFromSuperview];
+    
 	return YES;
 	
 }
