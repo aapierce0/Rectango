@@ -627,52 +627,13 @@
 
 - (IBAction)selectCardImage:(id)sender {
 	
-	// Display a confirmation dialog
-	UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil
-																   message:nil
-															preferredStyle:UIAlertControllerStyleActionSheet];
+	// Show the image picker.
+	UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+	imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+	imagePicker.delegate = self;
 	
+	[self presentViewController:imagePicker animated:YES completion:^{}];
 	
-	
-	UIAlertAction* libraryAction = [UIAlertAction actionWithTitle:@"Image Library"
-														   style:UIAlertActionStyleDefault
-														 handler:^(UIAlertAction *action) {
-															 // Show the image picker.
-															 UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-															 imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-															 imagePicker.delegate = self;
-															 
-															 [self presentViewController:imagePicker animated:YES completion:^{}];
-														 }];
-	
-	UIAlertAction* cameraAction = [UIAlertAction actionWithTitle:@"Camera"
-														   style:UIAlertActionStyleDefault
-														 handler:^(UIAlertAction *action) {
-															 // Show the image picker.
-															 UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-															 imagePicker.sourceType = UIImagePickerControllerCameraCaptureModePhoto;
-															 imagePicker.delegate = self;
-															 
-															 [self presentViewController:imagePicker animated:YES completion:^{}];
-														 }];
-	
-	
-	// This cancel action will appear separated from the rest of the items
-	UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
-														   style:UIAlertActionStyleCancel
-														 handler:^(UIAlertAction * action) {}];
-	
-	
-	// Add the actions to the alert
-	[alert addAction:libraryAction];
-	[alert addAction:cameraAction];
-	[alert addAction:cancelAction];
-	
-	alert.popoverPresentationController.barButtonItem = sender;
-	
-	
-	[self presentViewController:alert animated:YES completion:nil];
-
 }
 
 
