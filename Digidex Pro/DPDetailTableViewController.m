@@ -60,7 +60,13 @@
 		self.title = @"New Card";
 		
 		self.navigationItem.rightBarButtonItem =	[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(insertNewCard)];
-		self.navigationItem.leftBarButtonItem =		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelNewCard)];
+		
+		// Check to see if this item has a back button item.
+		if (self.navigationController.viewControllers.count > 1) {
+			self.navigationItem.leftBarButtonItem = nil;
+		} else {
+			self.navigationItem.leftBarButtonItem =		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelNewCard)];
+		}
 		
 	} else {
 		self.title = [self.selectedCard guessedName];
@@ -75,16 +81,6 @@
         }
 		
 		self.navigationItem.rightBarButtonItems = @[shareBarButtonItem, refreshBarButtonItem];
-	}
-}
-
-- (void)viewWillAppear:(BOOL)animated;
-{
-	[super viewWillAppear:animated];
-	
-	// Check to see if this item has a back button item.
-	if (self.navigationController.viewControllers.count > 1) {
-		self.navigationItem.leftBarButtonItem = nil;
 	}
 }
 
