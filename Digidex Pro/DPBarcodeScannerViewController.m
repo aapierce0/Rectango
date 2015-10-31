@@ -33,6 +33,7 @@
 	// This layout constraint represents the overall height of the bottom view,
 	// including the entire text field.
 	IBOutlet NSLayoutConstraint *_bottomViewHeight;
+	CGFloat _bottomViewConstraintStartingHeight;
 	
 	// These variables are used to track whether or not a URL should be processed.
 	NSString *_activeToken;
@@ -143,6 +144,9 @@
 	}
 	
 	
+	_bottomViewConstraintStartingHeight = _bottomViewHeight.constant;
+	
+	
 	// We want to be notified if the keyboard appears, so we have a chance to move the text field up into view.
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(keyboardWillShow:)
@@ -170,14 +174,14 @@
 	// The height of the textfeild is 30 pts, and it has 8pts of spacing above and below.
 	// 30 + 8 + 8
 	NSInteger animationDuration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] integerValue];
-	[self animateBottomViewHeight:MAX(165, kbSize.height + 30 + 8 + 8) duration:animationDuration];
+	[self animateBottomViewHeight:MAX(_bottomViewConstraintStartingHeight, kbSize.height + 30 + 8 + 8) duration:animationDuration];
 }
 
 - (void)keyboardWillHide:(NSNotification*)notification
 {
 	NSDictionary *info = [notification userInfo];
 	NSInteger animationDuration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] integerValue];
-	[self animateBottomViewHeight:165 duration:animationDuration];
+	[self animateBottomViewHeight:_bottomViewConstraintStartingHeight duration:animationDuration];
 }
 
 - (void)animateBottomViewHeight:(CGFloat)value duration:(NSTimeInterval)duration;
