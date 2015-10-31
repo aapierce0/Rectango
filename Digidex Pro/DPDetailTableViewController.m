@@ -56,7 +56,6 @@
 	
 	if (self.selectedCard.managedObjectContext == nil) {
 		
-		NSLog(@"card is not inserted...");
 		self.title = @"New Card";
 		
 		self.navigationItem.rightBarButtonItem =	[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(insertNewCard)];
@@ -93,7 +92,9 @@
 - (void)insertNewCard;
 {
 	[[DKDataStore sharedDataStore] insertCard:self.selectedCard];
-    [self dismiss];
+	
+	// dismiss this view controller.
+	[self.navigationController dismissViewControllerAnimated:YES completion:^{}];
 }
 
 - (void)cancelNewCard;
