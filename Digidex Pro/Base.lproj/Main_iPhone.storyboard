@@ -53,11 +53,12 @@
                         <barButtonItem key="backBarButtonItem" title="Home" id="fKE-I8-cCa"/>
                         <barButtonItem key="leftBarButtonItem" image="plus-outline" id="5pb-my-FCj">
                             <connections>
-                                <segue destination="XQy-wY-aER" kind="presentation" id="4eO-ss-NSd"/>
+                                <segue destination="XQy-wY-aER" kind="presentation" identifier="cardScannerSegue" id="4eO-ss-NSd"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addNewCardBarButtonItem" destination="5pb-my-FCj" id="cDZ-I7-PRb"/>
                         <segue destination="Ksw-yS-mk7" kind="showDetail" identifier="showCardDetail" id="32q-KQ-94v"/>
                     </connections>
                 </collectionViewController>

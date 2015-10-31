@@ -11,4 +11,7 @@
 
 @interface DPRootCollectionViewController : UICollectionViewController <CHTCollectionViewDelegateWaterfallLayout>
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *addNewCardBarButtonItem;
+@property (readonly) BOOL editingActive;
+
 @end

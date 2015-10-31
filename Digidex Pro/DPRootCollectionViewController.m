@@ -27,6 +27,9 @@
 
 @implementation DPRootCollectionViewController
 
+@synthesize editingActive = _editingActive;
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -82,6 +85,8 @@
 		[self addListenersForCard:card];
 	}
 	
+	[self disableEditing:nil];
+	
 }
 
 - (void)viewWillAppear:(BOOL)animated;
@@ -131,7 +136,6 @@
 
 
 
-
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -158,23 +162,31 @@
 	cell.layer.shadowOffset = CGSizeMake(0, 1.0);
 	cell.layer.shadowRadius = 1.0;
 	cell.layer.shadowOpacity = 0.6;
+
 	
 	return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
 {
-	UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPhone"
-															 bundle: nil];
 	
-	DPDetailTableViewController *controller = (DPDetailTableViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"DetailViewController"];
-	
-	DKManagedCard *selectedCard = _allCards[indexPath.item];
-	controller.selectedCard = selectedCard;
-	
-	[self.navigationController pushViewController:controller animated:YES];
+	// If editing is not active, then display this card.
+	if (!collectionView.allowsMultipleSelection) {
+		
+		// Immediately deselect this card
+		[collectionView deselectItemAtIndexPath:indexPath animated:NO];
+		
+		UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main_iPhone"
+																 bundle: nil];
+		
+		DPDetailTableViewController *controller = (DPDetailTableViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"DetailViewController"];
+		
+		DKManagedCard *selectedCard = _allCards[indexPath.item];
+		controller.selectedCard = selectedCard;
+		
+		[self.navigationController pushViewController:controller animated:YES];
+	}
 }
-
 
 
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout
@@ -200,12 +212,44 @@
 
 
 
+#pragma mark - toggle editing
+- (IBAction)enableEditing:(id)sender;
+{
+	_editingActive = YES;
+	self.collectionView.allowsMultipleSelection = YES;
+	
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(disableEditing:)];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteSelectedCards:)];
+}
+
+- (IBAction)disableEditing:(id)sender;
+{
+	_editingActive = NO;
+	self.collectionView.allowsMultipleSelection = NO;
+	
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Select" style:UIBarButtonItemStylePlain target:self action:@selector(enableEditing:)];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus-outline"] style:UIBarButtonItemStylePlain target:self action:@selector(presentCardScanner:)];
+	
+	// mark all of the cells as deselected
+	NSArray *selectedIndexPaths = [self.collectionView indexPathsForSelectedItems];
+	for (NSIndexPath *selectedIndexPath in selectedIndexPaths) {
+		[self.collectionView deselectItemAtIndexPath:selectedIndexPath animated:YES];
+	}
+}
+
+
+
+
 
 
 
 
 #pragma mark - IBActions
 
+- (IBAction)presentCardScanner:(id)sender;
+{
+	[self performSegueWithIdentifier:@"cardScannerSegue" sender:sender];
+}
 
 - (void)addListenersForCard:(DKManagedCard*)card; {
 	
@@ -217,47 +261,51 @@
 	}];
 }
 
-- (IBAction)deleteAll:(id)sender;
+
+
+- (IBAction)deleteSelectedCards:(id)sender;
 {
-    
-    // Display a confirmation dialog
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil
-                                                                   message:nil
-                                                            preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    
-    // This action will display red, because it is destructive
-    UIAlertAction* deleteAction = [UIAlertAction actionWithTitle:@"Delete All Cards"
-                                                           style:UIAlertActionStyleDestructive
-                                                         handler:^(UIAlertAction * action) {
-                                                             
-                                                             // Delete all of the items in the managed object context.
-                                                             for (DKManagedCard *card in _allCards) {
-                                                                 [[DKDataStore sharedDataStore] deleteCard:card];
-                                                             }
-                                                             
-                                                             [self refreshAndSortCards];
-                                                             [self.collectionView reloadData];
-                                                         }];
-    
-    
-    // This cancel action will appear separated from the rest of the items
-    UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
-                                                           style:UIAlertActionStyleCancel
-                                                         handler:^(UIAlertAction * action) {}];
-    
-    
-    // Add the actions to the alert
-    [alert addAction:deleteAction];
-    [alert addAction:cancelAction];
-    
-    alert.popoverPresentationController.barButtonItem = sender;
-    
-    
-    [self presentViewController:alert animated:YES completion:nil];
+	// Display a confirmation dialog
+	UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil
+																   message:nil
+															preferredStyle:UIAlertControllerStyleActionSheet];
+	
+	
+	// This action will display red, because it is destructive
+	NSArray *selectedIndexPaths = [self.collectionView indexPathsForSelectedItems];
+	
+	UIAlertAction* deleteAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Delete %li %@", selectedIndexPaths.count, (selectedIndexPaths.count == 1 ? @"Card" : @"Cards")]
+														   style:UIAlertActionStyleDestructive
+														 handler:^(UIAlertAction * action) {
+															 
+															 // Delete the selected cards...
+															 NSArray *selectedIndexPaths = [self.collectionView indexPathsForSelectedItems];
+															 for (NSIndexPath *selectedIndexPath in selectedIndexPaths) {
+																 DKManagedCard *selectedCard = _allCards[selectedIndexPath.item];
+																 [[DKDataStore sharedDataStore] deleteCard:selectedCard];
+															 }
+															 
+															 [self refreshAndSortCards];
+															 [self.collectionView deleteItemsAtIndexPaths:selectedIndexPaths];
+															 [self disableEditing:sender];
+														 }];
+	
+	
+	// This cancel action will appear separated from the rest of the items
+	UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+														   style:UIAlertActionStyleCancel
+														 handler:^(UIAlertAction * action) {}];
+	
+	
+	// Add the actions to the alert
+	[alert addAction:deleteAction];
+	[alert addAction:cancelAction];
+	
+	alert.popoverPresentationController.barButtonItem = sender;
+	
+	
+	[self presentViewController:alert animated:YES completion:nil];
 }
-
-
 
 
 
