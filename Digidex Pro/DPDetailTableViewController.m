@@ -410,6 +410,7 @@
 				break;
 		}
 		
+        detailCell.keyLabel.textColor = self.view.tintColor;
 		detailCell.keyLabel.text = keyPair[@"key"];
 		detailCell.valueLabel.text = keyPair[@"value"];
 		
