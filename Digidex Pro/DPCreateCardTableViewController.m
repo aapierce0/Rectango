@@ -15,6 +15,7 @@
 #import "DPTableViewTextField.h"
 #import "DPTableViewTextView.h"
 #import "DPSelectDataTypeTableViewController.h"
+#import "DPChooseImageTableViewCell.h"
 
 #import "AFNetworking.h"
 #import "DigidexKit.h"
@@ -32,7 +33,7 @@
 	self.tableView.allowsMultipleSelectionDuringEditing = NO;
 	
 	_imageSelected = NO;
-	_cardImage = [UIImage imageNamed:@"uploadPlaceholderImage"];
+	_cardImage = nil;
 	_cardName = @"";
 	
 	
@@ -89,7 +90,13 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-	if (indexPath.section == 0 && _cardImage != nil) {
+	
+	if (indexPath.section == 0 && _cardImage == nil) {
+		
+		// This is the height of the "Tap to Choose Image" cell.
+		return 130;
+		
+	} else if (indexPath.section == 0 && _cardImage != nil) {
 		// This is the image section... return the aspect height.
 		CGFloat newHeight = (tableView.bounds.size.width / _cardImage.size.width) * _cardImage.size.height;
 		return newHeight;
@@ -142,8 +149,15 @@
 	if (indexPath.section == 0) {
 		
 		// This is the card view cell...
-		cell = [tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
-		[[cell cardImageView] setImage:_cardImage];
+		if (_cardImage) {
+			cell = [tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
+			[[cell cardImageView] setImage:_cardImage];
+		} else {
+			DPChooseImageTableViewCell *chooseImageCell = [tableView dequeueReusableCellWithIdentifier:@"TapToAddImage" forIndexPath:indexPath];
+			chooseImageCell.chooseImageView.tintColor = self.view.tintColor;
+			chooseImageCell.chooseTextLabel.textColor = self.view.tintColor;
+			cell = chooseImageCell;
+		}
 		
 	} else if (indexPath.section == 1) {
 		

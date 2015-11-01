@@ -243,6 +243,38 @@
                         <animations/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TapToAddImage" rowHeight="130" id="ihp-RM-sHR" customClass="DPChooseImageTableViewCell">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ihp-RM-sHR" id="PFu-sA-rjS">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photos-outline" translatesAutoresizingMaskIntoConstraints="NO" id="H7p-uT-3U1">
+                                            <rect key="frame" x="260" y="8" width="80" height="80"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="80" id="MuX-h9-DnG"/>
+                                                <constraint firstAttribute="width" constant="80" id="PQO-5B-6ne"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TAP TO CHOOSE IMAGE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GWS-b9-xiF">
+                                            <rect key="frame" x="203" y="96" width="194" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="GWS-b9-xiF" firstAttribute="top" secondItem="H7p-uT-3U1" secondAttribute="bottom" constant="8" id="C7E-Pt-16x"/>
+                                        <constraint firstAttribute="centerX" secondItem="GWS-b9-xiF" secondAttribute="centerX" id="jdD-VC-eVK"/>
+                                        <constraint firstItem="H7p-uT-3U1" firstAttribute="top" secondItem="PFu-sA-rjS" secondAttribute="topMargin" id="s7n-Re-L5l"/>
+                                        <constraint firstAttribute="centerX" secondItem="H7p-uT-3U1" secondAttribute="centerX" id="xep-2N-HtR"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="chooseImageView" destination="H7p-uT-3U1" id="hLJ-7N-wze"/>
+                                    <outlet property="chooseTextLabel" destination="GWS-b9-xiF" id="95u-gl-Xu2"/>
+                                </connections>
+                            </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CardCell" rowHeight="100" id="FhZ-Ik-R65" customClass="DPImageTableViewCell">
                                 <rect key="frame" x="0.0" y="114" width="600" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
@@ -782,7 +814,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BLF-Fv-Hk8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1989" y="279"/>
+            <point key="canvasLocation" x="1988" y="279"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ZNT-Yo-aaj">
@@ -809,6 +841,7 @@
     <resources>
         <image name="camera-outline-large" width="200" height="200"/>
         <image name="compose-outline" width="24" height="24"/>
+        <image name="photos-outline" width="80" height="80"/>
         <image name="plus-outline" width="24" height="24"/>
     </resources>
 </document>
