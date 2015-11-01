@@ -661,6 +661,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "aapierce.Digidex-Pro";
 				PRODUCT_NAME = Rectango;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -687,6 +688,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "aapierce.Digidex-Pro";
 				PRODUCT_NAME = Rectango;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
