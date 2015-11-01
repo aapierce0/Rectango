@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Avery Pierce. All rights reserved.
 //
 
+#import "AFNetworking.h"
+
 #import "DPDetailTableViewController.h"
 
 #import "DKManagedCard.h"
@@ -74,10 +76,12 @@
         self.navigationItem.leftBarButtonItem =     [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteCard:)];
 		
 		UIBarButtonItem *refreshBarButtonItem =		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
-		UIBarButtonItem *shareBarButtonItem =		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareCard:)];
-        if (!self.selectedCard.originalURL) {
-            shareBarButtonItem.enabled = NO;
-        }
+		UIBarButtonItem *shareBarButtonItem;
+        if (self.selectedCard.originalURL) {
+			shareBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareCard:)];
+		} else {
+			shareBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cloud-upload-outline"] style:UIBarButtonItemStylePlain target:self action:@selector(publishCard:)];
+		}
 		
 		self.navigationItem.rightBarButtonItems = @[shareBarButtonItem, refreshBarButtonItem];
 	}
@@ -141,6 +145,77 @@
 	
 
 	[self presentViewController:alert animated:YES completion:nil];
+}
+
+
+- (void)publishCard:(id)sender;
+{
+	// Warn the user that this is going to be uploaded to the internet.
+	UIAlertController *confirmation = [UIAlertController alertControllerWithTitle:@"Confirm Publish" message:@"After card is published to the internet, anyone with the link will be able to access it.\nAre you sure you want to continue?" preferredStyle:UIAlertControllerStyleAlert];
+	
+	UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Yes, publish to the internet" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+		
+		// Display a dialog to indicate that data is being updated
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uploading Image..."
+																	   message:@"\n\n\n"
+																preferredStyle:UIAlertControllerStyleAlert];
+		
+		
+		__block AFHTTPRequestOperation *activeOperation;
+		
+		[self.selectedCard publishWithProgress:^(NSString *status, AFHTTPRequestOperation *newOperation) {
+			
+			if (newOperation != nil)
+				activeOperation = newOperation;
+			if (status != nil)
+				alert.title = status;
+			
+		} completion:^(NSError *error) {
+			
+			[alert dismissViewControllerAnimated:YES completion:^{}];
+			
+			
+			// Update the right bar button items...
+			UIBarButtonItem *refreshBarButtonItem =		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
+			UIBarButtonItem *shareBarButtonItem;
+			if (self.selectedCard.originalURL) {
+				shareBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareCard:)];
+			} else {
+				shareBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cloud-upload-outline"] style:UIBarButtonItemStylePlain target:self action:@selector(publishCard:)];
+			}
+			
+			self.navigationItem.rightBarButtonItems = @[shareBarButtonItem, refreshBarButtonItem];
+		}];
+		
+		
+		// The cancel button on the alert will kill the active request.
+		[alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+			[activeOperation cancel];
+			[alert dismissViewControllerAnimated:YES completion:^{}];
+		}]];
+		
+		
+		[self presentViewController:alert animated:NO completion:^{
+			
+			// Display the spinner
+			UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+			spinner.center = CGPointMake(130.5, 75.5);
+			spinner.color = [UIColor blackColor];
+			[spinner startAnimating];
+			[alert.view addSubview:spinner];
+		}];
+		
+	}];
+	
+	
+	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}];
+
+	[confirmation addAction:confirmAction];
+	[confirmation addAction:cancelAction];
+	
+	confirmation.popoverPresentationController.barButtonItem = sender;
+	
+	[self presentViewController:confirmation animated:YES completion:nil];
 }
 
 

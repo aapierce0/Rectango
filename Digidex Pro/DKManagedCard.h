@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import <UIKit/UIKit.h>
 
-@class DKManagedTag;
+@class DKManagedTag, AFHTTPRequestOperation;
 
 @interface DKManagedCard : NSManagedObject {
 	NSDictionary *_cardDictionary;
@@ -62,6 +62,8 @@
 - (void)deleteCachedFile;
 
 - (void)setCachedCardImage:(UIImage *)image;
+
+- (void)publishWithProgress:(void (^)(NSString *status, AFHTTPRequestOperation *activeOperation))progressHandler completion:(void (^)(NSError *error))completionHandler;
 
 + (void)determineDigidexURLFromProvidedURL:(NSURL*)providedURL completion:(void (^)(NSURL *determinedURL))completion;
 + (NSArray*)orderedKeysForObject:(NSDictionary*)object;
