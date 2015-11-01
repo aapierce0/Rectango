@@ -291,7 +291,9 @@
 		if (![[self.originalURL scheme] isEqualToString:@"digidex"]) {
 			NSString *newURLString = [NSString stringWithFormat:@"digidex:%@", [self.originalURL absoluteString]];
 			return [NSURL URLWithString:newURLString];
-		}
+        }
+        
+        return self.originalURL;
     }
 	
     // If the originalURL is not available, return nil
