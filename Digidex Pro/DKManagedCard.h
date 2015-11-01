@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import <UIKit/UIKit.h>
 
-@class DKManagedTag;
+@class DKManagedTag, AFHTTPRequestOperation;
 
 @interface DKManagedCard : NSManagedObject {
 	NSDictionary *_cardDictionary;
@@ -48,6 +48,9 @@
 - (instancetype)initWithContactURL:(NSURL *)URL managedObjectContext:(NSManagedObjectContext *)moc insert:(BOOL)shouldInsertAutomatically;
 - (instancetype)initWithContactURL:(NSURL *)URL insertIntoManagedObjectContext:(NSManagedObjectContext *)moc;
 
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary image:(UIImage*)image managedObjectContext:(NSManagedObjectContext *)moc insert:(BOOL)shouldInsertAutomatically;
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary image:(UIImage*)image insertIntoManagedObjectContext:(NSManagedObjectContext *)moc;
+
 - (NSString*)guessedName;
 - (NSString*)guessedOrganization;
 - (NSString*)guessedOccupation;
@@ -60,8 +63,12 @@
 
 - (void)setCachedCardImage:(UIImage *)image;
 
+- (void)publishWithProgress:(void (^)(NSString *status, AFHTTPRequestOperation *activeOperation))progressHandler completion:(void (^)(NSError *error))completionHandler;
+
 + (void)determineDigidexURLFromProvidedURL:(NSURL*)providedURL completion:(void (^)(NSURL *determinedURL))completion;
 + (NSArray*)orderedKeysForObject:(NSDictionary*)object;
+
++ (BOOL)digidexURLIsValid:(NSURL*)digidexURL;
 
 @end
 

@@ -10,6 +10,37 @@
 #import "DKManagedTag.h"
 
 #import "HTMLDocument.h"
+#import "AFNetworking.h"
+
+
+
+@interface UIImage (resizeImage)
+
++ (UIImage*)imagewithImage:(UIImage*)image scaledByFactor:(CGFloat)scaleFactor;
++ (UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize;
+
+@end
+
+@implementation UIImage (resizeImage)
+
++ (UIImage*)imagewithImage:(UIImage*)image scaledByFactor:(CGFloat)scaleFactor; {
+	
+	CGSize newSize = CGSizeMake(image.size.width * scaleFactor, image.size.height * scaleFactor);
+	return [UIImage imageWithImage:image scaledToSize:newSize];
+}
+
++ (UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize; {
+	
+	UIGraphicsBeginImageContext( newSize );
+	[image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+	UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	
+	return newImage;
+}
+
+@end
+
 
 
 @implementation DKManagedCard
@@ -43,6 +74,37 @@
 {
 	return [self initWithContactURL:URL managedObjectContext:moc insert:YES];
 }
+
+
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary image:(UIImage*)image managedObjectContext:(NSManagedObjectContext *)moc insert:(BOOL)shouldInsertAutomatically;
+{
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:moc];
+	
+	self = [self initWithEntity:entity insertIntoManagedObjectContext:(shouldInsertAutomatically ? moc : nil)];
+	
+	if (self) {
+		
+		_cardUpdated = NO;
+		
+		_cardDictionary = dictionary;
+		
+		_cardImage = image;
+		_cardImageSize = image.size;
+		[self setCachedCardImage:image];
+		[self regenerateThumbnail];
+		
+		if (shouldInsertAutomatically && moc) {
+			[self writeToDisk];
+			[self writeImageToDisk];
+		}
+	}
+	return self;
+}
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary image:(UIImage*)image insertIntoManagedObjectContext:(NSManagedObjectContext *)moc;
+{
+	return [self initWithDictionary:dictionary image:image managedObjectContext:moc insert:YES];
+}
+
 
 - (void)awakeFromFetch;
 {
@@ -182,7 +244,7 @@
 	if (!_cardImage)
 		return;
 	
-	// Create a thumbnail version of the image for the event object.
+	// Create a thumbnail version of the image root card view.
 	CGSize size = _cardImage.size;
 	
 	
@@ -226,11 +288,12 @@
 - (NSURL*)digidexURL;
 {
     if (self.originalURL) {
-        NSURLComponents *components = [NSURLComponents componentsWithURL:self.originalURL resolvingAgainstBaseURL:YES];
-        components.scheme = @"digidex";
-        return [components URL];
+		if (![[self.originalURL scheme] isEqualToString:@"digidex"]) {
+			NSString *newURLString = [NSString stringWithFormat:@"digidex:%@", [self.originalURL absoluteString]];
+			return [NSURL URLWithString:newURLString];
+		}
     }
-    
+	
     // If the originalURL is not available, return nil
     return nil;
 }
@@ -353,6 +416,8 @@
 		};
 	}
 	
+	NSLog(@"loadContact Data. Original URL: %@", self.originalURL);
+	
 	
 	// Make sure that we actually have a card URL here
 	if (!self.originalURL) {
@@ -365,10 +430,17 @@
 		return;
 	} else if ([[self.originalURL scheme] isEqualToString:@"digidex"]) {
 		
-		// If this is a digidex URL, change it to http
-		NSURLComponents *components = [NSURLComponents componentsWithURL:self.originalURL resolvingAgainstBaseURL:YES];
-		components.scheme = @"http";
-		self.originalURL = [components URL];
+		// If this is a digidex URL, chop off the scheme to get the http(s)
+		NSString *originalURLString = [self.originalURL absoluteString];
+		NSString *newURLString = [originalURLString substringFromIndex:@"digidex:".length];
+
+		self.originalURL = [NSURL URLWithString:newURLString];
+		
+		NSError *error;
+		[self.managedObjectContext save:&error];
+		if (error) {
+			NSLog(@"Error occurred saving card: %@", error);
+		}
 	}
 	
 	
@@ -629,11 +701,120 @@
 
 
 
+
+
+
+
+
+// UPLOAD Maximum is 1.5 MB ~= 1,500,000 B
+#define UPLOAD_TARGET_SIZE 1500000.0
+
+- (void)publishWithProgress:(void (^)(NSString *status, AFHTTPRequestOperation *activeOperation))progressHandler completion:(void (^)(NSError *error))completionHandler;
+{
+	
+	// The results object will represent the new card.
+	NSString *baseURLString = @"http://bloviations.net/digidex";
+	
+	
+	// First, upload the image...
+	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+	
+	manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+	manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", nil];
+	
+	manager.requestSerializer = [AFJSONRequestSerializer serializer];
+	NSLog(@"manager request serializer: %@", manager.requestSerializer);
+	
+	AFHTTPRequestOperation *uploadOperation = [manager POST:[baseURLString stringByAppendingPathComponent:@"uploadImage.php"] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+		
+		// Add the URL to the card image.
+		if (_cardImage != nil) {
+			
+			// Scale the image down so that it isn't huge.
+			// We want to scale the image down enough so that it's manageable
+			
+			NSData *uploadImageData = nil;
+			NSData *originalImageData =	UIImagePNGRepresentation(_cardImage);
+			
+			if (originalImageData.length < UPLOAD_TARGET_SIZE) {
+				
+				// If the original image is less than the maximum, then we don't need to do anything.
+				uploadImageData = originalImageData;
+			} else {
+				
+				// Compute how much the image size needs to be reduced.
+				CGFloat fileReductionFactor = UPLOAD_TARGET_SIZE / originalImageData.length;
+				
+				
+				// If you scale a rectangle down by 50% (1/2) in each coordinate, the resulting area is 25% (1/4) of the original.
+				// Therefore: The desired image scale factor is approx. the square root of the target size reduction.
+				CGFloat imageScaleFactor = sqrtf(fileReductionFactor);
+				imageScaleFactor = imageScaleFactor * 0.9; // Reduce it by another 10% for goot measure...
+				
+				UIImage *scaledImage = [UIImage imagewithImage:_cardImage scaledByFactor:imageScaleFactor];
+				uploadImageData = UIImagePNGRepresentation(scaledImage);
+			}
+			
+			[formData appendPartWithFileData:uploadImageData name:@"image" fileName:@"businessCard.png" mimeType:@"image/png"];
+		}
+		
+	} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		
+		
+		// The upload was a success. The file's final resting place is at the returned address.
+		NSString *imageURL = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+		
+		NSMutableDictionary *resultsCopy = [_cardDictionary mutableCopy];
+		[resultsCopy setObject:imageURL forKey:@"_cardURL"];
+		
+		NSDictionary *parameters = [NSDictionary dictionaryWithDictionary:resultsCopy];
+		
+	
+		// Submit the JSON request to create the card.
+		AFHTTPRequestOperation *recordCreateOperation = [manager POST:[baseURLString stringByAppendingPathComponent:@"digidex.php"] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+			
+			// Card returned. Here is the URL for it.
+			NSString *cardURLString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+			
+			NSURL *cardURL = [NSURL URLWithString:cardURLString];
+			self.originalURL = cardURL;
+			
+			NSError *error;
+			[self.managedObjectContext save:&error];
+			completionHandler(error); // if there were no errors while saving, then the error object here will be nil
+			
+		} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+			
+			// The card creation failed somehow.
+			completionHandler(error);
+		}];
+		
+		
+		// Update the alert to indicate that the image upload has finished, and we are now creating the digidex record.
+		// pass the operation back to the caller so they may cancel it, if desired.
+		progressHandler(@"Creating Record...", recordCreateOperation);
+		
+		
+		
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		
+		// The image upload failed somehow.
+		completionHandler(error);
+	}];
+	
+	// pass the operation back to the caller so they may cancel it, if desired.
+	progressHandler(@"Uploading Image...", uploadOperation);
+}
+
+
+
+
+
 #pragma mark - class methods
 
 + (void)determineDigidexURLFromProvidedURL:(NSURL*)providedURL completion:(void (^)(NSURL *determinedURL))completion;
 {
-	// This method tries to parse the provided URL to come up with the exact correct digidex:// URL.
+	// This method tries to parse the provided URL to come up with the exact correct digidex: URL.
 	
 	if ([providedURL.scheme isEqualToString:@"digidex"]) {
 		
@@ -644,10 +825,9 @@
 	} else if ([providedURL.pathExtension isEqualToString:@"json"]) {
 		
 		// If the URL is assumed to be JSON. There's no more work to be done.
-		// Change the URL scheme to digidex, and we're done.
-		NSURLComponents *components = [NSURLComponents componentsWithURL:providedURL resolvingAgainstBaseURL:YES];
-		components.scheme = @"digidex";
-		completion([components URL]);
+		// prepend the digidex scheme, and we're done.
+		NSString *newURLString = [NSString stringWithFormat:@"digidex:%@", [providedURL absoluteString]];
+		completion([NSURL URLWithString:newURLString]);
 		return;
 		
 	} else {
@@ -699,10 +879,12 @@
 					NSString *content = [selectedTag attributeForName:@"content"];
 					NSURL *contentURL = [NSURL URLWithString:content];
 					
-					NSURLComponents *components = [NSURLComponents componentsWithURL:contentURL resolvingAgainstBaseURL:YES];
-					components.scheme = @"digidex";
+					if (![contentURL.scheme isEqualToString:@"digidex"]) {
+						NSString *newURLString = [NSString stringWithFormat:@"digidex:%@", [contentURL absoluteString]];
+						contentURL = [NSURL URLWithString:newURLString];
+					}
 					
-					completion([components URL]);
+					completion(contentURL);
 					return;
 				}
 			}
@@ -711,6 +893,23 @@
 			return;
 		}];
 	}
+}
+
++ (BOOL)digidexURLIsValid:(NSURL*)digidexURL;
+{
+	// only support digidex schemes.
+	if (![digidexURL.scheme isEqualToString:@"digidex"])
+		return NO;
+	
+	NSString *originalURLString = [digidexURL absoluteString];
+	NSString *newURLString = [originalURLString substringFromIndex:@"digidex:".length];
+	NSURL *newURL = [NSURL URLWithString:newURLString];
+	
+	// only support http and https
+	if (![newURL.scheme isEqualToString:@"http"] && ![newURLString isEqualToString:@"https"])
+		return NO;
+	
+	return YES;
 }
 
 @end

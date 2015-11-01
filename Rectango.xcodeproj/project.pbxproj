@@ -36,6 +36,7 @@
 		2CAEE0171B8A729700989C1C /* DPTableViewTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEE0161B8A729700989C1C /* DPTableViewTextField.m */; };
 		2CAEE0191B8A7BFA00989C1C /* uploadPlaceholderImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CAEE0181B8A7BFA00989C1C /* uploadPlaceholderImage.png */; };
 		2CAEE01B1B8A846400989C1C /* AppIcon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2CAEE01A1B8A846400989C1C /* AppIcon.jpg */; };
+		2CC1655C1BE6A54100164990 /* DPChooseImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1655B1BE6A54100164990 /* DPChooseImageTableViewCell.m */; };
 		2CF994911B79443000140B3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994901B79443000140B3B /* Foundation.framework */; };
 		2CF994931B79443000140B3B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994921B79443000140B3B /* CoreGraphics.framework */; };
 		2CF994951B79443000140B3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994941B79443000140B3B /* UIKit.framework */; };
@@ -126,6 +127,8 @@
 		2CAEE0161B8A729700989C1C /* DPTableViewTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPTableViewTextField.m; sourceTree = "<group>"; };
 		2CAEE0181B8A7BFA00989C1C /* uploadPlaceholderImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uploadPlaceholderImage.png; sourceTree = "<group>"; };
 		2CAEE01A1B8A846400989C1C /* AppIcon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = AppIcon.jpg; sourceTree = "<group>"; };
+		2CC1655A1BE6A54100164990 /* DPChooseImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPChooseImageTableViewCell.h; sourceTree = "<group>"; };
+		2CC1655B1BE6A54100164990 /* DPChooseImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPChooseImageTableViewCell.m; sourceTree = "<group>"; };
 		2CF9948D1B79443000140B3B /* Rectango.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rectango.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF994901B79443000140B3B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2CF994921B79443000140B3B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -249,6 +252,8 @@
 				2CAEE0181B8A7BFA00989C1C /* uploadPlaceholderImage.png */,
 				2CAEE0081B88FED000989C1C /* DPCreateCardTableViewController.h */,
 				2CAEE0091B88FED000989C1C /* DPCreateCardTableViewController.m */,
+				2CC1655A1BE6A54100164990 /* DPChooseImageTableViewCell.h */,
+				2CC1655B1BE6A54100164990 /* DPChooseImageTableViewCell.m */,
 				2CAEE00B1B8A61BE00989C1C /* DPTextFieldTableViewCell.h */,
 				2CAEE00C1B8A61BE00989C1C /* DPTextFieldTableViewCell.m */,
 				2CAEE00F1B8A62D300989C1C /* DPEditableKeyValueTableViewCell.h */,
@@ -512,6 +517,7 @@
 				2C42BE451B83979B00475433 /* HTMLDocument.m in Sources */,
 				C69CFC1B1B8121EA00D98C7D /* DPBarcodeScannerViewController.m in Sources */,
 				2C42BE461B83979B00475433 /* HTMLNode.m in Sources */,
+				2CC1655C1BE6A54100164990 /* DPChooseImageTableViewCell.m in Sources */,
 				2C64AEDA1B8678B1009CD7AE /* AFNetworkReachabilityManager.m in Sources */,
 				2CF994CA1B79495600140B3B /* CHTCollectionViewWaterfallLayout.m in Sources */,
 				2CAEE0111B8A62D300989C1C /* DPEditableKeyValueTableViewCell.m in Sources */,
@@ -647,7 +653,7 @@
 		2CF994C31B79443000140B3B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -661,6 +667,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "aapierce.Digidex-Pro";
 				PRODUCT_NAME = Rectango;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -668,7 +675,7 @@
 		2CF994C41B79443000140B3B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
@@ -687,6 +694,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "aapierce.Digidex-Pro";
 				PRODUCT_NAME = Rectango;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
