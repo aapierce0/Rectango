@@ -79,7 +79,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="25z-23-UZK">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="435"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="500"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aK2-0C-W8T">
                                         <rect key="frame" x="16" y="24" width="35" height="30"/>
@@ -103,7 +103,7 @@
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera-outline-large" translatesAutoresizingMaskIntoConstraints="NO" id="Wpo-58-DaI">
-                                        <rect key="frame" x="200" y="68" width="200" height="200"/>
+                                        <rect key="frame" x="200" y="100" width="200" height="200"/>
                                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="MgC-sp-6XE"/>
@@ -111,7 +111,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to Scan" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nOK-fp-0zy">
-                                        <rect key="frame" x="243" y="236" width="115" height="27"/>
+                                        <rect key="frame" x="243" y="268" width="115" height="27"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
@@ -137,7 +137,7 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hjl-Zq-pGZ">
-                                <rect key="frame" x="0.0" y="435" width="600" height="165"/>
+                                <rect key="frame" x="0.0" y="500" width="600" height="100"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter URL..." minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Cbm-CR-5la">
                                         <rect key="frame" x="8" y="8" width="584" height="30"/>
@@ -150,15 +150,8 @@
                                             <outlet property="delegate" destination="TTU-ei-dyC" id="a9C-Eb-IAE"/>
                                         </connections>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sNG-Zl-h67">
-                                        <rect key="frame" x="0.0" y="46" width="300" height="119"/>
-                                        <state key="normal" title="Import From Contacts" image="contact-outline"/>
-                                        <connections>
-                                            <action selector="importFromContacts:" destination="TTU-ei-dyC" eventType="touchUpInside" id="OJK-jq-yAz"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jLr-QQ-ZQ1">
-                                        <rect key="frame" x="300" y="46" width="300" height="119"/>
+                                        <rect key="frame" x="0.0" y="46" width="600" height="54"/>
                                         <state key="normal" title="Create New" image="compose-outline"/>
                                         <connections>
                                             <segue destination="pX7-Mf-zHk" kind="show" id="IGJ-Vn-3rg"/>
@@ -170,17 +163,13 @@
                                     <constraint firstItem="Cbm-CR-5la" firstAttribute="leading" secondItem="hjl-Zq-pGZ" secondAttribute="leadingMargin" id="1kB-XA-ZsP"/>
                                     <constraint firstAttribute="trailing" secondItem="jLr-QQ-ZQ1" secondAttribute="trailing" id="4RZ-ae-sJr"/>
                                     <constraint firstAttribute="bottom" secondItem="jLr-QQ-ZQ1" secondAttribute="bottom" id="8RG-Mv-Ydc"/>
-                                    <constraint firstItem="jLr-QQ-ZQ1" firstAttribute="width" secondItem="sNG-Zl-h67" secondAttribute="width" id="EAm-km-Kcn"/>
-                                    <constraint firstItem="jLr-QQ-ZQ1" firstAttribute="leading" secondItem="sNG-Zl-h67" secondAttribute="trailing" id="Liq-Mw-xSD"/>
                                     <constraint firstItem="Cbm-CR-5la" firstAttribute="trailing" secondItem="hjl-Zq-pGZ" secondAttribute="trailingMargin" id="OAL-lt-t3z"/>
                                     <constraint firstAttribute="height" priority="900" constant="100" id="Qat-Yj-Byd"/>
-                                    <constraint firstAttribute="height" priority="900" constant="165" id="cqZ-EL-ZRo"/>
-                                    <constraint firstItem="sNG-Zl-h67" firstAttribute="top" secondItem="Cbm-CR-5la" secondAttribute="bottom" constant="8" id="e90-zx-Yfo"/>
+                                    <constraint firstAttribute="height" priority="900" constant="100" id="cqZ-EL-ZRo"/>
                                     <constraint firstItem="Cbm-CR-5la" firstAttribute="top" secondItem="hjl-Zq-pGZ" secondAttribute="topMargin" id="i6y-WJ-i7Q"/>
+                                    <constraint firstItem="jLr-QQ-ZQ1" firstAttribute="leading" secondItem="hjl-Zq-pGZ" secondAttribute="leading" id="l7o-sU-9dJ"/>
                                     <constraint firstItem="jLr-QQ-ZQ1" firstAttribute="top" secondItem="Cbm-CR-5la" secondAttribute="bottom" constant="8" id="mOK-UF-nEf"/>
-                                    <constraint firstItem="sNG-Zl-h67" firstAttribute="leading" secondItem="hjl-Zq-pGZ" secondAttribute="leading" id="pqS-em-yHM"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" id="qrZ-f4-wns"/>
-                                    <constraint firstAttribute="bottom" secondItem="sNG-Zl-h67" secondAttribute="bottom" id="vzy-3V-toM"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -820,7 +809,6 @@
     <resources>
         <image name="camera-outline-large" width="200" height="200"/>
         <image name="compose-outline" width="24" height="24"/>
-        <image name="contact-outline" width="24" height="24"/>
         <image name="plus-outline" width="24" height="24"/>
     </resources>
 </document>
