@@ -48,6 +48,9 @@
 - (instancetype)initWithContactURL:(NSURL *)URL managedObjectContext:(NSManagedObjectContext *)moc insert:(BOOL)shouldInsertAutomatically;
 - (instancetype)initWithContactURL:(NSURL *)URL insertIntoManagedObjectContext:(NSManagedObjectContext *)moc;
 
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary image:(UIImage*)image managedObjectContext:(NSManagedObjectContext *)moc insert:(BOOL)shouldInsertAutomatically;
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary image:(UIImage*)image insertIntoManagedObjectContext:(NSManagedObjectContext *)moc;
+
 - (NSString*)guessedName;
 - (NSString*)guessedOrganization;
 - (NSString*)guessedOccupation;

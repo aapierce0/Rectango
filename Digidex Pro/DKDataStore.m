@@ -137,6 +137,34 @@
 	return card;
 }
 
+
+- (DKManagedCard*)addContactWithDictionary:(NSDictionary*)dictionary image:(UIImage*)image;
+{
+	DKManagedCard *card;
+	@synchronized(_moc) {
+		NSError *saveError;
+		card = [[DKManagedCard alloc] initWithDictionary:dictionary image:image insertIntoManagedObjectContext:_moc];
+		BOOL savedOK = [_moc save:&saveError];
+		if (!savedOK) {
+			NSLog(@"Error saving context %@", saveError);
+		}
+	}
+	
+	return card;
+}
+- (DKManagedCard*)makeTransientContactWithDictionary:(NSDictionary*)dictionary image:(UIImage*)image;
+{
+	DKManagedCard *card;
+	@synchronized(_moc) {
+		card = [[DKManagedCard alloc] initWithDictionary:dictionary image:image managedObjectContext:_moc insert:NO];
+	}
+	
+	return card;
+}
+
+
+
+
 - (void)insertCard:(DKManagedCard*)card;
 {
 	if (![card isInserted]) {

@@ -44,6 +44,37 @@
 	return [self initWithContactURL:URL managedObjectContext:moc insert:YES];
 }
 
+
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary image:(UIImage*)image managedObjectContext:(NSManagedObjectContext *)moc insert:(BOOL)shouldInsertAutomatically;
+{
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:moc];
+	
+	self = [self initWithEntity:entity insertIntoManagedObjectContext:(shouldInsertAutomatically ? moc : nil)];
+	
+	if (self) {
+		
+		_cardUpdated = NO;
+		
+		_cardDictionary = dictionary;
+		
+		_cardImage = image;
+		_cardImageSize = image.size;
+		[self setCachedCardImage:image];
+		[self regenerateThumbnail];
+		
+		if (shouldInsertAutomatically && moc) {
+			[self writeToDisk];
+			[self writeImageToDisk];
+		}
+	}
+	return self;
+}
+- (instancetype)initWithDictionary:(NSDictionary*)dictionary image:(UIImage*)image insertIntoManagedObjectContext:(NSManagedObjectContext *)moc;
+{
+	return [self initWithDictionary:dictionary image:image managedObjectContext:moc insert:YES];
+}
+
+
 - (void)awakeFromFetch;
 {
 	[super awakeFromFetch];
@@ -182,7 +213,7 @@
 	if (!_cardImage)
 		return;
 	
-	// Create a thumbnail version of the image for the event object.
+	// Create a thumbnail version of the image root card view.
 	CGSize size = _cardImage.size;
 	
 	

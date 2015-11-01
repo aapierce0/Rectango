@@ -470,6 +470,7 @@
 	
 	// Check to make sure that an image was supplied. If not, tell the user to supply one.
 	if (!_imageSelected) {
+		
 		// Display a dialog to indicate that data is being updated
 		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No Image Selected"
 																	   message:@"Please select an image for your digidex card before continuing"
@@ -487,6 +488,16 @@
 	
 	
 	
+	// Create this digidex card locally.
+	[[DKDataStore sharedDataStore] addContactWithDictionary:results image:_cardImage];
+	
+	// dismiss this view controller.
+	[self.navigationController dismissViewControllerAnimated:YES completion:^{}];
+	
+	
+	
+	
+	/*
 	
 	// Display a dialog to indicate that data is being updated
 	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uploading Image..."
@@ -614,6 +625,7 @@
 	spinner.color = [UIColor blackColor];
 	[spinner startAnimating];
 	[alert.view addSubview:spinner];
+	 */
 
 }
 
