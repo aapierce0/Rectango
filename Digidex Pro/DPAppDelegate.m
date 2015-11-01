@@ -49,18 +49,36 @@
 
 
 
-- (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL *)url;
+- (BOOL)application:(UIApplication*)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
 	NSLog(@"Opening URL: %@", url);
-	NSLog(@"ROOT View controller! %@", self.window.rootViewController);
 	
-	DKManagedCard *card = [[DKDataStore sharedDataStore] makeTransientContactWithURL:url];
+	BOOL success = YES;
 	
-	DPDetailTableViewController *detailViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"DetailViewController"];
-	detailViewController.selectedCard = card;
-	detailViewController.title = @"New Card";
+	// Check to make sure this URL is valid.
+	UIViewController *newViewController;
+	if (![DKManagedCard digidexURLIsValid:url]) {
+		
+		NSString *message = [NSString stringWithFormat:@"The URL could not be processed by Rectango.\n\n%@", url];
+		UIAlertController *noticeController = [UIAlertController alertControllerWithTitle:@"Malformed URL" message:message preferredStyle:UIAlertControllerStyleAlert];
+		[noticeController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}]];
+		
+		newViewController = noticeController;
+		
+		success = NO;
+	} else {
+		
+		DKManagedCard *card = [[DKDataStore sharedDataStore] makeTransientContactWithURL:url];
+		
+		DPDetailTableViewController *detailViewController = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"DetailViewController"];
+		detailViewController.selectedCard = card;
+		detailViewController.title = @"New Card";
+		
+		UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
+		newViewController = navigationController;
+	}
 	
-	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
+	
 	
 	
 	// Display this addition view controller on whatever the top most view controller is.
@@ -72,14 +90,10 @@
 		
 		// Dismiss the alert controller
 		[alertViewController dismissViewControllerAnimated:YES completion:^{
-			[topViewController presentViewController:navigationController animated:YES completion:^{
-				NSLog(@"All Done presenting!");
-			}];
+			[topViewController presentViewController:newViewController animated:YES completion:^{}];
 		}];
 	} else {
-		[topViewController presentViewController:navigationController animated:YES completion:^{
-			NSLog(@"All Done presenting!");
-		}];
+		[topViewController presentViewController:newViewController animated:YES completion:^{}];
 	}
 	
 	return YES;

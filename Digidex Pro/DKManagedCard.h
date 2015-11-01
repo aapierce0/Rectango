@@ -68,6 +68,8 @@
 + (void)determineDigidexURLFromProvidedURL:(NSURL*)providedURL completion:(void (^)(NSURL *determinedURL))completion;
 + (NSArray*)orderedKeysForObject:(NSDictionary*)object;
 
++ (BOOL)digidexURLIsValid:(NSURL*)digidexURL;
+
 @end
 
 @interface DKManagedCard (CoreDataGeneratedAccessors)

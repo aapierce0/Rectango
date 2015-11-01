@@ -288,11 +288,12 @@
 - (NSURL*)digidexURL;
 {
     if (self.originalURL) {
-        NSURLComponents *components = [NSURLComponents componentsWithURL:self.originalURL resolvingAgainstBaseURL:YES];
-        components.scheme = @"digidex";
-        return [components URL];
+		if (![[self.originalURL scheme] isEqualToString:@"digidex"]) {
+			NSString *newURLString = [NSString stringWithFormat:@"digidex:%@", [self.originalURL absoluteString]];
+			return [NSURL URLWithString:newURLString];
+		}
     }
-    
+	
     // If the originalURL is not available, return nil
     return nil;
 }
@@ -415,6 +416,8 @@
 		};
 	}
 	
+	NSLog(@"loadContact Data. Original URL: %@", self.originalURL);
+	
 	
 	// Make sure that we actually have a card URL here
 	if (!self.originalURL) {
@@ -427,10 +430,17 @@
 		return;
 	} else if ([[self.originalURL scheme] isEqualToString:@"digidex"]) {
 		
-		// If this is a digidex URL, change it to http
-		NSURLComponents *components = [NSURLComponents componentsWithURL:self.originalURL resolvingAgainstBaseURL:YES];
-		components.scheme = @"http";
-		self.originalURL = [components URL];
+		// If this is a digidex URL, chop off the scheme to get the http(s)
+		NSString *originalURLString = [self.originalURL absoluteString];
+		NSString *newURLString = [originalURLString substringFromIndex:@"digidex:".length];
+
+		self.originalURL = [NSURL URLWithString:newURLString];
+		
+		NSError *error;
+		[self.managedObjectContext save:&error];
+		if (error) {
+			NSLog(@"Error occurred saving card: %@", error);
+		}
 	}
 	
 	
@@ -804,7 +814,7 @@
 
 + (void)determineDigidexURLFromProvidedURL:(NSURL*)providedURL completion:(void (^)(NSURL *determinedURL))completion;
 {
-	// This method tries to parse the provided URL to come up with the exact correct digidex:// URL.
+	// This method tries to parse the provided URL to come up with the exact correct digidex: URL.
 	
 	if ([providedURL.scheme isEqualToString:@"digidex"]) {
 		
@@ -815,10 +825,9 @@
 	} else if ([providedURL.pathExtension isEqualToString:@"json"]) {
 		
 		// If the URL is assumed to be JSON. There's no more work to be done.
-		// Change the URL scheme to digidex, and we're done.
-		NSURLComponents *components = [NSURLComponents componentsWithURL:providedURL resolvingAgainstBaseURL:YES];
-		components.scheme = @"digidex";
-		completion([components URL]);
+		// prepend the digidex scheme, and we're done.
+		NSString *newURLString = [NSString stringWithFormat:@"digidex:%@", [providedURL absoluteString]];
+		completion([NSURL URLWithString:newURLString]);
 		return;
 		
 	} else {
@@ -870,10 +879,12 @@
 					NSString *content = [selectedTag attributeForName:@"content"];
 					NSURL *contentURL = [NSURL URLWithString:content];
 					
-					NSURLComponents *components = [NSURLComponents componentsWithURL:contentURL resolvingAgainstBaseURL:YES];
-					components.scheme = @"digidex";
+					if (![contentURL.scheme isEqualToString:@"digidex"]) {
+						NSString *newURLString = [NSString stringWithFormat:@"digidex:%@", [contentURL absoluteString]];
+						contentURL = [NSURL URLWithString:newURLString];
+					}
 					
-					completion([components URL]);
+					completion(contentURL);
 					return;
 				}
 			}
@@ -882,6 +893,23 @@
 			return;
 		}];
 	}
+}
+
++ (BOOL)digidexURLIsValid:(NSURL*)digidexURL;
+{
+	// only support digidex schemes.
+	if (![digidexURL.scheme isEqualToString:@"digidex"])
+		return NO;
+	
+	NSString *originalURLString = [digidexURL absoluteString];
+	NSString *newURLString = [originalURLString substringFromIndex:@"digidex:".length];
+	NSURL *newURL = [NSURL URLWithString:newURLString];
+	
+	// only support http and https
+	if (![newURL.scheme isEqualToString:@"http"] && ![newURLString isEqualToString:@"https"])
+		return NO;
+	
+	return YES;
 }
 
 @end
