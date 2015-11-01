@@ -312,7 +312,7 @@
                                             <rect key="frame" x="30" y="8" width="562" height="27"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                         </textField>
                                     </subviews>
                                     <animations/>

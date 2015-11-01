@@ -208,6 +208,9 @@
 			keyValueCell.valueTextView.indexPath = indexPath;
 			keyValueCell.valueTextView.textContainerInset = UIEdgeInsetsMake(8, 26, 8, 8);
 			
+			keyValueCell.valueTextView.spellCheckingType = UITextSpellCheckingTypeDefault;
+			keyValueCell.valueTextView.autocapitalizationType = UITextAutocapitalizationTypeSentences;
+			
 			if ([pair[@"type"] isEqualToString:@"address"]) {
 				keyValueCell.keyIconImageView.image = [UIImage imageNamed:@"map-outline"];
 			} else {
@@ -228,18 +231,26 @@
 			// Use a custom keyboard type, if specified.
 			if ([pair[@"type"] isEqualToString:@"phone"]) {
 				keyValueCell.valueTextField.keyboardType = UIKeyboardTypePhonePad;
+				keyValueCell.valueTextField.spellCheckingType = UITextSpellCheckingTypeNo;
+				keyValueCell.valueTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 				keyValueCell.valueTextField.placeholder = @"(888) 555-1212";
 				keyValueCell.keyIconImageView.image = [UIImage imageNamed:@"telephone-outline"];
 			} else if ([pair[@"type"] isEqualToString:@"email"]) {
 				keyValueCell.valueTextField.keyboardType = UIKeyboardTypeEmailAddress;
+				keyValueCell.valueTextField.spellCheckingType = UITextSpellCheckingTypeNo;
+				keyValueCell.valueTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 				keyValueCell.valueTextField.placeholder = @"j.appleseed@example.com";
 				keyValueCell.keyIconImageView.image = [UIImage imageNamed:@"email-outline"];
 			} else if ([pair[@"type"] isEqualToString:@"URL"]) {
 				keyValueCell.valueTextField.keyboardType = UIKeyboardTypeURL;
+				keyValueCell.valueTextField.spellCheckingType = UITextSpellCheckingTypeNo;
+				keyValueCell.valueTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 				keyValueCell.valueTextField.placeholder = @"http://www.digidex.org";
 				keyValueCell.keyIconImageView.image = [UIImage imageNamed:@"safari-outline"];
 			} else {
 				keyValueCell.valueTextField.keyboardType = UIKeyboardTypeDefault;
+				keyValueCell.valueTextField.spellCheckingType = UITextSpellCheckingTypeDefault;
+				keyValueCell.valueTextField.autocapitalizationType = UITextAutocapitalizationTypeSentences;
 				keyValueCell.valueTextField.placeholder = @"info";
 				keyValueCell.keyIconImageView.image = [UIImage imageNamed:@"paper-outline"];
 			}
