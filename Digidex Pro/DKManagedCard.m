@@ -381,6 +381,11 @@
 			NSLog(@"Error loading JSON data: %@", error);
 		}
 	}
+	
+	
+	if (self.localImagePath) {
+		_cachedCardImage = [UIImage imageWithContentsOfFile:self.localImagePath];
+	}
 }
 
 
@@ -509,10 +514,20 @@
 	
 	// Make sure that the card image URL exists
 	if (!self.cardImageURL) {
-		NSError *error = [NSError errorWithDomain:@"URL"
-											 code:100
-										 userInfo:@{NSLocalizedDescriptionKey:@"cardImageURL is missing."}];
-		completionHandler(error);
+		
+		
+		if (!self.originalURL && self.localImagePath) {
+			
+			// If this is an offline card, then load the card locally.
+			_cardImage = [UIImage imageWithContentsOfFile:self.localImagePath];
+			completionHandler(nil);
+			
+		} else {
+			NSError *error = [NSError errorWithDomain:@"URL"
+												 code:100
+											 userInfo:@{NSLocalizedDescriptionKey:@"cardImageURL is missing, and no local image was found."}];
+			completionHandler(error);
+		}
 		return;
 	}
 	
@@ -728,6 +743,7 @@
 	NSLog(@"manager request serializer: %@", manager.requestSerializer);
 	
 	AFHTTPRequestOperation *uploadOperation = [manager POST:[baseURLString stringByAppendingPathComponent:@"uploadImage.php"] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+		
 		
 		// Add the URL to the card image.
 		if (_cardImage != nil) {
