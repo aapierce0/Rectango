@@ -195,7 +195,7 @@
 		// Get the key-value pair from the array.
 		keyValueCell.keyTextField.placeholder = @"field name";
 		keyValueCell.keyTextField.text = pair[@"key"];
-		keyValueCell.keyTextField.textColor = self.view.tintColor;
+        keyValueCell.keyTextField.textColor = [[[[UIApplication sharedApplication] delegate] window] tintColor];
 		keyValueCell.keyTextField.delegate = self;
 		keyValueCell.keyTextField.type = DPTableViewTextFieldTypeKey;
 		keyValueCell.keyTextField.indexPath = indexPath;
@@ -210,6 +210,7 @@
 			
 			keyValueCell.valueTextView.spellCheckingType = UITextSpellCheckingTypeDefault;
 			keyValueCell.valueTextView.autocapitalizationType = UITextAutocapitalizationTypeSentences;
+            keyValueCell.valueTextView.autocorrectionType = UITextAutocorrectionTypeDefault;
 			
 			if ([pair[@"type"] isEqualToString:@"address"]) {
 				keyValueCell.keyIconImageView.image = [UIImage imageNamed:@"map-outline"];
@@ -232,24 +233,28 @@
 			if ([pair[@"type"] isEqualToString:@"phone"]) {
 				keyValueCell.valueTextField.keyboardType = UIKeyboardTypePhonePad;
 				keyValueCell.valueTextField.spellCheckingType = UITextSpellCheckingTypeNo;
+                keyValueCell.valueTextField.autocorrectionType = UITextAutocorrectionTypeNo;
 				keyValueCell.valueTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 				keyValueCell.valueTextField.placeholder = @"(888) 555-1212";
 				keyValueCell.keyIconImageView.image = [UIImage imageNamed:@"telephone-outline"];
 			} else if ([pair[@"type"] isEqualToString:@"email"]) {
 				keyValueCell.valueTextField.keyboardType = UIKeyboardTypeEmailAddress;
 				keyValueCell.valueTextField.spellCheckingType = UITextSpellCheckingTypeNo;
+                keyValueCell.valueTextField.autocorrectionType = UITextAutocorrectionTypeNo;
 				keyValueCell.valueTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 				keyValueCell.valueTextField.placeholder = @"j.appleseed@example.com";
 				keyValueCell.keyIconImageView.image = [UIImage imageNamed:@"email-outline"];
 			} else if ([pair[@"type"] isEqualToString:@"URL"]) {
 				keyValueCell.valueTextField.keyboardType = UIKeyboardTypeURL;
 				keyValueCell.valueTextField.spellCheckingType = UITextSpellCheckingTypeNo;
+                keyValueCell.valueTextField.autocorrectionType = UITextAutocorrectionTypeNo;
 				keyValueCell.valueTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 				keyValueCell.valueTextField.placeholder = @"http://www.digidex.org";
 				keyValueCell.keyIconImageView.image = [UIImage imageNamed:@"safari-outline"];
 			} else {
 				keyValueCell.valueTextField.keyboardType = UIKeyboardTypeDefault;
 				keyValueCell.valueTextField.spellCheckingType = UITextSpellCheckingTypeDefault;
+                keyValueCell.valueTextField.autocorrectionType = UITextAutocorrectionTypeDefault;
 				keyValueCell.valueTextField.autocapitalizationType = UITextAutocapitalizationTypeSentences;
 				keyValueCell.valueTextField.placeholder = @"info";
 				keyValueCell.keyIconImageView.image = [UIImage imageNamed:@"paper-outline"];
@@ -422,7 +427,7 @@
 	NSMutableDictionary *addressValues = [NSMutableDictionary dictionary];
 	for (NSDictionary *pair in _keyValuePairs) {
 		
-		if ([pair[@"key"] length] > 0) {
+		if ([pair[@"key"] length] > 0 && [pair[@"value"] length] > 0) {
 			
 			if ([pair[@"type"] isEqualToString:@"phone"]) {
 				[phoneValues setObject:pair[@"value"] forKey:pair[@"key"]];
