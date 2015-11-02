@@ -57,34 +57,44 @@
 	}];
 	
 	if (self.selectedCard.managedObjectContext == nil) {
-		
 		self.title = @"New Card";
+	} else {
+		self.title = [self.selectedCard guessedName];
+	}
+	
+	[self resetBarButtonItems];
+}
+
+- (void)resetBarButtonItems;
+{
+	if (self.selectedCard.managedObjectContext == nil) {
 		
 		self.navigationItem.rightBarButtonItem =	[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(insertNewCard)];
 		
 		// Check to see if this item has a back button item.
+		self.navigationItem.leftItemsSupplementBackButton = NO;
 		if (self.navigationController.viewControllers.count > 1) {
 			self.navigationItem.leftBarButtonItem = nil;
 		} else {
-			self.navigationItem.leftBarButtonItem =		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelNewCard)];
+			self.navigationItem.leftBarButtonItem =	[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelNewCard)];
 		}
 		
 	} else {
-		self.title = [self.selectedCard guessedName];
 		
-        self.navigationItem.leftItemsSupplementBackButton = YES;
-        self.navigationItem.leftBarButtonItem =     [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteCard:)];
+		self.navigationItem.leftItemsSupplementBackButton = YES;
+		self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteCard:)];
 		
-		UIBarButtonItem *refreshBarButtonItem =		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
-		UIBarButtonItem *shareBarButtonItem;
-        if (self.selectedCard.originalURL) {
-			shareBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareCard:)];
+		
+		if (self.selectedCard.originalURL) {
+			UIBarButtonItem *refreshBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
+			UIBarButtonItem *shareBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareCard:)];
+			self.navigationItem.rightBarButtonItems = @[shareBarButtonItem, refreshBarButtonItem];
 		} else {
-			shareBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cloud-upload-outline"] style:UIBarButtonItemStylePlain target:self action:@selector(publishCard:)];
+			UIBarButtonItem *shareBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cloud-upload-outline"] style:UIBarButtonItemStylePlain target:self action:@selector(publishCard:)];
+			self.navigationItem.rightBarButtonItems = @[shareBarButtonItem];
 		}
-		
-		self.navigationItem.rightBarButtonItems = @[shareBarButtonItem, refreshBarButtonItem];
 	}
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -175,16 +185,7 @@
 			[alert dismissViewControllerAnimated:YES completion:^{}];
 			
 			
-			// Update the right bar button items...
-			UIBarButtonItem *refreshBarButtonItem =		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
-			UIBarButtonItem *shareBarButtonItem;
-			if (self.selectedCard.originalURL) {
-				shareBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareCard:)];
-			} else {
-				shareBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cloud-upload-outline"] style:UIBarButtonItemStylePlain target:self action:@selector(publishCard:)];
-			}
-			
-			self.navigationItem.rightBarButtonItems = @[shareBarButtonItem, refreshBarButtonItem];
+			[self resetBarButtonItems];
 		}];
 		
 		
