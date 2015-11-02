@@ -232,6 +232,7 @@
 	}
 	
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[shareURL, self.selectedCard.cardImage] applicationActivities:nil];
+	activityViewController.excludedActivityTypes = @[UIActivityTypeAddToReadingList, UIActivityTypePostToFlickr];
     activityViewController.popoverPresentationController.barButtonItem = sender;
     [self presentViewController:activityViewController animated:YES completion:^{
         
