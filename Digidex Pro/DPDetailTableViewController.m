@@ -48,12 +48,16 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	
     [[NSNotificationCenter defaultCenter] addObserverForName:@"ContactLoaded" object:self.selectedCard queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        [self.tableView reloadData];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self.tableView reloadData];
+		});
     }];
     
 	[[NSNotificationCenter defaultCenter] addObserverForName:@"ImageLoaded" object:self.selectedCard queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        if (!self.isBeingDismissed)
-            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			if (!self.isBeingDismissed)
+				[self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+		});
 	}];
 	
 	if (self.selectedCard.managedObjectContext == nil) {
@@ -235,9 +239,7 @@
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[shareURL, self.selectedCard.cardImage] applicationActivities:nil];
 	activityViewController.excludedActivityTypes = @[UIActivityTypeAddToReadingList, UIActivityTypePostToFlickr];
     activityViewController.popoverPresentationController.barButtonItem = sender;
-    [self presentViewController:activityViewController animated:YES completion:^{
-        
-    }];
+    [self presentViewController:activityViewController animated:YES completion:^{}];
 }
 
 
