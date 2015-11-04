@@ -730,7 +730,7 @@
 {
 	
 	// The results object will represent the new card.
-	NSString *baseURLString = @"http://bloviations.net/digidex";
+	NSString *baseURLString = @"http://rectangoapp.com/api/";
 	
 	
 	// First, upload the image...
