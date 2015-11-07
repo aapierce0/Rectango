@@ -592,7 +592,8 @@
 			[[NSNotificationCenter defaultCenter] addObserverForName:@"ImageLoaded" object:_loadedCard queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
 				
 				// If the user attempted to load something else, ignore this data.
-				if (![_activeToken isEqualToString:token])
+				// If the card image is nil (because it is not specified, or because the link was bogus), ignore this data.
+				if (![_activeToken isEqualToString:token] || _loadedCard.cardImage == nil)
 					return;
 				
 				_scannedCardImageView = [[UIImageView alloc] initWithImage:_loadedCard.cardImage];
