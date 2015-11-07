@@ -536,7 +536,7 @@
 	
 	
 	// Do an HTTP call to fetch the image
-	NSURLRequest *jsonRequest = [NSURLRequest requestWithURL:self.cardImageURL];
+	NSURLRequest *jsonRequest = [NSURLRequest requestWithURL:self.cardImageURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60.0];
 	
 	// Perform the JSON request
 	[NSURLConnection sendAsynchronousRequest:jsonRequest
