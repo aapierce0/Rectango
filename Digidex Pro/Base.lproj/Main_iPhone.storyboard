@@ -28,6 +28,12 @@
                                             <rect key="frame" x="0.0" y="0.0" width="147" height="73"/>
                                             <animations/>
                                         </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="itt-31-NgY">
+                                            <rect key="frame" x="8" y="8" width="131" height="21"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <animations/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -35,13 +41,17 @@
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="hHr-Re-etW" secondAttribute="trailing" id="4zz-F4-feD"/>
+                                    <constraint firstItem="itt-31-NgY" firstAttribute="leading" secondItem="N55-ov-Zp3" secondAttribute="leadingMargin" id="6ZO-sK-u8z"/>
                                     <constraint firstItem="hHr-Re-etW" firstAttribute="top" secondItem="N55-ov-Zp3" secondAttribute="top" id="GPZ-hW-a0W"/>
                                     <constraint firstAttribute="bottom" secondItem="hHr-Re-etW" secondAttribute="bottom" id="OTr-lK-icq"/>
+                                    <constraint firstItem="itt-31-NgY" firstAttribute="trailing" secondItem="N55-ov-Zp3" secondAttribute="trailingMargin" id="PiM-Yh-33v"/>
+                                    <constraint firstItem="itt-31-NgY" firstAttribute="top" secondItem="N55-ov-Zp3" secondAttribute="topMargin" id="hma-XX-Oi8"/>
                                     <constraint firstItem="hHr-Re-etW" firstAttribute="leading" secondItem="N55-ov-Zp3" secondAttribute="leading" id="ugY-Vq-Jk2"/>
                                 </constraints>
                                 <size key="customSize" width="147" height="73"/>
                                 <connections>
                                     <outlet property="imageView" destination="hHr-Re-etW" id="meH-vN-5Wa"/>
+                                    <outlet property="textLabel" destination="itt-31-NgY" id="4Hw-7k-M3e"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
