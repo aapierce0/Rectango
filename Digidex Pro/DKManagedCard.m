@@ -88,10 +88,12 @@
 		
 		_cardDictionary = dictionary;
 		
-		_cardImage = image;
-		_cardImageSize = image.size;
-		[self setCachedCardImage:image];
-		[self regenerateThumbnail];
+		if (image) {
+			_cardImage = image;
+			_cardImageSize = image.size;
+			[self setCachedCardImage:image];
+			[self regenerateThumbnail];
+		}
 		
 		if (shouldInsertAutomatically && moc) {
 			[self writeToDisk];
@@ -743,52 +745,19 @@
 	manager.requestSerializer = [AFJSONRequestSerializer serializer];
 	NSLog(@"manager request serializer: %@", manager.requestSerializer);
 	
-	AFHTTPRequestOperation *uploadOperation = [manager POST:[baseURLString stringByAppendingPathComponent:@"uploadImage.php"] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-		
-		
-		// Add the URL to the card image.
-		if (_cardImage != nil) {
-			
-			// Scale the image down so that it isn't huge.
-			// We want to scale the image down enough so that it's manageable
-			
-			NSData *uploadImageData = nil;
-			NSData *originalImageData =	UIImagePNGRepresentation(_cardImage);
-			
-			if (originalImageData.length < UPLOAD_TARGET_SIZE) {
-				
-				// If the original image is less than the maximum, then we don't need to do anything.
-				uploadImageData = originalImageData;
-			} else {
-				
-				// Compute how much the image size needs to be reduced.
-				CGFloat fileReductionFactor = UPLOAD_TARGET_SIZE / originalImageData.length;
-				
-				
-				// If you scale a rectangle down by 50% (1/2) in each coordinate, the resulting area is 25% (1/4) of the original.
-				// Therefore: The desired image scale factor is approx. the square root of the target size reduction.
-				CGFloat imageScaleFactor = sqrtf(fileReductionFactor);
-				imageScaleFactor = imageScaleFactor * 0.9; // Reduce it by another 10% for goot measure...
-				
-				UIImage *scaledImage = [UIImage imagewithImage:_cardImage scaledByFactor:imageScaleFactor];
-				uploadImageData = UIImagePNGRepresentation(scaledImage);
-			}
-			
-			[formData appendPartWithFileData:uploadImageData name:@"image" fileName:@"businessCard.png" mimeType:@"image/png"];
-		}
-		
-	} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		
-		
-		// The upload was a success. The file's final resting place is at the returned address.
-		NSString *imageURL = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-		
+	
+	
+	
+	// This will be called either when the image upload completes, or, in the case of a nil image, immediately.
+	void (^publishJSONWithImageURL)(NSString*imageURLString) = ^(NSString*imageURLString) {
 		NSMutableDictionary *resultsCopy = [_cardDictionary mutableCopy];
-		[resultsCopy setObject:imageURL forKey:@"_cardURL"];
+		
+		if (imageURLString != nil)
+			[resultsCopy setObject:imageURLString forKey:@"_cardURL"];
 		
 		NSDictionary *parameters = [NSDictionary dictionaryWithDictionary:resultsCopy];
 		
-	
+		
 		// Submit the JSON request to create the card.
 		AFHTTPRequestOperation *recordCreateOperation = [manager POST:[baseURLString stringByAppendingPathComponent:@"digidex.php"] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 			
@@ -812,18 +781,68 @@
 		// Update the alert to indicate that the image upload has finished, and we are now creating the digidex record.
 		// pass the operation back to the caller so they may cancel it, if desired.
 		progressHandler(@"Creating Record...", recordCreateOperation);
-		
-		
-		
-	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-		
-		// The image upload failed somehow.
-		completionHandler(error);
-	}];
+	};
 	
-	// pass the operation back to the caller so they may cancel it, if desired.
-	progressHandler(@"Uploading Image...", uploadOperation);
+	
+	if (_cardImage != nil) {
+		
+		AFHTTPRequestOperation *uploadOperation = [manager POST:[baseURLString stringByAppendingPathComponent:@"uploadImage.php"] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+			
+			
+			// Add the URL to the card image.
+			if (_cardImage != nil) {
+				
+				// Scale the image down so that it isn't huge.
+				// We want to scale the image down enough so that it's manageable
+				
+				NSData *uploadImageData = nil;
+				NSData *originalImageData =	UIImagePNGRepresentation(_cardImage);
+				
+				if (originalImageData.length < UPLOAD_TARGET_SIZE) {
+					
+					// If the original image is less than the maximum, then we don't need to do anything.
+					uploadImageData = originalImageData;
+				} else {
+					
+					// Compute how much the image size needs to be reduced.
+					CGFloat fileReductionFactor = UPLOAD_TARGET_SIZE / originalImageData.length;
+					
+					
+					// If you scale a rectangle down by 50% (1/2) in each coordinate, the resulting area is 25% (1/4) of the original.
+					// Therefore: The desired image scale factor is approx. the square root of the target size reduction.
+					CGFloat imageScaleFactor = sqrtf(fileReductionFactor);
+					imageScaleFactor = imageScaleFactor * 0.9; // Reduce it by another 10% for goot measure...
+					
+					UIImage *scaledImage = [UIImage imagewithImage:_cardImage scaledByFactor:imageScaleFactor];
+					uploadImageData = UIImagePNGRepresentation(scaledImage);
+				}
+				
+				[formData appendPartWithFileData:uploadImageData name:@"image" fileName:@"businessCard.png" mimeType:@"image/png"];
+			}
+			
+		} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+			
+			
+			// The upload was a success. The file's final resting place is at the returned address.
+			NSString *imageURLString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+			
+			publishJSONWithImageURL(imageURLString);
+			
+			
+		} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+			
+			// The image upload failed somehow.
+			completionHandler(error);
+		}];
+		
+		// pass the operation back to the caller so they may cancel it, if desired.
+		progressHandler(@"Uploading Image...", uploadOperation);
+		
+	} else {
+		publishJSONWithImageURL(nil);
+	}
 }
+
 
 
 

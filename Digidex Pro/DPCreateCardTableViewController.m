@@ -470,31 +470,29 @@
 	// Check to make sure that an image was supplied. If not, tell the user to supply one.
 	if (!_imageSelected) {
 		
-		// Display a dialog to indicate that data is being updated
+		// Display a dialog to indicate that no image was selected.
 		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No Image Selected"
-																	   message:@"Please select an image for your digidex card before continuing"
+																	   message:@"Are you sure you want to save this card without an image selected?"
 																preferredStyle:UIAlertControllerStyleAlert];
 		
-		[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}]];
-		[self presentViewController:alert animated:YES completion:^{
+		[alert addAction:[UIAlertAction actionWithTitle:@"Yes, create card without an image" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
 			
-		}];
-		return;
+			// Create this digidex card locally.
+			[[DKDataStore sharedDataStore] addContactWithDictionary:results image:nil];
+			
+			// dismiss this view controller.
+			[self.navigationController dismissViewControllerAnimated:YES completion:^{}];
+		}]];
+		[alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {}]];
+		[self presentViewController:alert animated:YES completion:^{}];
+		
+	} else {
+		// Create this digidex card locally.
+		[[DKDataStore sharedDataStore] addContactWithDictionary:results image:_cardImage];
+		
+		// dismiss this view controller.
+		[self.navigationController dismissViewControllerAnimated:YES completion:^{}];
 	}
-	
-	
-	
-	
-	
-	
-	// Create this digidex card locally.
-	[[DKDataStore sharedDataStore] addContactWithDictionary:results image:_cardImage];
-	
-	// dismiss this view controller.
-	[self.navigationController dismissViewControllerAnimated:YES completion:^{}];
-	
-
-
 }
 
 - (IBAction)dismiss:(id)sender

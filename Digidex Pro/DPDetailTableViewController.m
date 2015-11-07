@@ -169,7 +169,8 @@
 	UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Yes, publish to the internet" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
 		
 		// Display a dialog to indicate that data is being updated
-		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uploading Image..."
+		NSString *alertDefaultText = (self.selectedCard.cardImage == nil ? @"Publishing Card..." : @"Uploading Image...");
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertDefaultText
 																	   message:@"\n\n\n"
 																preferredStyle:UIAlertControllerStyleAlert];
 		
