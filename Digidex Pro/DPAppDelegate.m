@@ -18,9 +18,22 @@
 {
     // Override point for customization after application launch.
     [self.window setTintColor:[UIColor colorWithHue:0.411 saturation:0.9 brightness:0.7 alpha:1.0]];
+	
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
+	{
+		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+		
+		// Add the default digidex cards:
+		// Digidex.org
+		// Rectango
+		[[DKDataStore sharedDataStore] addContactWithURL:[NSURL URLWithString:@"digidex:http://digidex.org/digidex.json"]];
+		[[DKDataStore sharedDataStore] addContactWithURL:[NSURL URLWithString:@"digidex:http://rectangoapp.com/digidex.json"]];
+	}
+	
     return YES;
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
 	// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
