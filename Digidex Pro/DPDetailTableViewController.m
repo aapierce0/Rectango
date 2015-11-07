@@ -55,8 +55,7 @@
     
 	[[NSNotificationCenter defaultCenter] addObserverForName:@"ImageLoaded" object:self.selectedCard queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
 		dispatch_async(dispatch_get_main_queue(), ^{
-			if (!self.isBeingDismissed)
-				[self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+			[self.tableView reloadData];
 		});
 	}];
 	
@@ -170,7 +169,8 @@
 	UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Yes, publish to the internet" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
 		
 		// Display a dialog to indicate that data is being updated
-		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Uploading Image..."
+		NSString *alertDefaultText = (self.selectedCard.cardImage == nil ? @"Publishing Card..." : @"Uploading Image...");
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertDefaultText
 																	   message:@"\n\n\n"
 																preferredStyle:UIAlertControllerStyleAlert];
 		
@@ -236,7 +236,12 @@
 			shareURL = newShareURL;
 	}
 	
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[shareURL, self.selectedCard.cardImage] applicationActivities:nil];
+	NSArray *shareItems = @[shareURL];
+	if (self.selectedCard.cardImage != nil) {
+		shareItems = [shareItems arrayByAddingObject:self.selectedCard.cardImage];
+	}
+	
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:shareItems applicationActivities:nil];
 	activityViewController.excludedActivityTypes = @[UIActivityTypeAddToReadingList, UIActivityTypePostToFlickr];
     activityViewController.popoverPresentationController.barButtonItem = sender;
     [self presentViewController:activityViewController animated:YES completion:^{}];
@@ -258,6 +263,35 @@
 }
 #pragma mark - Table view data source
 
+- (int)keyPairSectionOffset;
+{
+	/*
+	 1 section for the card view
+	 1 section for the title view
+	 1 section for each of the other keys in the digidex card
+	 */
+	if (self.selectedCard.cardImage == nil) {
+		return 1;
+	} else {
+		return 2;
+	}
+}
+
+- (BOOL)sectionIsImageCell:(NSInteger)section;
+{
+	return section == 0 && self.selectedCard.cardImage != nil;
+}
+
+- (BOOL)sectionIsTitleCell:(NSInteger)section;
+{
+	// If there is no image section, then the name section will be first in line.
+	if (self.selectedCard.cardImage != nil) {
+		return section == 1;
+	} else {
+		return section == 0;
+	}
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
@@ -269,22 +303,22 @@
 	 1 section for each of the other keys in the digidex card
 	 */
 	
-	return 1 + 1 + self.selectedCard.filteredKeys.count;
+	return [self keyPairSectionOffset] + self.selectedCard.filteredKeys.count;
 }
 
 - (NSDictionary *)keyPairForSection:(NSInteger)section;
 {
-	if (section == 0) {
+	if ([self sectionIsImageCell:section]) {
 		
 		// This is the card image section. No key pair.
 		return nil;
-	} else if (section == 1) {
+	} else if ([self sectionIsTitleCell:section]) {
 		
 		// This is the card title section. No key pair.
 		return nil;
 	} else {
 		
-		NSString *keyString = self.selectedCard.filteredKeys[section-2];
+		NSString *keyString = self.selectedCard.filteredKeys[section-[self keyPairSectionOffset]];
 		id value = self.selectedCard.cardDictionary[keyString];
 		
 		return @{@"key":keyString, @"value":value};
@@ -340,11 +374,11 @@
 {
     // Return the number of rows in the section.
 	
-	if (section == 0) {
+	if ([self sectionIsImageCell:section]) {
 	
 		// The card view section only contains one cell
 		return 1;
-	} else if (section == 1) {
+	} else if ([self sectionIsTitleCell:section]) {
 		
 		// The title view section only contains one cell
 		return 1;
@@ -379,14 +413,14 @@
 {
 	
 	UITableViewCell *cell;
-	if (indexPath.section == 0) {
+	if ([self sectionIsImageCell:indexPath.section]) {
 		
 		// Set the image cell to the card's image
 		DPImageTableViewCell *imageCell = (DPImageTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CARD_CELL_IDENTIFIER forIndexPath:indexPath];
 		imageCell.cardImageView.image = self.selectedCard.cardImage;
 		cell = imageCell;
 		
-	} else if (indexPath.section == 1) {
+	} else if ([self sectionIsTitleCell:indexPath.section]) {
 		
 		// Get the cards name and subtitle
 		DPTitleTableViewCell *titleCell = (DPTitleTableViewCell *)[tableView dequeueReusableCellWithIdentifier:TITLE_CELL_IDENTIFIER forIndexPath:indexPath];
@@ -466,7 +500,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-	if (indexPath.section == 0) {
+	if ([self sectionIsImageCell:indexPath.section]) {
 		
 		// Set the height so that the image fits without any distortion
 		CGSize imageSize = self.selectedCard.cardImage.size;
@@ -481,7 +515,9 @@
 		return scalingFactor * imageSize.height;
 		
 		
-	} else if (indexPath.section == 1) {
+	} else if ([self sectionIsTitleCell:indexPath.section]) {
+		
+		// Name cell
 		return 60;
 	} else {
 		
@@ -501,13 +537,13 @@
 
 - (NSString *)sectionTitleForIndexPath:(NSInteger)section;
 {
-	if (section == 0) {
+	if ([self sectionIsImageCell:section]) {
 		return nil;
-	} else if (section == 1) {
+	} else if ([self sectionIsTitleCell:section]) {
 		return nil;
 	} else {
 		
-		NSString *key = self.selectedCard.filteredKeys[section-2];
+		NSString *key = self.selectedCard.filteredKeys[section-[self keyPairSectionOffset]];
 		id value = self.selectedCard.cardDictionary[key];
 		if ([value isKindOfClass:[NSString class]]) {
 			

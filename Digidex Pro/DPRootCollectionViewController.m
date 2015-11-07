@@ -146,13 +146,24 @@
 	DPCardCellView *cell =
 	(DPCardCellView *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER
 																				forIndexPath:indexPath];
-	cell.backgroundColor = [UIColor grayColor];
+	cell.backgroundColor = [UIColor whiteColor];
 	
 	// Get the card for this index
 	DKManagedCard *card = _allCards[indexPath.item];
 	
 	// Add the card image to the cell
-	[cell.imageView setImage:card.cardThumbnailImage];
+	if (card.cardThumbnailImage) {
+		[cell.imageView setHidden:NO];
+		[cell.imageView setImage:card.cardThumbnailImage];
+		
+		[cell.textLabel setHidden:YES];
+	} else {
+		[cell.imageView setHidden:YES];
+		
+		[cell.textLabel setHidden:NO];
+		[cell.textLabel setText:[card guessedName]];
+		[cell.textLabel setTextColor:self.view.tintColor];
+	}
 	
 	cell.layer.masksToBounds = NO;
 	cell.layer.shadowOffset = CGSizeMake(0, 1.0);
@@ -194,7 +205,7 @@
 	
 	// If the size is {0, 0}, then default to something more sensible
 	if (CGSizeEqualToSize(CGSizeMake(0, 0), card.cardImageSize)) {
-		return CGSizeMake(1260, 756);
+		return CGSizeMake(1260, 656);
 	}
 	
 	return card.cardImageSize;
