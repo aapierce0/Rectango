@@ -452,7 +452,8 @@
 	
 	
 	// We have to download this data now.
-	NSURLRequest *jsonRequest = [NSURLRequest requestWithURL:self.originalURL];
+	NSURLRequest *jsonRequest = [NSURLRequest requestWithURL:self.originalURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60.0];
+	
 	
 	// Perform the JSON request
 	[NSURLConnection sendAsynchronousRequest:jsonRequest
