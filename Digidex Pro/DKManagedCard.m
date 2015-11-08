@@ -670,7 +670,7 @@
 		return;
 	}
 	
-	NSData *imageData = UIImagePNGRepresentation(_cardImage);
+	NSData *imageData = UIImageJPEGRepresentation(_cardImage, 1.0);
 	if (imageData) {
 		[[NSFileManager defaultManager] createFileAtPath:self.localImagePath contents:imageData attributes:@{}];
 	}
@@ -771,6 +771,8 @@
 			[self.managedObjectContext save:&error];
 			completionHandler(error); // if there were no errors while saving, then the error object here will be nil
 			
+            [self reloadCard];
+            
 		} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 			
 			// The card creation failed somehow.
