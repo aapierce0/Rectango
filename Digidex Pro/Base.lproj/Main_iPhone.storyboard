@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="8IA-wX-AFR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1112" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="8IA-wX-AFR">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -31,7 +31,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="itt-31-NgY">
                                             <rect key="frame" x="8" y="8" width="131" height="21"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -92,7 +92,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="25z-23-UZK">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="500"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aK2-0C-W8T">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aK2-0C-W8T">
                                         <rect key="frame" x="16" y="24" width="35" height="30"/>
                                         <animations/>
                                         <state key="normal" title="Back">
@@ -123,11 +123,25 @@
                                             <constraint firstAttribute="height" constant="200" id="rsF-De-ChZ"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Tap to Scan" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nOK-fp-0zy">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to Scan" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nOK-fp-0zy">
                                         <rect key="frame" x="243" y="268" width="115" height="27"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X6l-GZ-vQD" customClass="DPDashedBorderView">
+                                        <rect key="frame" x="175" y="125" width="250" height="250"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="X6l-GZ-vQD" secondAttribute="height" multiplier="1:1" id="JNx-yc-J7Y"/>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="WtG-YB-xfX"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PLACE QR CODE WITHIN BORDER" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rhe-Jp-9uE">
+                                        <rect key="frame" x="200" y="58" width="200" height="59"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" white="1" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -135,16 +149,28 @@
                                 <color key="backgroundColor" red="0.41328126192092896" green="0.41326889395713806" blue="0.41327592730522156" alpha="1" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>
                                 <constraints>
+                                    <constraint firstItem="X6l-GZ-vQD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="25z-23-UZK" secondAttribute="leadingMargin" constant="30" id="103-6F-t19"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="X6l-GZ-vQD" secondAttribute="trailing" priority="500" id="54a-sk-d2f"/>
+                                    <constraint firstItem="rhe-Jp-9uE" firstAttribute="top" secondItem="25z-23-UZK" secondAttribute="top" priority="500" constant="42" id="6K3-kl-5N8"/>
+                                    <constraint firstAttribute="centerY" secondItem="X6l-GZ-vQD" secondAttribute="centerY" priority="500" id="6Ob-yJ-Wed"/>
                                     <constraint firstItem="nOK-fp-0zy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="25z-23-UZK" secondAttribute="leadingMargin" id="7D1-tu-vJU"/>
                                     <constraint firstItem="Tay-e4-ObY" firstAttribute="top" secondItem="25z-23-UZK" secondAttribute="top" constant="24" id="8ze-SC-cYd"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="X6l-GZ-vQD" secondAttribute="bottom" priority="250" id="Af1-9T-VvV"/>
+                                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="X6l-GZ-vQD" secondAttribute="trailing" constant="30" id="Ck6-ol-tSG"/>
+                                    <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="X6l-GZ-vQD" secondAttribute="bottom" priority="499" constant="80" id="D78-Nw-ojR"/>
+                                    <constraint firstItem="X6l-GZ-vQD" firstAttribute="top" secondItem="rhe-Jp-9uE" secondAttribute="bottom" constant="8" id="GIk-Ay-GyC"/>
                                     <constraint firstAttribute="centerX" secondItem="nOK-fp-0zy" secondAttribute="centerX" id="JqZ-Ub-yp2"/>
+                                    <constraint firstAttribute="centerX" secondItem="X6l-GZ-vQD" secondAttribute="centerX" id="Mno-7j-djA"/>
+                                    <constraint firstItem="rhe-Jp-9uE" firstAttribute="top" relation="greaterThanOrEqual" secondItem="25z-23-UZK" secondAttribute="topMargin" constant="50" id="TIh-dN-wQR"/>
                                     <constraint firstItem="nOK-fp-0zy" firstAttribute="top" secondItem="Wpo-58-DaI" secondAttribute="bottom" constant="-32" id="btv-bM-VG6"/>
                                     <constraint firstAttribute="trailing" secondItem="Tay-e4-ObY" secondAttribute="trailing" constant="8" id="dn2-Lb-iqH"/>
                                     <constraint firstItem="aK2-0C-W8T" firstAttribute="top" secondItem="25z-23-UZK" secondAttribute="topMargin" constant="16" id="ewu-jj-WdX"/>
                                     <constraint firstAttribute="centerX" secondItem="Wpo-58-DaI" secondAttribute="centerX" id="fjX-cO-HRb"/>
                                     <constraint firstAttribute="centerY" secondItem="Wpo-58-DaI" secondAttribute="centerY" constant="50" id="j9m-Xd-Rol"/>
-                                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="nOK-fp-0zy" secondAttribute="trailing" id="nwN-ev-ag0"/>
+                                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="nOK-fp-0zy" secondAttribute="trailing" constant="20" id="nwN-ev-ag0"/>
+                                    <constraint firstAttribute="centerX" secondItem="rhe-Jp-9uE" secondAttribute="centerX" id="pNe-IF-azX"/>
                                     <constraint firstItem="aK2-0C-W8T" firstAttribute="leading" secondItem="25z-23-UZK" secondAttribute="leadingMargin" constant="8" id="t4T-l4-doo"/>
+                                    <constraint firstItem="X6l-GZ-vQD" firstAttribute="leading" secondItem="25z-23-UZK" secondAttribute="leadingMargin" priority="500" id="ysV-jD-hfE"/>
                                 </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="Axj-Ch-1wN" appends="YES" id="K1T-pd-kne"/>
@@ -220,6 +246,8 @@
                         <outlet property="_bottomViewHeight" destination="qrZ-f4-wns" id="Pkz-oU-JqP"/>
                         <outlet property="backButton" destination="aK2-0C-W8T" id="aAp-WP-WeG"/>
                         <outlet property="debugItemButton" destination="Tay-e4-ObY" id="a77-dX-S04"/>
+                        <outlet property="scanQRCodeDashedLineView" destination="X6l-GZ-vQD" id="byI-kb-N3i"/>
+                        <outlet property="scanQRCodeLabel" destination="rhe-Jp-9uE" id="FyH-eb-NTf"/>
                         <outlet property="scannerView" destination="25z-23-UZK" id="QcS-0R-ctu"/>
                         <outlet property="tapToScanImageView" destination="Wpo-58-DaI" id="hQC-lP-0xk"/>
                         <outlet property="tapToScanLabel" destination="nOK-fp-0zy" id="qQY-Ly-DAA"/>
@@ -232,7 +260,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1352" y="1102"/>
+            <point key="canvasLocation" x="1170" y="1165"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4fA-hB-mAe">
@@ -276,7 +304,7 @@
                                                 <constraint firstAttribute="width" constant="80" id="PQO-5B-6ne"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="TAP TO CHOOSE IMAGE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GWS-b9-xiF">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TAP TO CHOOSE IMAGE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GWS-b9-xiF">
                                             <rect key="frame" x="203" y="96" width="194" height="21"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>

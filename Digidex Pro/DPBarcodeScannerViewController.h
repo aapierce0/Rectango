@@ -25,6 +25,11 @@
 @property (weak, nonatomic) IBOutlet UIImageView *tapToScanImageView;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *debugItemButton;
+
+
+@property (weak, nonatomic) IBOutlet UILabel *scanQRCodeLabel;
+@property (weak, nonatomic) IBOutlet UIView *scanQRCodeDashedLineView;
+
 - (IBAction)dismiss;
 
 @end

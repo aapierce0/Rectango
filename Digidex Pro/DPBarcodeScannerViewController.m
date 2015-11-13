@@ -123,6 +123,9 @@
 	self.tapToScanLabel.textColor = [UIColor lightGrayColor];
 	self.tapToScanImageView.tintColor = [UIColor lightGrayColor];
 	
+	[self.scanQRCodeDashedLineView setHidden:YES];
+	[self.scanQRCodeLabel setHidden:YES];
+	
 	
 	AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
 	switch (authStatus) {
@@ -168,6 +171,10 @@
 
 - (void)keyboardWillShow:(NSNotification*)notification;
 {
+	
+	self.scanQRCodeDashedLineView.alpha = 0.0;
+	self.scanQRCodeLabel.alpha = 0.0;
+	
 	NSDictionary *info = [notification userInfo];
 	CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
 	
@@ -179,6 +186,9 @@
 
 - (void)keyboardWillHide:(NSNotification*)notification
 {
+	self.scanQRCodeDashedLineView.alpha = 1.0;
+	self.scanQRCodeLabel.alpha = 1.0;
+	
 	NSDictionary *info = [notification userInfo];
 	NSInteger animationDuration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] integerValue];
 	[self animateBottomViewHeight:_bottomViewConstraintStartingHeight duration:animationDuration];
@@ -302,6 +312,9 @@
     // Remove the camera image and the "tap to scan" label from the view.
     [self.tapToScanLabel removeFromSuperview];
     [self.tapToScanImageView removeFromSuperview];
+	
+	[self.scanQRCodeLabel setHidden:NO];
+	[self.scanQRCodeDashedLineView setHidden:NO];
     
 	return YES;
 	

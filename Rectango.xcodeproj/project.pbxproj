@@ -36,6 +36,7 @@
 		2CAEE0171B8A729700989C1C /* DPTableViewTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAEE0161B8A729700989C1C /* DPTableViewTextField.m */; };
 		2CAEE0191B8A7BFA00989C1C /* uploadPlaceholderImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CAEE0181B8A7BFA00989C1C /* uploadPlaceholderImage.png */; };
 		2CAEE01B1B8A846400989C1C /* AppIcon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2CAEE01A1B8A846400989C1C /* AppIcon.jpg */; };
+		2CBC6E2E1BF67F2E00DAEAB1 /* DPDashedBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CBC6E2D1BF67F2E00DAEAB1 /* DPDashedBorderView.m */; };
 		2CC1655C1BE6A54100164990 /* DPChooseImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1655B1BE6A54100164990 /* DPChooseImageTableViewCell.m */; };
 		2CF994911B79443000140B3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994901B79443000140B3B /* Foundation.framework */; };
 		2CF994931B79443000140B3B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF994921B79443000140B3B /* CoreGraphics.framework */; };
@@ -127,6 +128,8 @@
 		2CAEE0161B8A729700989C1C /* DPTableViewTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPTableViewTextField.m; sourceTree = "<group>"; };
 		2CAEE0181B8A7BFA00989C1C /* uploadPlaceholderImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uploadPlaceholderImage.png; sourceTree = "<group>"; };
 		2CAEE01A1B8A846400989C1C /* AppIcon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = AppIcon.jpg; sourceTree = "<group>"; };
+		2CBC6E2C1BF67F2E00DAEAB1 /* DPDashedBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPDashedBorderView.h; sourceTree = "<group>"; };
+		2CBC6E2D1BF67F2E00DAEAB1 /* DPDashedBorderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPDashedBorderView.m; sourceTree = "<group>"; };
 		2CC1655A1BE6A54100164990 /* DPChooseImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPChooseImageTableViewCell.h; sourceTree = "<group>"; };
 		2CC1655B1BE6A54100164990 /* DPChooseImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPChooseImageTableViewCell.m; sourceTree = "<group>"; };
 		2CF9948D1B79443000140B3B /* Rectango.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rectango.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -377,6 +380,8 @@
 			children = (
 				C69CFC191B8121EA00D98C7D /* DPBarcodeScannerViewController.h */,
 				C69CFC1A1B8121EA00D98C7D /* DPBarcodeScannerViewController.m */,
+				2CBC6E2C1BF67F2E00DAEAB1 /* DPDashedBorderView.h */,
+				2CBC6E2D1BF67F2E00DAEAB1 /* DPDashedBorderView.m */,
 			);
 			name = "QR Code Scanner";
 			sourceTree = "<group>";
@@ -491,6 +496,7 @@
 				2C26493F1B7996D3000BEC40 /* DKManagedTag.m in Sources */,
 				2C64AEDB1B8678B1009CD7AE /* AFSecurityPolicy.m in Sources */,
 				2C64AED81B8678B1009CD7AE /* AFHTTPRequestOperationManager.m in Sources */,
+				2CBC6E2E1BF67F2E00DAEAB1 /* DPDashedBorderView.m in Sources */,
 				2C64AED71B8678B1009CD7AE /* AFHTTPRequestOperation.m in Sources */,
 				2CFBC9D71B7B953900705932 /* DPDetailTableViewController.m in Sources */,
 				2CF994CD1B7949F400140B3B /* DPRootCollectionViewController.m in Sources */,
