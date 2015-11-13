@@ -15,8 +15,8 @@
 - (void)awakeFromNib;
 {
 	_border = [CAShapeLayer layer];
-	_border.strokeColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.6].CGColor;
-	_border.lineWidth = 3.0f;
+	_border.strokeColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.8].CGColor;
+	_border.lineWidth = 6.0f;
 	_border.fillColor = nil;
 	_border.lineDashPattern = @[@8, @8];
 	[self.layer addSublayer:_border];
