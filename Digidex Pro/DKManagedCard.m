@@ -706,7 +706,7 @@
 		return nil;
 	
 	NSString *baseFilename = [self.localFilename stringByDeletingPathExtension];
-	return [baseFilename stringByAppendingPathExtension:@"png"];
+	return [baseFilename stringByAppendingPathExtension:@"jpeg"];
 }
 
 - (NSString*)localImagePath;
